@@ -18,8 +18,7 @@
     width: 220px;
 }
 #profile-pic2 {
-    height: 290px;
-    width: 290px;
+    width: 100vw;
 }
 #about {
     color: #ffffff;
