@@ -14,10 +14,13 @@
     padding: 2px 0;
 }
 #profile-pic {
-    height: 190px;
-    width: 190px;
+    height: 220px;
+    width: 220px;
 }
-
+#profile-pic2 {
+    height: 290px;
+    width: 290px;
+}
 #about {
     color: #ffffff;
 	   font-size: 100px;
