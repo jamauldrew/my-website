@@ -17,8 +17,8 @@
     height: 220px;
     width: 220px;
 }
-#image {
-    width: 100%;
+.image {
+    width: 100vw;
 }
 #about {
     color: #ffffff;
