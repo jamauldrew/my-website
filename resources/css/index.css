@@ -1,10 +1,10 @@
-.banner {
-    background-color: #ffffff;
-    color: #131316;
-    margin-top: 75px;
-    text-align: center;
-    padding: 100px 0;
-}
+/* .banner { */
+/*     background-color: #ffffff; */
+/*     color: #131316; */
+/*     margin-top: 75px; */
+/*     text-align: center; */
+/*     padding: 100px 0; */
+/* } */
 
 .banner2 {
     background-color: #E7D192;
@@ -108,4 +108,18 @@ section {
     transform: translateX(0);
 }
 
-    
+      .banner {
+        display: flex;
+        align-items: center;
+        justify-content: center
+      }
+      img {
+        max-width: 100%
+      }
+      .image {
+        flex-basis: 40%
+      }
+      .text {
+        font-size: 20px;
+        padding-left: 20px;
+      }
