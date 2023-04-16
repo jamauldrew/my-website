@@ -86,12 +86,12 @@ section {
     min-height: 100vh;
 } 
 
-.card {
-    display: grid;
-    place-items: center;
-    align-content: center;
-    min-height: 100vh;
-} 
+/* .card { */
+/*     display: grid; */
+/*     place-items: center; */
+/*     align-content: center; */
+/*     min-height: 100vh; */
+/* }  */
 
     .hidden {
 	opacity: 0;
