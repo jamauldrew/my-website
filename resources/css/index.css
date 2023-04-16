@@ -110,8 +110,11 @@ section {
 
 .banner {
     display: flex;
+    margin-top: 75px;
+    padding: 100px 0;
     align-items: center;
     justify-content: center
+
 }
 img {
     max-width: 100%
