@@ -14,11 +14,22 @@
     padding: 2px 0;
 }
 #profile-pic {
-    height: 220px;
-    width: 220px;
+    height: 200px;
+    width: 200px;
 }
+
 .image {
-    width: 340px;
+    display: flex;
+
+    .image:nth-child(2) {
+	transition-delay: 200ms;
+    }
+    .image:nth-child(3) {
+	transition-delay: 400ms;
+    }
+    .image:nth-child(4) {
+	transition-delay: 600ms;
+    }
 }
 #about {
     color: #ffffff;
