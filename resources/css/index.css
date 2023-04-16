@@ -108,18 +108,20 @@ section {
     transform: translateX(0);
 }
 
-      .banner {
-        display: flex;
-        align-items: center;
-        justify-content: center
-      }
-      img {
-        max-width: 100%
-      }
-      .image {
-        flex-basis: 40%
-      }
-      .text {
-        font-size: 20px;
-        padding-left: 20px;
-      }
+.banner {
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+img {
+    max-width: 100%
+}
+.image {
+    flex-basis: 40%
+}
+.text {
+    font-weight: 900;
+    color: #8F0D0D;
+    font-size: 20px;
+    padding-left: 20px;
+}
