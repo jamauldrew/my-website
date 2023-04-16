@@ -20,6 +20,8 @@
 
 .image {
     display: flex;
+    max-width: 100%;
+    height: auto;
 
     .image:nth-child(2) {
 	transition-delay: 200ms;
