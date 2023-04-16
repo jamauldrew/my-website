@@ -19,8 +19,8 @@
 }
 
 .image {
-    /* display: flex; */
-    max-width: 100%;
+    display: flex;
+    max-width: 25%;
     height: auto;
 
     .image:nth-child(2) {
