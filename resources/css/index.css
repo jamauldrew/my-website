@@ -14,8 +14,8 @@
     padding: 2px 0;
 }
 #profile-pic {
-    height: 200px;
-    width: auto;
+    height: 100%;
+    width: 200px;
 }
 
     div.polaroid {
