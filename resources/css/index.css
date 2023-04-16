@@ -19,7 +19,7 @@
 }
 
 .image {
-    display: flex;
+    /* display: flex; */
     max-width: 100%;
     height: auto;
 
@@ -33,6 +33,7 @@
 	transition-delay: 600ms;
     }
 }
+
 #about {
     color: #ffffff;
 	   font-size: 100px;
