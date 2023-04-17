@@ -169,10 +169,12 @@
             <form method="POST" action="http://formspree.io/jamauldrew@gmail.com">
               <h3>GET IN TOUCH</h3>
               <input type="text" id="name" placeholder="Your Name" required>
-              <input type="email" id="email" placeholder="Email id" required>
+              <input type="email" name="replyto" id="email" placeholder="Email id" required>
               <input type="text" id="phone" placeholder="Phone no." required>
-              <textarea id="message" rows="4" placeholder="How can I help you?"></textarea>
-              <input type="submit" value="Send">
+              <textarea name="body" id="message" rows="4" placeholder="How can I help you?"></textarea>
+              <button type="submit">
+                <input type="submit" value="Send">
+              </button>
             </form>
 
             <!-- <form action="http://formspree.io/you@email.com"> -->
