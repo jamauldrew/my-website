@@ -1,20 +1,3 @@
-<?php
-
-
- if($_POST["message"]) {
-
-
- mail("jamauldrew@gmail.com", "Here is the subject line",
-
-
- $_POST["insert your message here"]. "From: jamauldrew@gmail.com");
-
-
- }
-
-
- ?>
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -181,19 +164,16 @@
       <div class="card">
 	<span class="bold" id="bold">Contact</span>
 	<div class="banner2"></div>
-	<p class="lightGrey">Contact information.<p>
-
-          <!-- <form method="post" action="form.php"> -->
-
-
-          <!--   <textarea name="message"></textarea> -->
-
-
-          <!--   <input type="submit"> -->
-
-
-          <!-- </form> -->
-
+          <div class="container">
+            <form method="post" action="http://formspree.io/jamauldrew@gmail.com">
+              <h3>GET IN TOUCH</h3>
+              <input type="text" id="name" placeholder="Your Name" required>
+              <input type="email" id="email" placeholder="Email id" required>
+              <input type="text" id="phone" placeholder="Phone no." required>
+              <textarea id="message" rows="4" placeholder="How can I help you?"></textarea>
+              <button type="submit">Send</button>
+            </form>
+          </div>
       </div>
     </section>
     
