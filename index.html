@@ -203,7 +203,7 @@
         }
       }).then(response => {
         if (response.ok) {
-          status.innerHTML = "We'll be in touch!";
+          status.innerHTML = "Submission successful!";
           form.reset()
         } else {
           response.json().then(data => {
