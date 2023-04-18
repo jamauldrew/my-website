@@ -188,6 +188,7 @@
     </section>
     
   </body>
+
 <script>
     var form = document.getElementById("my-form");
     
@@ -203,7 +204,7 @@
         }
       }).then(response => {
         if (response.ok) {
-          status.innerHTML = "Submission successful!";
+          status.innerHTML = "Thanks for your submission!";
           form.reset()
         } else {
           response.json().then(data => {
@@ -222,38 +223,3 @@
 </script>
 
 </html>
-
-      <!-- <div> -->
-      <!-- 	<ul> -->
-      <!-- 	  <li> -->
-      <!-- 	    <div></div><span class="lightGrey">3D modeling of mechanical-process piping systems.</span> -->
-      <!-- 	  </li> -->
-      <!-- 	  <li> -->
-      <!-- 	    <div></div><span class="lightGrey">Weld maps.</span> -->
-      <!-- 	  </li> -->
-      <!-- 	  <li> -->
-      <!-- 	    <div></div><span class="lightGrey">PID, PFD schematic diagrams.</span> -->
-      <!-- 	  </li> -->
-      <!-- 	  <li> -->
-      <!-- 	    <div></div><span class="lightGrey">Frabrication isometrics.</span> -->
-      <!-- 	  </li> -->
-      <!-- 	</ul> -->
-      <!-- </div> -->
-      <!-- <form actions+""> -->
-      <!-- 	<input type="text"/> -->
-      <!-- 	<input type="submit" value="Submit"> -->
-      <!-- </form> -->
-      <!-- <div> -->
-      <!-- 	<ul> -->
-      <!-- 	  <li> -->
-      <!-- 	    <div></div><span>Hey there, it's Gritty again.</span> -->
-      <!-- 	  </li> -->
-      <!-- 	  <li> -->
-      <!-- 	    <div></div><span>I haven't seen any mascots, since yesterday.</span> -->
-      <!-- 	  </li> -->
-      <!-- 	  <li> -->
-      <!-- 	    <div></div><span>Hey there, it's Gritty again.</span> -->
-      <!-- 	  </li> -->
-      <!-- 	</ul> -->
-      <!-- </div> -->
-
