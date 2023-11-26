@@ -29,9 +29,10 @@ body {
 
 /* Components and specific elements */
 .profile-pic {
-    max-width: 90%;
-    height: 200px;
-    width: 200px;
+    width: 100%; /* Ensure the image fills its container */
+    height: auto; /* Maintain aspect ratio */
+    max-width: 100%; /* Limit the image to its container's width */
+    display: block; /* Prevent any default inline styles */
 }
 
 .new-banner {
