@@ -1,144 +1,79 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;700&display=swap');
-/* .banner { */
-/*     background-color: #ffffff; */
-/*     color: #131316; */
-/*     margin-top: 75px; */
-/*     text-align: center; */
-/*     padding: 100px 0; */
-/* } */
-
-.banner2 {
-    background-color: #E7D192;
-    margin-bottom: 25px;
-    margin-right: 25px;
-    margin-left: 25px;
-    text-align: center;
-    padding: 2px 0;
-}
-#profile-pic {
-    height: 200px;
-    width: 200px;
-}
-
-div.polaroid {
-    width: 100%;
-    background-color: white;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    margin-bottom: 40px;
-
-    .polaroid:nth-child(2) {
-	transition-delay: 200ms;
-    }
-    .polaroid:nth-child(3) {
-	transition-delay: 400ms;
-    }
-    .polaroid:nth-child(4) {
-	transition-delay: 600ms;
-    }
-}
-
-img {width: 95%}
-
-div.container {
-    text-align: center;
-    padding: 10px 20px;
-}
-
-#about {
-    color: #ffffff;
-	   font-size: 100px;
-}
-
-.bold {
-    font-weight: 900;
-    margin-left: 25px;
-    color: #450808;
-}
-
-.pastel {
-    font-weight: 900;
-    color: #8F0D0D;
-}
-
-.lightGrey {
-    color: #666666;
-    margin-right: 75px;
-    margin-left: 25px;
-}
-
-
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;700&display=swap'); */
+/* @import url('https://fonts.googleapis.com/css2?family=Tex+Gyre+DejaVu+Math&display=swap'); */
+/* Global styles */
 body {
     background-color: #ffffff;
     color: #131316;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Tex Gyre DejaVu', serif;
+    /* font-family: 'Computer Modern', 'TeX Gyre DejaVu', 'DejaVu Sans', 'Liberation Sans', 'Arial', sans-serif; */
     padding: 0;
     margin: 0;
 }
 
-section {
-    display: grid;
-    place-items: center;
-    align-content: center;
-    min-height: 100vh;
-} 
-
-/* .card { */
-/*     display: grid; */
-/*     place-items: center; */
-/*     align-content: center; */
-/*     min-height: 100vh; */
-/* }  */
-
-    .hidden {
-	opacity: 0;
-	filter: blur(5px);
-	transform: translateX(-100%);
-	transition: all 1s;
-    }
-    
-    @media(prefers-reduced-motion) {
-	.hidden {
-	    transition: none;
-	}
+.banner2,
+.polaroid,
+.container2 {
+    width: 90%;
+    margin-bottom: 25px;
+    margin-left: auto; /* Adjust as needed */
+    margin-right: auto; /* Adjust as needed */
+    padding-left: 25px; /* You might need to add padding instead of margin */
+    padding-right: 25px; /* You might need to add padding instead of margin */
 }
 
-.show {
-    opacity: 1;
-    filter: blur(0);
-    transform: translateX(0);
+.banner2 {
+    background-color: #E7D192;
+    text-align: center;
+    padding: 2px 0;
 }
 
-.banner {
+/* Components and specific elements */
+.profile-pic {
+    max-width: 90%;
+    height: 200px;
+    width: 200px;
+}
+
+.new-banner {
     display: flex;
     margin-top: 75px;
-    padding: 100px 0;
-    align-items: center;
-    justify-content: center
-
-}
-img {
-    max-width: 100%
-}
-.image {
-    flex-basis: 40%
-}
-.text {
-    font-weight: 900;
-    /* color: #8F0D0D; */
-    font-size: 20px;
-    padding-left: 20px;
-}
-
-.container2{
-    width: 100%;
-    /* height: 100%; */
-    /* background: #450808; */
-    display: flex;
+    margin-bottom: 0px;
+    padding: 20px 0;
     align-items: center;
     justify-content: center;
 }
 
-form{
+.new-image {
+    flex-basis: 40%;
+}
+
+img {
+    max-width: 90%;
+}
+
+div.polaroid {
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-bottom: 40px;
+}
+
+/* Styles for sections and elements */
+section, .banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 100px 0;
+    margin-top: 75px;
+    width: 90%;
+}
+
+.text, form h3, form input, form textarea, form button {
+    font-weight: 900;
+    font-size: 20px;
+}
+
+form {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     background: #ffffff;
     display: flex;
@@ -148,13 +83,8 @@ form{
     max-width: 600px;
     border-radius: 10px;
 }
-form h3{
-    color:  #2E2E2E;
-    font-weight: 800;
-    margin-bottom: 20px;
-}
 
-form input, form textarea{
+form input, form textarea {
     border: 0;
     margin: 10px 0;
     padding: 20px;
@@ -162,7 +92,8 @@ form input, form textarea{
     background: #f5f5f5;
     font-size: 16px;
 }
-form button{
+
+form button {
     padding: 15px;
     background: #E7D192;
     color: #ffffff;
@@ -174,4 +105,101 @@ form button{
     margin: 20px auto 0;
     border-radius: 30px;
 }
-    
+
+.text h2 {
+    color: #8F0D0D;
+}
+
+.text h3 {
+    color: #2E2E2E;
+}
+
+.lightGrey {
+    color: #666666;
+}
+
+.bold {
+    font-weight: bold;    
+    padding: 0 25px; /* Adjust as needed */
+    /* Other styles */
+}
+
+.lightGrey {
+    padding: 0 20px; /* Adjust as needed */
+    /* Other styles */
+}
+.polaroid-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Align items to the center */
+  text-align: center; /* Center text within polaroid */
+}
+
+.polaroid {
+  margin-bottom: 20px; /* Adjust spacing between polaroids */
+}
+
+.title {
+  /* font-weight: bold; */
+  margin-bottom: 5px; /* Adjust spacing between title and image */
+}
+
+Global
+* {
+    margin: 0;
+    padding: 0;
+    /* font-family: DejaVu Sans, serif; */
+    font-family: 'Tex Gyre DejaVu', serif;
+    /* font-family: 'Poppins', sans-serif; */
+    /* font-family: Arial, Helvetica; */
+}
+
+/* Header */
+header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 20px 50px;
+    box-shadow: 0 1px 8px #ddd;
+}
+
+#nav-title {
+    margin-right: auto;
+    font-size: 1.5em;
+}
+
+header li {
+    list-style: none;
+    display: inline-block;
+    padding: 0 20px;
+}
+
+header a {
+    text-decoration: none;
+    color: #8F0D0D;
+    transition: all 0.3s ease 0s;
+}
+
+header a:hover {
+    color: #E7D192;
+}
+
+.hidden {
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateX(-100%);
+    transition: all 0.9s;
+}
+
+@media(prefers-reduced-motion) {
+    .hidden {
+	transition: none;
+    }
+}
+
+.show {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateX(0);
+    transition: all 0.8s;
+}
