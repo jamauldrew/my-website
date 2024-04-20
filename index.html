@@ -1,164 +1,427 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Jamaul Drew</title>
+    <title>Jamaul Drew - Mechanical Engineer</title>
     <link rel="stylesheet" href="./resources/css/index.css">
     <style>
-      /* Applying a common LaTeX font stack */
-      body {
-	  font-family: "Computer Modern", "Latin Modern", "Nimbus Roman No9 L", "Times New Roman", serif , "TeX Gyre DejaVu", "DejaVu Sans", "Liberation Sans", "Arial", sans-serif;
-      }
+
+        .fold-down-menu {
+            position: relative;
+            display: inline-block;
+        }
+
+        .fold-down-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .fold-down-menu:hover .fold-down-content {
+            display: block;
+        }
+
+        .fold-down-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .fold-down-content a:hover {
+            background-color: #f1f1f1;
+        }
+        /* Optional: Style your button for better appearance */
+        #myBtn {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            outline: none;
+            background-color: #555;
+            color: white;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        p-1 {
+            display: inline; /* Display the paragraph inline */
+            margin-right: 10px; /* Add margin for spacing between text and button */
+        }
+
+        .scroll-to-top-container {
+            display: inline-block; /* Display container and its contents inline */
+            vertical-align: middle; /* Align container vertically */
+        }
+
+        .scroll-to-top-container {
+            display: inline-block; /* Display container and its contents inline */
+            vertical-align: middle; /* Align container vertically */
+        }
+
+        #myBtn:hover {
+            background-color: #555;
+            /* Add a dark-grey background on hover */
+        }
+
+        /* Applying a common LaTeX font stack */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f8f8f8;
+        }
+
+        /* Header and Navigation Styling */
+        header,
+        footer {
+            background-color: #eaeaea;
+            padding: 20px;
+            text-align: center;
+            color: #333;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        #nav-title {
+            font-size: 32px;
+            margin: 0;
+            color: #8F0D0D;
+        }
+
+        #nav-title a,
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        #nav-title a {
+            font-size: 28px;
+        }
+
+        #nav-title a:hover,
+        nav ul li a:hover {
+            color: #555;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 26px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #8F0D0D;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .separator {
+            display: inline-block;
+            color: #8F0D0D;
+        }
+
+        /* Adjusting new banner */
+        .new-banner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .new-image {
+            margin-right: 40px;
+        }
+
+        .profile-pic {
+            width: 200px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        .text {
+            text-align: left;
+            color: #333;
+        }
+
+        .text h1,
+        .text h2,
+        .text h3 {
+            margin: 5px 0;
+            color: #444;
+        }
+
+        .bold {
+            font-size: 18px;
+            font-weight: bold;
+            padding: 0 5px;
+        }
+
+        .title {
+            font-weight: bold;
+            font-size: 18px;
+            padding: 0 5px;
+        }
+
+        /* Section Cards and Polaroid Styles */
+        .card {
+            background-color: #f2f2f2;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        .card p,
+        .polaroid p.title {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #555;
+            /* Adjusted text color for better contrast */
+        }
+
+        .polaroid-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .polaroid {
+            flex: 0 0 45%;
+            margin: 10px;
+            background-color: #ffffff;
+            /* Changed background color to white */
+            border-radius: 20px;
+            /* Increased border radius for a smoother look */
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            padding: 20px;
+        }
+
+        .polaroid img {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: auto;
+            border-radius: 10px;
+            /* Increased border radius for consistency */
+            transition: transform 0.25s ease, opacity 0.25s ease;
+            /* Added opacity transition */
+        }
+
+        .polaroid img:hover {
+            cursor: zoom-in;
+            opacity: 0.9;
+            /* Reduced opacity on hover for visual feedback */
+        }
+
+        .polaroid img.zoomed {
+            transform: scale(1.5);
+            cursor: zoom-out;
+        }
     </style>
-    <script defer src="app.js"></script>
 </head>
+
 <body>
-  <!-- Navbar -->
-  <header>
-    <h1 id="nav-title"><a href="#">JAMAUL.DREW</a></h1>
-    <nav>
-      <ul>
-	<li><a href="#">About</a></li>
-	<li><a href="#">Services</a></li>
-	<li><a href="#">Contact</a></li>
-      </ul>
-    </nav>          
-  </header>
-  <!-- New Banner div -->
-  <div class="new-banner">
-    <div class="new-image">
-      <img class="profile-pic" src="./resources/images/IMG_2075.jpg" alt="">
-    </div>
-    <div class="text">
-      <h1>Jamaul Drew</h1>
-      <h2>Mechanical Engineer</h2>
-      <h3>AutoCAD Certified Professional</h3>
-    </div>
-  </div>
-  
-  <section class="hidden">
-    <div class="card">
-      <span class="bold" id="bold">About Me</span>
-      <div class="banner2"></div>
-      <p class="lightGrey">Upon graduating from the University of Texas at El Paso with a B.Sc. degree in Mechanical Engineering, I quickly gained experience by designing natural gas metering and regulating station process piping. My experience includes, but is not limited to LPG, propane-air, natural gas, and all of the plant design equipment used to transport and process these fluids. I invite you to explore my documented professional progress.</p>
-    </div>
-  </section>
+    <!-- Navbar -->
+    <header class="header">
+        <h1 id="nav-title">
+            <a href="#about">JAMAUL DREW</a>
+        </h1>
+        <nav>
+        </nav>
+    </header>
 
-  <!-- Process Piping -->
-<section class="hidden">
-  <div class="card">
-    <span class="bold" id="bold">Process Piping</span>
-    <div class="banner2"></div>
-    <p class="lightGrey"></p>
+    <!-- Navbar -->
+    <header class="header">
+        <!-- <h1 id="nav-title">
+                    <a href="#">JAMAUL DREW</a>
+                </h1> -->
+        <nav>
+            <ul class="title">
+                <li><a href="#about">About</a></li>
+                <li class="separator">|</li> <!-- Updated: Making the separator a list item -->
+                <li class="fold-down-menu">
+                    <a href="#services">Services &#9662;</a>
+                    <!-- Fold-down menu for Services -->
+                    <div class="fold-down-content">
+                        <a href="#process-piping">Process Piping</a>
+                        <a href="#structural-steel">Structural Steel</a>
+                        <a href="#p-and-id">P&ID/PFD Schematics</a>
+                        <a href="#qa-qc">QA/QC</a>
+                        <a href="#isometrics">Isometrics</a>
+                    </div>
+                </li>
+                <li class="separator">|</li> <!-- Updated: Making the separator a list item -->
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <!-- Images -->
-    <div class="polaroid-wrapper">
-      <div class="polaroid hidden">
-        <p class="title">Propane-Air</p>
-        <img src="./resources/images/process-piping-1.png" alt="" />
-      </div>
-
-      <div class="polaroid hidden">
-        <p class="title">Water Glycol</p>
-        <img src="./resources/images/piping-sections-isometrics.png" alt="" />
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Structural Steel -->
-<section class="hidden">
-  <div class="card">
-    <span class="bold" id="bold">Structural Steel</span>
-    <div class="banner2"></div>
-    <p class="lightGrey"></p>
-
-    <!-- Images -->
-    <div class="polaroid-wrapper">
-      <div class="polaroid hidden">
-	<p class="title">Pipe Supports</p>
-	<img src="./resources/images/structural-steel-pipe-support.png" alt="" />
-      </div>
-
-      <div class="polaroid hidden">
-	<p class="title">Pump Skids</p>
-        <img src="./resources/images/structural-steel-skid.png" alt="" />
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PID/PFD Schematics -->
-<section class="hidden">
-  <div class="card">
-    <span class="bold" id="bold">P&ID/PFD Schematics</span>
-    <div class="banner2"></div>
-    <p class="lightGrey"></p>
-
-    <!-- Images -->
-    <div class="polaroid-wrapper">
-      <div class="polaroid hidden">
-	<p class="title">Piping & Instrumentation Diagrams</p>
-	<img src="./resources/images/pid-1.png" alt="" />
-      </div>
-
-      <div class="polaroid hidden">
-	<p class="title">Process Flow Diagrams</p>
-        <img src="./resources/images/pid-2.png" alt="" />
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Weld Maps -->
-<section class="hidden">
-  <div class="card">
-    <span class="bold" id="bold">QA/QC</span>
-    <div class="banner2"></div>
-    <p class="lightGrey"></p>
-
-    <!-- Images -->
-    <div class="polaroid-wrapper">
-      <div class="polaroid hidden">
-        <p class="title">Orthographic Piping Sections</p>
-        <img src="./resources/images/regulator-run-1.png" alt="" />
-      </div>
-
-      <div class="polaroid hidden">
-        <p class="title">MTR Tracking</p>
-        <img src="./resources/images/material-test-reports.png" alt="" />
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Fabrication Isometrics -->
-<section class="hidden">
-  <div class="card">
-    <span class="bold" id="bold">Isometrics</span>
-    <div class="banner2"></div>
-    <p class="lightGrey"></p>
-
-    <!-- Images -->
-    <div class="polaroid-wrapper">
-      <div class="polaroid hidden">
-        <p class="title">Fabrication Shop Isometrics</p>
-        <img src="./resources/images/fab-iso-truck.png" alt="" />
-      </div>
-      <div class="polaroid hidden">
-        <p class="title">Isometric Piping</p>
-        <img src="./resources/images/process-piping-2-2.png" alt="" />
-      </div>
+    <!-- New Banner div -->
+    <div class="new-banner">
+        <div class="new-image">
+            <img class="profile-pic" src="./resources/images/IMG_2075.jpg" alt="Profile Picture">
+        </div>
+        <div class="text">
+            <h2><!-- Jamaul Drew |  -->Mechanical Engineer | AutoDesk Certified Professional</h2>
+            <h3>Professional Summary</h3>
+        </div>
     </div>
 
-  </div>
-</section>
+    <!-- About Section -->
+    <section class="hidden">
+        <div class="card">
+            <span class="bold" id="about">About Me</span>
+            <div class="banner2"></div>
+            <p class="lightGrey">Welcome to my personal portfolio. In my career as a Mechanical Engineer, after
+                graduating
+                from the University of Texas at El Paso, I have cultivated a robust skill set in the design and
+                optimization
+                of natural gas metering and regulating station process piping systems. With proficiency in LPG,
+                propane-air,
+                and natural gas systems, as well as a comprehensive understanding of related plant design equipment, I
+                am
+                dedicated to surpassing quality and safety standards on every project.</p>
+            <p>Core Competencies</p>
+            <p class="lightGrey">- Advanced knowledge of AutoCAD and 3D modeling solutions.</p>
+            <p class="lightGrey">- Proven track record of delivering innovative and efficient design solutions.</p>
+            <p class="lightGrey">- Strong analytical skills and attention to fine detail.</p>
+            <p class="lightGrey">- A reliable team player with excellent communication abilities.</p>
+        </div>
+    </section>
+
+    <!-- Process Piping -->
+    <section class="hidden">
+        <div class="card">
+            <span class="bold" id="services">Process Piping</span>
+            <div class="banner2"></div>
+            <p class="lightGrey"></p>
+
+            <!-- Images -->
+            <div class="polaroid-wrapper">
+                <div class="polaroid hidden">
+                    <p class="title">Propane-Air</p>
+                    <img src="./resources/images/process-piping-1.png" alt="" />
+                </div>
+
+                <div class="polaroid hidden">
+                    <p class="title">Water Glycol</p>
+                    <img src="./resources/images/piping-sections-isometrics.png" alt="" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Structural Steel -->
+    <section class="hidden">
+        <div class="card">
+            <span class="bold" id="bold">Structural Steel</span>
+            <div class="banner2"></div>
+            <p class="lightGrey"></p>
+
+            <!-- Images -->
+            <div class="polaroid-wrapper">
+                <div class="polaroid hidden">
+                    <p class="title">Pipe Supports</p>
+                    <img src="./resources/images/structural-steel-pipe-support.png" alt="" />
+                </div>
+
+                <div class="polaroid hidden">
+                    <p class="title">Pump Skids</p>
+                    <img src="./resources/images/structural-steel-skid.png" alt="" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PID/PFD Schematics -->
+    <section class="hidden">
+        <div class="card">
+            <span class="bold" id="bold">P&ID/PFD Schematics</span>
+            <div class="banner2"></div>
+            <p class="lightGrey"></p>
+
+            <!-- Images -->
+            <div class="polaroid-wrapper">
+                <div class="polaroid hidden">
+                    <p class="title">Piping & Instrumentation Diagrams</p>
+                    <img src="./resources/images/pid-1.png" alt="" />
+                </div>
+
+                <div class="polaroid hidden">
+                    <p class="title">Process Flow Diagrams</p>
+                    <img src="./resources/images/pid-2.png" alt="" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Weld Maps -->
+    <section class="hidden">
+        <div class="card">
+            <span class="bold" id="bold">QA/QC</span>
+            <div class="banner2"></div>
+            <p class="lightGrey"></p>
+
+            <!-- Images -->
+            <div class="polaroid-wrapper">
+                <div class="polaroid hidden">
+                    <p class="title">Orthographic Piping Sections</p>
+                    <img src="./resources/images/regulator-run-1.png" alt="" />
+                </div>
+
+                <div class="polaroid hidden">
+                    <p class="title">MTR Tracking</p>
+                    <img src="./resources/images/material-test-reports.png" alt="" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fabrication Isometrics -->
+    <section class="hidden">
+        <div class="card">
+            <span class="bold" id="bold">Isometrics</span>
+            <div class="banner2"></div>
+            <p class="lightGrey"></p>
+
+            <!-- Images -->
+            <div class="polaroid-wrapper">
+                <div class="polaroid hidden">
+                    <p class="title">Fabrication Shop Isometrics</p>
+                    <img src="./resources/images/fab-iso-truck.png" alt="" />
+                </div>
+                <div class="polaroid hidden">
+                    <p class="title">Isometric Piping</p>
+                    <img src="./resources/images/process-piping-2-2.png" alt="" />
+                </div>
+            </div>
+
+        </div>
+    </section>
 
     <section class="hidden">
         <div class="card">
-            <span class="bold" id="bold">Contact</span>
+            <span class="bold" id="contact">Contact</span>
             <div class="banner2"></div>
             <div class="container2">
                 <form id="my-form" action="https://formspree.io/f/xyyabqnn" method="POST">
@@ -168,43 +431,55 @@
                     <input type="text" name="phone" id="phone" placeholder="Phone" required>
                     <textarea name="message" id="message" rows="4" placeholder="How can I help you?"></textarea>
                     <button id="my-form-button" type="submit">Send</button>
-                    <p id="my-form-status"></p>
+                    <p-1 id="my-form-status"></p>
                 </form>
             </div>
         </div>
     </section>
 
+    <!--Footer -->
+    <footer>
+        <div class="scroll-to-top-container">
+            <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+        </div>
+        <p class="p-1">&copy; 2024 Jamaul Drew. All rights reserved.</p>
+    </footer>
+
+    <!--Scripts -->
+    <script>
+        var form = document.getElementById("my-form");
+
+        async function handleSubmit(event) {
+            event.preventDefault();
+            var status = document.getElementById("my-form-status");
+            var data = new FormData(event.target);
+            fetch(event.target.action, {
+                method: form.method,
+                body: data,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    status.innerHTML = "Thanks for your submission!";
+                    form.reset()
+                } else {
+                    response.json().then(data => {
+                        if (Object.hasOwn(data, 'errors')) {
+                            status.innerHTML = data["errors"].map(error => error["message"]).join(", ")
+                        } else {
+                            status.innerHTML = "Oops! There was a problem submitting your form"
+                        }
+                    })
+                }
+            }).catch(error => {
+                status.innerHTML = "Oops! There was a problem submitting your form"
+            });
+        }
+        form.addEventListener("submit", handleSubmit);
+    </script>
+    <script src="app.js" defer></script>
+    <script src="script.js"></script>
 </body>
-<script>
-    var form = document.getElementById("my-form");
-    
-    async function handleSubmit(event) {
-        event.preventDefault();
-        var status = document.getElementById("my-form-status");
-        var data = new FormData(event.target);
-        fetch(event.target.action, {
-            method: form.method,
-            body: data,
-            headers: {
-                'Accept': 'application/json'
-            }
-        }).then(response => {
-            if (response.ok) {
-                status.innerHTML = "Thanks for your submission!";
-                form.reset()
-            } else {
-                response.json().then(data => {
-                    if (Object.hasOwn(data, 'errors')) {
-                        status.innerHTML = data["errors"].map(error => error["message"]).join(", ")
-                    } else {
-                        status.innerHTML = "Oops! There was a problem submitting your form"
-                    }
-                })
-            }
-        }).catch(error => {
-            status.innerHTML = "Oops! There was a problem submitting your form"
-        });
-    }
-    form.addEventListener("submit", handleSubmit)
-</script>
+
 </html>
