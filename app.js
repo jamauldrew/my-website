@@ -34,29 +34,15 @@ document.addEventListener('DOMContentLoaded', function() {
 var mybutton = document.getElementById("myBtn");
 
 // Function to scroll to the top
+// Function to scroll to the top
 function topFunction() {
+    // Scroll to top for non-touch devices
     document.body.scrollTop = 0; // For Safari
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+
+    // Scroll to top for touch devices
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth' // Smooth scrolling animation
+    });
 }
-
-// Variables to manage the timer
-var timer = null;
-
-// Show or hide the button when scrolling
-window.addEventListener("scroll", function() {
-    // Whenever the user scrolls, show the button
-    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-        mybutton.style.display = "block";
-    } else {
-        mybutton.style.display = "none";
-    }
-
-    // Reset the timer every time the user scrolls
-    clearTimeout(timer);
-
-    // Set a new timer
-    timer = setTimeout(function() {
-        // If 20 seconds have passed without scrolling, hide the button
-        mybutton.style.display = "none";
-    }, 20000); // 20 seconds
-});
