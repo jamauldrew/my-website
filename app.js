@@ -93,30 +93,30 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     document.head.appendChild(badgeScript);
 
-    // Initialize IntersectionObserver for hidden elements
-    const initObserver = () => {
-        const observerOptions = {
-            root: null,
-            threshold: 0.1,
-            rootMargin: '0px'
-        };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    requestAnimationFrame(() => {
-                        entry.target.classList.add('show');
-                        observer.unobserve(entry.target);
-                    });
-                }
-            });
-        }, observerOptions);
+//     // Initialize IntersectionObserver for hidden elements
+//     const initObserver = () => {
+//         const observerOptions = {
+//             root: null,
+//             threshold: 0.1,
+//             rootMargin: '0px'
+//         };
+//         const observer = new IntersectionObserver((entries) => {
+//             entries.forEach(entry => {
+//                 if (entry.isIntersecting) {
+//                     requestAnimationFrame(() => {
+//                         entry.target.classList.add('show');
+//                         observer.unobserve(entry.target);
+//                     });
+//                 }
+//             });
+//         }, observerOptions);
 
-        document.querySelectorAll('.hidden').forEach(el => {
-            observer.observe(el);
-        });
-    };
-    initObserver();
+//         document.querySelectorAll('.hidden').forEach(el => {
+//             observer.observe(el);
+//         });
+//     };
+//     initObserver();
 
-    // Function to be called for dynamically added elements
-    window.addEventListener('addDynamicContent', initObserver);
+//     // Function to be called for dynamically added elements
+//     window.addEventListener('addDynamicContent', initObserver);
 });

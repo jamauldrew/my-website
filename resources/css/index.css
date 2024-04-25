@@ -428,6 +428,10 @@ nav a:hover {
   background-color: var(--white-color);
 }
 
+.polaroid img:hover {
+  cursor: zoom-in;
+}
+
 .polaroid img {
   width: 100%;
   max-width: 100%;
@@ -507,8 +511,8 @@ form button:hover {
 }
 
 #scroll-button {
-  width: 4vw;
-  height: 4vw;
+  width: 6vw;
+  height: 6vw;
   padding: 1.1vw;
   font-size: 1.6vw;
   border: none;
@@ -548,32 +552,31 @@ footer {
   /* text-transform: translateY(0%); */
 }
 
-.hidden {
-  opacity: 0;
-  filter: blur(0.5rem);
-  transform: translateX(-100%);
-  transition: opacity 2s, transform 2s;
-}
+/* .hidden { */
+/*   opacity: 0; */
+/*   filter: blur(0.5rem); */
+/*   transform: translateX(-100%); */
+/*   transition: opacity 2s, transform 2s; */
+/* } */
 
-.show {
-  opacity: 1;
-  filter: blur(0);
-  transform: translateX(0%);
-}
+/* .show { */
+/*   opacity: 1; */
+/*   filter: blur(0); */
+/*   transform: translateX(0%); */
+/* } */
 
-@media (prefers-reduced-motion: reduce) {
-  .hidden, .show {
-    transition: none;
-    filter: none;
-    transform: none;
-  }
-}
+/* @media (prefers-reduced-motion: reduce) { */
+/*   .hidden, .show { */
+/*     transition: none; */
+/*     filter: none; */
+/*     transform: none; */
+/*   } */
+/* } */
 
-@media (max-width: 768px) {
-  .hidden, .show {
-    transition: none;
-    filter: none;
-    transform: none;
-  }
-}
-
+/* @media (max-width: 768px) { */
+/*   .hidden, .show { */
+/*     transition: none; */
+/*     filter: none; */
+/*     transform: none; */
+/*   } */
+/* } */
