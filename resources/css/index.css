@@ -33,7 +33,7 @@ body {
 
 header.header {
   padding: 1.5rem;
-  background-color: var(--accent-opaque);
+  background-color: var(--accent-color);
   color: var(--dark-accent);
 }
 
@@ -158,6 +158,8 @@ a:hover {
   margin-bottom: 0.625rem;
   font-weight: 400;
   font-size: 1.2rem;
+  z-index: 1;
+  color: black;
 }
 
 .about-text {
@@ -415,12 +417,11 @@ nav a:hover {
     margin-right: 0.3rem;
 }
 /* Form Container*/
-/* .form-container { */
-/*     /\* width: 90%; *\/ */
-/*     /\* margin: 0 auto; *\/ */
-/*     /\* margin-bottom: 2.5rem; *\/ */
-/*     /\* padding: 2rem; *\/ */
-/* } */
+.form-container {
+    margin: 0 auto;
+    margin-bottom: 2.5rem;
+    padding: 2rem;
+}
 
 /* About section */
 
@@ -505,7 +506,7 @@ form {
     flex-direction: column;
     padding: 2rem 4rem;
     width: 56rem;
-    max-width: 60rem;
+    max-width: 60vw;
     border-radius: 1rem;
     margin: 0 auto;
     box-shadow:var(--light-shadow);
@@ -587,6 +588,7 @@ form button:hover {
 .footer-text {
     text-align: center;
     margin-top: 2rem;
+    font-weight: 400;
 }
 
 /* Copyright text */
@@ -598,6 +600,8 @@ footer {
     text-align: center;
     border-radius: 1rem;
     box-shadow:var(--light-shadow);
+    margin-top: -1rem;
+    /* text-transform: translateY(0%); */
 }
 
 /* Visibility and animation */
