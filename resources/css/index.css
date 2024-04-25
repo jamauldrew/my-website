@@ -426,10 +426,11 @@ nav a:hover {
   padding: 2rem;
   box-shadow: var(--light-shadow);
   background-color: var(--white-color);
+  padding-top: 0;
 }
 
 .polaroid img:hover {
-  cursor: zoom-in;
+  cursor: magnifying-glass;
 }
 
 .polaroid img {
