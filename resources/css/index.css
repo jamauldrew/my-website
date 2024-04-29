@@ -431,7 +431,7 @@ nav a:hover {
 }
 
 .polaroid img:hover {
-  cursor: magnifying-glass;
+  cursor: zoom-in;
 }
 
 .polaroid img {
