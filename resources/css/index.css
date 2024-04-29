@@ -430,8 +430,14 @@ nav a:hover {
   padding-top: 0;
 }
 
-.polaroid img:hover {
+/* When hovering over an image that is not zoomed, show zoom-in cursor */
+.polaroid img:hover:not(.zoomed) {
   cursor: zoom-in;
+}
+
+/* When hovering over an image that is zoomed, show zoom-out cursor */
+.polaroid img.zoomed:hover {
+  cursor: zoom-out;
 }
 
 .polaroid img {
