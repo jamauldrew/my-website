@@ -1,4 +1,5 @@
 ///////////
+//
 // Function to toggle dark mode
 ///////////
 function toggleDarkMode() {
