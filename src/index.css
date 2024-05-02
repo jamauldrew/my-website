@@ -1,10 +1,13 @@
 body {
-  margin: 0;
+  margin: auto;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  max-width: 90vw;
+  font-weight: 400;
+  padding: 1rem;
 }
 
 code {
@@ -38,14 +41,11 @@ html {
   font-size: 62.5%;
 }
 
-body {
-  background-color: var(--light-color);
-  color: var(--dark-color);
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  font-weight: 300;
-  padding: 1rem;
-  margin: 1rem;
-}
+/* body { */
+/*   background-color: var(--light-color); */
+/*   color: var(--dark-color); */
+/*   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; */
+/* } */
 
 header.header {
   padding: 1.5rem;
@@ -268,7 +268,7 @@ a:hover {
 
 .box-shadow {
   box-shadow: var(--light-shadow);
-  border-radius: 10px;
+  border-radius: 1.5rem;
 }
 
 #nav-title {
@@ -403,7 +403,7 @@ nav a:hover {
   padding: 2rem;
   border-radius: 1.5rem;
   box-shadow:var(--light-shadow);
-  /* position: relative; */
+  position: relative;
   margin-bottom: 1.5rem;
 }
 
@@ -469,7 +469,7 @@ nav a:hover {
   right: 10px;
   color: #fff;
   background: rgba(0, 0, 0, 0.6);
-  padding: 10px;
+  padding: 1rem;
   border-radius: 0.5rem;
   font-size: 1.4rem;
   /* margin-top: 24rem; */
@@ -479,22 +479,22 @@ nav a:hover {
   position: absolute;
   color: #fff;
   background: rgba(0, 0, 0, 0.6);
-  padding: 10px;
+  padding: 1rem;
   border-radius: 5px;
 }
 
 .object-container {
-  width: 100vw;
+  max-width: 100vw;
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #f0f0f0;
   position: relative;
+  overflow: hidden;
 }
 /* .object-section { */
 /*   margin: 0; */
-/*   overflow: hidden; */
 /*   display: flex; */
 /*   height: 100vh; */
 /*   padding: 2rem; */
@@ -510,14 +510,13 @@ form {
   background: var(--light-color);
   display: flex;
   flex-direction: column;
-  width: 90%;
+  width: 58rem;
   max-width: 60vw;
   border-radius: 1rem;
   margin: 0 auto;
   box-shadow: var(--light-shadow);
   color: var(--dark-color);
-  padding: 2vw 4vw;
-  max-width: 600px;
+  padding: 4vw 4vw;
 }
 
 form .text,
