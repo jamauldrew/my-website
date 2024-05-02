@@ -38,7 +38,7 @@ jobs:
       - name: npm install
         run: npm install
       - name: Build
-        run: vite build
+        run: npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
