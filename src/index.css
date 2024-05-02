@@ -15,7 +15,7 @@ code {
     monospace;
 }
 
-:root {
+:ssr-app {
   --light-color: #f8f8f8;
   --dark-color: #333;
   --accent-color: #E7D192;
