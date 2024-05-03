@@ -5,11 +5,14 @@ import { OrbitControls, PerspectiveCamera, Html, useProgress } from '@react-thre
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
 /* import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'; */
-import { ArrowHelper, Scene, Vector3, Box3/* Group, Material  */ } from 'three';
+import { ArrowHelper, Scene, Vector3, Box3, Object3D } from 'three';
 
 import '/src/index.css';
-const mtlLoader = new MTLLoader();
-const objLoader = new OBJLoader();
+
+/* interface ObjModelProps {
+*   setModelLoaded: React.Dispatch<React.SetStateAction<boolean>>;
+*   setProgress: React.Dispatch<React.SetStateAction<number>>;
+* } */
 
 function useDisableMiddleMouseScroll(ref:RefObject<HTMLDivElement>) {
   useEffect(() => {
@@ -41,42 +44,55 @@ function ViewportTriad() {
 }
 
 interface ObjModelProps {
-  setModelLoaded: React.Dispatch<React.SetStateAction<boolean>>;
-  setProgress: React.Dispatch<React.SetStateAction<number>>;
+  setModelLoaded: (loaded: boolean) => void;
+  setProgress: (progress: number) => void;
 }
+
+interface Model {
+  mtlFile: string;
+  objFile: string;
+}
+const mtlLoader = new MTLLoader();
+const objLoader = new OBJLoader();
 
 const ObjModel: React.FC<ObjModelProps> = React.memo(({ setModelLoaded, setProgress }) => {
   const { scene } = useThree();
 
   useEffect(() => {
-    mtlLoader.load('/uploads/*.mtl', (materials) => {
-      materials.preload();
-      objLoader.setMaterials(materials);
-      objLoader.load('/uploads/*.obj', (object) => {
-          const box = new Box3().setFromObject(object);
-          const center = new Vector3();
-          box.getCenter(center).negate();
-          object.position.add(center);
+    const fetchModels = async () => {
+      try {
+        const response = await fetch('/api/models');
+        const models: Model[] = await response.json();
 
-          scene.add(object);
-          setModelLoaded(true);
-        },
-        (progressEvent) => {
-          if (progressEvent.lengthComputable) {
-            const percentComplete = progressEvent.loaded / progressEvent.total * 100;
-            setProgress(percentComplete);
+        for (const model of models) {
+          if (model.mtlFile && model.objFile) {
+            try {
+              // Load and prepare materials
+              const materialsCreator = await mtlLoader.loadAsync(model.mtlFile);
+              materialsCreator.preload(); // This should be valid as it's a method of MaterialCreator
+              objLoader.setMaterials(materialsCreator); // Pass the materials creator directly
+
+              const object = await objLoader.loadAsync(model.objFile) as Object3D;
+              const box = new Box3().setFromObject(object);
+              const center = new Vector3();
+              box.getCenter(center).negate();
+              object.position.add(center);
+
+              scene.add(object);
+              setModelLoaded(true);
+            } catch (error) {
+              console.error('Error loading model:', error);
+              setModelLoaded(false);
+            }
           }
-        },
-        (error) => {
-          console.error('Error loading OBJ:', error);
-          setModelLoaded(false);
-        }
-        );
-    },
-        (error) => {
-            console.error('Error loading MTL:', error);
-            setModelLoaded(false);
-        });
+        };
+      } catch (error) {
+        console.error('Error fetching models:', error);
+        setModelLoaded(false);
+      }
+    };
+
+    fetchModels();
   }, [setModelLoaded, setProgress, scene]);
 
   return null;
