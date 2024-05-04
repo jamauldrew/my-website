@@ -19,7 +19,7 @@ function useDisableMiddleMouseScroll(ref: react.RefObject<HTMLDivElement>) {
             return () => {
                 currentRef.removeEventListener('mousedown', handleMouseDown);
             };
-        };
+        }
     }, [ref, handleMouseDown]);
 }
 
@@ -128,7 +128,7 @@ function App() {
     const initialModel = {
         mtlFile: "/uploads/Assem1.mtl",
         objFile: "/uploads/Assem1.obj"
- };
+    };
 
     useDisableMiddleMouseScroll(containerRef);
 
