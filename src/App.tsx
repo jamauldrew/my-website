@@ -1,18 +1,18 @@
 /* App.tsx */
-import React, { useState, useEffect, useCallback, Suspense, useRef, RefObject/* , useMemo */ } from 'react';
-import { Canvas, useThree, /* , useLoader */ } from '@react-three/fiber';
-import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
-import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
-import { ArrowHelper, Scene, Vector3, Box3, Object3D } from 'three';
+import react from 'react';
+import * as fiber from '@react-three/fiber';
+import * as drei from '@react-three/drei';
+import * as OBJLoaderJs from 'three/examples/jsm/loaders/OBJLoader.js';
+import * as MTLLoaderJs from 'three/examples/jsm/loaders/MTLLoader.js';
+import * as three from 'three';
 
 import './index.css';
 
-function useDisableMiddleMouseScroll(ref: RefObject<HTMLDivElement>) {
-    const handleMouseDown = useCallback((e: MouseEvent) => {
+function useDisableMiddleMouseScroll(ref: react.RefObject<HTMLDivElement>) {
+    const handleMouseDown = react.useCallback((e: MouseEvent) => {
         if (e.button === 1) e.preventDefault();
     }, []);
-    useEffect(() => {
+    react.useEffect(() => {
         const currentRef = ref.current;
         if (currentRef) {
             currentRef.addEventListener('mousedown', handleMouseDown);
@@ -25,12 +25,12 @@ function useDisableMiddleMouseScroll(ref: RefObject<HTMLDivElement>) {
 
 function ViewportTriad() {
     // Use a separate scene for the triad.
-    const triadScene = new Scene();
+    const triadScene = new three.Scene();
     const arrowLength = 1;
     const arrowHeadSize = 0.05;
-    triadScene.add(new ArrowHelper(new Vector3(1, 0, 0), new Vector3(0, 0, 0), arrowLength, 0xff0000, arrowHeadSize));
-    triadScene.add(new ArrowHelper(new Vector3(0, 1, 0), new Vector3(0, 0, 0), arrowLength, 0x00ff00, arrowHeadSize));
-    triadScene.add(new ArrowHelper(new Vector3(0, 0, 1), new Vector3(0, 0, 0), arrowLength, 0x0000ff, arrowHeadSize));
+    triadScene.add(new three.ArrowHelper(new three.Vector3(1, 0, 0), new three.Vector3(0, 0, 0), arrowLength, 0xff0000, arrowHeadSize));
+    triadScene.add(new three.ArrowHelper(new three.Vector3(0, 1, 0), new three.Vector3(0, 0, 0), arrowLength, 0x00ff00, arrowHeadSize));
+    triadScene.add(new three.ArrowHelper(new three.Vector3(0, 0, 1), new three.Vector3(0, 0, 0), arrowLength, 0x0000ff, arrowHeadSize));
 
     return <primitive object={triadScene} />;
 }
@@ -38,6 +38,7 @@ function ViewportTriad() {
 interface ObjModelProps {
     setModelLoaded: (loaded: boolean) => void;
     setProgress: (progress: number) => void;
+    model?: Model;
 }
 
 interface Model {
@@ -45,81 +46,104 @@ interface Model {
     objFile: string;
 }
 
-const ObjModel = React.memo(({ setModelLoaded, setProgress }: ObjModelProps) => {
-    const { scene } = useThree();
+const ObjModel = react.memo(({ setModelLoaded, setProgress, model }: ObjModelProps) => {
+    const { scene } = fiber.useThree(); // Use the useThree hook to access the scene
 
-    useEffect(() => {
+    react.useEffect(() => {
+        const loadModel = async (model: Model, isFallback = false): Promise<three.Object3D> => {
+            const mtlLoader = new MTLLoaderJs.MTLLoader();
+            const objLoader = new OBJLoaderJs.OBJLoader();
+
+            try {
+                const basePath = isFallback ? '/uploads/Assem1.obj' : '';
+                const mtlFile = `${basePath}/${model.mtlFile}`;
+                const objFile = `${basePath}/${model.objFile}`;
+
+                const materials = await new Promise<MTLLoaderJs.MTLLoader.MaterialCreator>((resolve, reject) => {
+                    mtlLoader.load(mtlFile, resolve, undefined, reject);
+                });
+                console.log("MTL file loaded successfully");
+                objLoader.setMaterials(materials);
+
+                const object = await new Promise<three.Object3D>((resolve, reject) => {
+                    objLoader.load(objFile, resolve, undefined, reject);
+                });
+                console.log("OBJ file loaded successfully");
+
+                const box = new three.Box3().setFromObject(object);
+                const center = new three.Vector3();
+                box.getCenter(center).negate();
+                object.position.add(center);
+
+                scene.add(object); // Add the loaded object directly to the scene
+                return object;
+            } catch (error) {
+                if (!isFallback) {
+                    console.error(`Failed to load model from API, attempting fallback for: ${model.objFile}`);
+                    return loadModel(model, true);
+                } else {
+                    console.error(`Failed to load model from fallback as well: ${model.objFile}`);
+                    throw error;
+                }
+            }
+        };
+
         const fetchAndLoadModels = async () => {
             try {
                 const response = await fetch('/api/models');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                const models: Model[] = await response.json();
+                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                const models = await response.json();
 
-                for (const model of models) {
-                    try {
-                        const mtlLoader = new MTLLoader();
-                        const objLoader = new OBJLoader();
+                let successfulLoads = 0;
 
-                        // Load materials
-                        const materialsCreator = await mtlLoader.loadAsync(model.mtlFile);
-                        materialsCreator.preload();
-                        objLoader.setMaterials(materialsCreator);
+                const promises = models.map((model: Model, index: number) =>
+                    loadModel(model).then(obj => {
+                        successfulLoads++;
+                        setProgress((index + 1) / models.length * 100);
+                        return obj;
+                    }).catch(error => {
+                        console.error(`Final fail to load model: ${error}`);
+                        return null;
+                    })
+                );
 
-                        // Load object
-                        const object = await objLoader.loadAsync(model.objFile) as Object3D;
-                        setProgress(50);
-
-                        // Adjust object position
-                        const box = new Box3().setFromObject(object);
-                        const center = new Vector3();
-                        box.getCenter(center).negate();
-                        object.position.add(center);
-
-                        // Simulate model loading completion
-                        setTimeout(() => {
-                            setModelLoaded(true);
-                            setProgress(100);
-                        }, 1000);
-
-                        // Add object to the scene
-                        scene.add(object);
-                        setModelLoaded(true);
-                    } catch (err) {
-                        console.error(`Error loading model ${model.objFile}: ${err}`);
-                        setModelLoaded(false);
-                    }
-                }
+                await Promise.all(promises);
+                setModelLoaded(successfulLoads > 0);
             } catch (err) {
-                console.error(`Error fetching models: ${err}`);
+                console.error(err);
                 setModelLoaded(false);
             }
-        }
+        };
 
         fetchAndLoadModels();
-    }, [setModelLoaded, setProgress, scene]);
+    }, [setModelLoaded, setProgress, model, scene]);
 
-    return null;
+    return null; // This component does not render anything itself
 });
 
 function App() {
-    const [modelLoaded, setModelLoaded] = useState(false);
-    const [progress, setProgress] = useState(0);
-    const containerRef = useRef<HTMLDivElement>(null);
+    const [modelLoaded, setModelLoaded] = react.useState(false);
+    const [progress, setProgress] = react.useState(0);
+    const containerRef = react.useRef<HTMLDivElement>(null);
+    const initialModel = {
+        mtlFile: "/uploads/Assem1.mtl",
+        objFile: "/uploads/Assem1.obj"
+ };
+
     useDisableMiddleMouseScroll(containerRef);
+
     return (
         <div ref={containerRef} className="object-container">
-            <Canvas>
-                <PerspectiveCamera makeDefault position={[0, 0, 5]} />
+            <fiber.Canvas>
+                <drei.PerspectiveCamera makeDefault position={[0, 0, 5]} />
                 <ambientLight intensity={0.5} />
                 <spotLight position={[10, 15, 10]} angle={0.3} />
-                <Suspense >
-                    <ObjModel setModelLoaded={setModelLoaded} setProgress={setProgress} />
-                </Suspense>
-                <OrbitControls />
+                <react.Suspense >
+                    <ObjModel setModelLoaded={setModelLoaded} setProgress={setProgress} model={initialModel}/>
+                </react.Suspense>
+                <drei.OrbitControls />
                 <ViewportTriad />
-            </Canvas>
+            </fiber.Canvas>
             {!modelLoaded && <div className="loading">Loading... {Math.round(progress)}%</div>}
             <div className="instructions">Use mouse or touch to orbit, zoom, and pan</div>
         </div>
