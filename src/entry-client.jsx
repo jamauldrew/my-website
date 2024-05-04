@@ -3,7 +3,8 @@ import './index.css'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import initializePage from './script.js'
+// Separate chunk in the production build
+// import Worker from './script.js?worker'
 
 ReactDOM.hydrateRoot(
   document.getElementById('root'),
@@ -12,4 +13,4 @@ ReactDOM.hydrateRoot(
   </React.StrictMode>
 )
 
-initializePage();
+// Worker();

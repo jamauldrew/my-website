@@ -88,5 +88,3 @@ function initializePage() {
 }
 
 document.addEventListener('DOMContentLoaded', initializePage);
-
-export default initializePage;

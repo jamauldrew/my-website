@@ -47,78 +47,89 @@ interface Model {
 }
 
 const ObjModel = react.memo(({ setModelLoaded, setProgress, model }: ObjModelProps) => {
-    const { scene } = fiber.useThree(); // Use the useThree hook to access the scene
+    const { scene } = fiber.useThree();
 
     react.useEffect(() => {
-        const loadModel = async (model: Model, isFallback = false): Promise<three.Object3D> => {
+        if (!model) return;
+
+        const loadModel = async (model: Model): Promise<three.Object3D> => {
             const mtlLoader = new MTLLoaderJs.MTLLoader();
             const objLoader = new OBJLoaderJs.OBJLoader();
 
             try {
-                const basePath = isFallback ? '/uploads/Assem1.obj' : '';
-                const mtlFile = `${basePath}/${model.mtlFile}`;
-                const objFile = `${basePath}/${model.objFile}`;
-
-                const materials = await new Promise<MTLLoaderJs.MTLLoader.MaterialCreator>((resolve, reject) => {
-                    mtlLoader.load(mtlFile, resolve, undefined, reject);
-                });
+                const materials = await mtlLoader.loadAsync(model.mtlFile);
                 console.log("MTL file loaded successfully");
                 objLoader.setMaterials(materials);
 
-                const object = await new Promise<three.Object3D>((resolve, reject) => {
-                    objLoader.load(objFile, resolve, undefined, reject);
-                });
+                const object = await objLoader.loadAsync(model.objFile);
                 console.log("OBJ file loaded successfully");
 
-                const box = new three.Box3().setFromObject(object);
+                // Calculate the bounding box and center the object
+                const boundingBox = new three.Box3().setFromObject(object);
                 const center = new three.Vector3();
-                box.getCenter(center).negate();
-                object.position.add(center);
+                boundingBox.getCenter(center);
+                object.position.sub(center);
 
-                scene.add(object); // Add the loaded object directly to the scene
+                scene.add(object);
                 return object;
             } catch (error) {
-                if (!isFallback) {
-                    console.error(`Failed to load model from API, attempting fallback for: ${model.objFile}`);
-                    return loadModel(model, true);
-                } else {
-                    console.error(`Failed to load model from fallback as well: ${model.objFile}`);
-                    throw error;
-                }
+                console.error(`Failed to load model: ${model.objFile}`, error);
+                throw error;
             }
         };
 
+        loadModel(model)
+            .then(() => setModelLoaded(true))
+            .catch(() => setModelLoaded(false));
+        /* } catch (error) {
+  *     if (!isFallback) {
+  *         console.error(`Failed to load model from API, attempting fallback for: ${model.objFile}`);
+  *         return loadModel(model, true);
+  *     } else {
+  *         console.error(`Failed to load model from fallback as well: ${model.objFile}`);
+  *         throw error;
+  *     }
+  * } */
+        // This is where API call related logic would be placed if needed.
+        // It's commented out as per your request.
+        /*
         const fetchAndLoadModels = async () => {
-            try {
-                const response = await fetch('/api/models');
-                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-                const models = await response.json();
-
-                let successfulLoads = 0;
-
-                const promises = models.map((model: Model, index: number) =>
-                    loadModel(model).then(obj => {
-                        successfulLoads++;
-                        setProgress((index + 1) / models.length * 100);
-                        return obj;
-                    }).catch(error => {
-                        console.error(`Final fail to load model: ${error}`);
-                        return null;
-                    })
-                );
-
-                await Promise.all(promises);
-                setModelLoaded(successfulLoads > 0);
-            } catch (err) {
-                console.error(err);
-                setModelLoaded(false);
-            }
+          // API fetch logic here
         };
-
         fetchAndLoadModels();
+        */
+        /* const fetchAndLoadModels = async () => {
+  *     try {
+  *         const response = await fetch('/api/models');
+  *         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+  *         const models = await response.json();
+
+  *         let successfulLoads = 0;
+
+  *         const promises = models.map((model: Model, index: number) =>
+  *             loadModel(model).then(obj => {
+  *                 successfulLoads++;
+  *                 setProgress((index + 1) / models.length * 100);
+  *                 return obj;
+  *             }).catch(error => {
+  *                 console.error(`Final fail to load model: ${error}`);
+  *                 return null;
+  *             })
+  *         );
+
+  *         await Promise.all(promises);
+  *         setModelLoaded(successfulLoads > 0);
+  *     } catch (err) {
+  *         console.error(err);
+  *         setModelLoaded(false);
+  *     }
+  * };
+
+  * fetchAndLoadModels(); */
+
     }, [setModelLoaded, setProgress, model, scene]);
 
-    return null; // This component does not render anything itself
+    return null;
 });
 
 function App() {
@@ -126,8 +137,8 @@ function App() {
     const [progress, setProgress] = react.useState(0);
     const containerRef = react.useRef<HTMLDivElement>(null);
     const initialModel = {
-        mtlFile: "/uploads/Assem1.mtl",
-        objFile: "/uploads/Assem1.obj"
+        mtlFile: "uploads/Assem1.mtl",
+        objFile: "uploads/Assem1.obj"
     };
 
     useDisableMiddleMouseScroll(containerRef);
@@ -139,7 +150,7 @@ function App() {
                 <ambientLight intensity={0.5} />
                 <spotLight position={[10, 15, 10]} angle={0.3} />
                 <react.Suspense >
-                    <ObjModel setModelLoaded={setModelLoaded} setProgress={setProgress} model={initialModel}/>
+                    <ObjModel setModelLoaded={setModelLoaded} setProgress={setProgress} model={initialModel} />
                 </react.Suspense>
                 <drei.OrbitControls />
                 <ViewportTriad />
