@@ -5,6 +5,7 @@ import * as drei from '@react-three/drei';
 import * as OBJLoaderJs from 'three/examples/jsm/loaders/OBJLoader.js';
 import * as MTLLoaderJs from 'three/examples/jsm/loaders/MTLLoader.js';
 import * as three from 'three';
+import { OrthographicCamera } from '@react-three/drei';
 
 import './index.css';
 
@@ -23,21 +24,51 @@ function useDisableMiddleMouseScroll(ref: react.RefObject<HTMLDivElement>) {
     }, [ref, handleMouseDown]);
 }
 
-function ViewportTriad() {
-    // Use a separate scene for the triad.
-    const triadScene = new three.Scene();
-    const arrowLength = 1;
-    const arrowHeadSize = 0.05;
-    triadScene.add(new three.ArrowHelper(new three.Vector3(1, 0, 0), new three.Vector3(0, 0, 0), arrowLength, 0xff0000, arrowHeadSize));
-    triadScene.add(new three.ArrowHelper(new three.Vector3(0, 1, 0), new three.Vector3(0, 0, 0), arrowLength, 0x00ff00, arrowHeadSize));
-    triadScene.add(new three.ArrowHelper(new three.Vector3(0, 0, 1), new three.Vector3(0, 0, 0), arrowLength, 0x0000ff, arrowHeadSize));
+fiber.extend({ OrthographicCamera });
 
-    return <primitive object={triadScene} />;
+interface HudProps {
+    children: JSX.Element;
+    renderPriority?: number;
 }
+
+const Hud: react.FC<HudProps> = ({ children }) => {
+  const { gl, scene, camera } = fiber.useThree();
+  fiber.useFrame(() => {
+    const originalAutoClear = gl.autoClear;
+    gl.autoClear = false;
+    gl.clearDepth();
+    gl.render(scene, camera);
+    gl.autoClear = originalAutoClear;
+  }, 2);
+
+    return fiber.createPortal(children, scene);;
+};
+
+const ViewportTriad = () => {
+  const { size } = fiber.useThree();
+  const triadScene = react.useRef(new three.Scene()).current;
+      const arrowLength = 1;
+      const arrowHeadSize = 0.05;
+
+    // Setup the triad scene once
+  react.useEffect(() => {
+      const xArrow = new three.ArrowHelper(new three.Vector3(1, 0, 0), new three.Vector3(0, 0, 0), arrowLength, 0xff0000, arrowHeadSize);
+      const yArrow = new three.ArrowHelper(new three.Vector3(0, 1, 0), new three.Vector3(0, 0, 0), arrowLength, 0x00ff00, arrowHeadSize);
+      const zArrow = new three.ArrowHelper(new three.Vector3(0, 0, 1), new three.Vector3(0, 0, 0), arrowLength, 0x0000ff, arrowHeadSize);
+    triadScene.add(xArrow, yArrow, zArrow);
+  }, []);
+
+    return (
+        <Hud>
+        <primitive object={triadScene}
+        position={[size.width - 100, size.height - 100, 0]}
+        />
+        </Hud>
+    );
+};
 
 interface ObjModelProps {
     setModelLoaded: (loaded: boolean) => void;
-    setProgress: (progress: number) => void;
     model?: Model;
 }
 
@@ -46,7 +77,7 @@ interface Model {
     objFile: string;
 }
 
-const ObjModel = react.memo(({ setModelLoaded, setProgress, model }: ObjModelProps) => {
+const ObjModel = react.memo(({ setModelLoaded, model }: ObjModelProps) => {
     const { scene } = fiber.useThree();
 
     react.useEffect(() => {
@@ -81,60 +112,15 @@ const ObjModel = react.memo(({ setModelLoaded, setProgress, model }: ObjModelPro
         loadModel(model)
             .then(() => setModelLoaded(true))
             .catch(() => setModelLoaded(false));
-        /* } catch (error) {
-  *     if (!isFallback) {
-  *         console.error(`Failed to load model from API, attempting fallback for: ${model.objFile}`);
-  *         return loadModel(model, true);
-  *     } else {
-  *         console.error(`Failed to load model from fallback as well: ${model.objFile}`);
-  *         throw error;
-  *     }
-  * } */
-        // This is where API call related logic would be placed if needed.
-        // It's commented out as per your request.
-        /*
-        const fetchAndLoadModels = async () => {
-          // API fetch logic here
-        };
-        fetchAndLoadModels();
-        */
-        /* const fetchAndLoadModels = async () => {
-  *     try {
-  *         const response = await fetch('/api/models');
-  *         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-  *         const models = await response.json();
 
-  *         let successfulLoads = 0;
-
-  *         const promises = models.map((model: Model, index: number) =>
-  *             loadModel(model).then(obj => {
-  *                 successfulLoads++;
-  *                 setProgress((index + 1) / models.length * 100);
-  *                 return obj;
-  *             }).catch(error => {
-  *                 console.error(`Final fail to load model: ${error}`);
-  *                 return null;
-  *             })
-  *         );
-
-  *         await Promise.all(promises);
-  *         setModelLoaded(successfulLoads > 0);
-  *     } catch (err) {
-  *         console.error(err);
-  *         setModelLoaded(false);
-  *     }
-  * };
-
-  * fetchAndLoadModels(); */
-
-    }, [setModelLoaded, setProgress, model, scene]);
+    }, [setModelLoaded, model, scene]);
 
     return null;
 });
 
 function App() {
     const [modelLoaded, setModelLoaded] = react.useState(false);
-    const [progress, setProgress] = react.useState(0);
+    const [progress] = react.useState(0);
     const containerRef = react.useRef<HTMLDivElement>(null);
     const initialModel = {
         mtlFile: "uploads/Assem1.mtl",
@@ -146,11 +132,11 @@ function App() {
     return (
         <div ref={containerRef} className="object-container">
             <fiber.Canvas>
-                <drei.PerspectiveCamera makeDefault position={[0, 0, 5]} />
-                <ambientLight intensity={0.5} />
+                <drei.OrthographicCamera makeDefault position={[0, 0, 5]} />
+                <ambientLight intensity={0.6} />
                 <spotLight position={[10, 15, 10]} angle={0.3} />
                 <react.Suspense >
-                    <ObjModel setModelLoaded={setModelLoaded} setProgress={setProgress} model={initialModel} />
+                    <ObjModel setModelLoaded={setModelLoaded} model={initialModel} />
                 </react.Suspense>
                 <drei.OrbitControls />
                 <ViewportTriad />
