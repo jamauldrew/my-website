@@ -43,20 +43,39 @@ const Hud = memo(({ children, renderPriority }: { children: React.ReactNode; ren
 const ViewportTriad = memo(() => {
     const { camera } = useThree();
     const triadScene = useRef(new Three.Scene()).current;
+    const xArrow = useRef<Three.ArrowHelper | null>(null);
+    const yArrow = useRef<Three.ArrowHelper | null>(null);
+    const zArrow = useRef<Three.ArrowHelper | null>(null);
     useEffect(() => {
-        const xArrow = new Three.ArrowHelper(new Three.Vector3(1, 0, 0), new Three.Vector3(0, 0, 0), 1, 0xff0000, 0.05);
-        const yArrow = new Three.ArrowHelper(new Three.Vector3(0, 1, 0), new Three.Vector3(0, 0, 0), 1, 0x00ff00, 0.05);
-        const zArrow = new Three.ArrowHelper(new Three.Vector3(0, 0, 1), new Three.Vector3(0, 0, 0), 1, 0x0000ff, 0.05);
-        triadScene.add(xArrow, yArrow, zArrow);
+        // Create ArrowHelpers only once
+        xArrow.current = new Three.ArrowHelper(new Three.Vector3(1, 0, 0), new Three.Vector3(), 1, 0xff0000);
+        yArrow.current = new Three.ArrowHelper(new Three.Vector3(0, 1, 0), new Three.Vector3(), 1, 0x00ff00);
+        zArrow.current = new Three.ArrowHelper(new Three.Vector3(0, 0, 1), new Three.Vector3(), 1, 0x0000ff);
+        triadScene.add(xArrow.current, yArrow.current, zArrow.current);
     }, []);
 
     useFrame(() => {
-        const camRightTop = new Three.Vector3(1, 1, camera.near).unproject(camera);
-        const position = camRightTop.clone().add(new Three.Vector3(-0.1, -0.1, 0));
-        triadScene.position.copy(position);
+        const triadCenter = new Three.Vector3();
+        if (xArrow.current) {
+            xArrow.current.position.copy(triadCenter);
+        }
+        if (yArrow.current) {
+            yArrow.current.position.copy(triadCenter);
+        }
+        if (zArrow.current) {
+            zArrow.current.position.copy(triadCenter);
+        }
+        const triadViewport = new Three.Vector3(1, 1, camera.near).unproject(camera);
+        const triadPosition = new Three.Vector3(-1, -1, 0);
+        const newPosition = triadViewport.add(triadPosition);
+        triadScene.position.copy(newPosition);
         triadScene.quaternion.copy(camera.quaternion);
-    }, 2);
-    return (<Hud renderPriority={2}><primitive object={triadScene} /></Hud>);
+    }, 1);
+  return (
+    <Hud renderPriority={2}>
+      <primitive object={triadScene} />
+    </Hud>
+  );
 });
 
 interface ObjModelProps {
