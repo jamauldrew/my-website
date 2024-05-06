@@ -1,19 +1,17 @@
 /* App.tsx */
-import react from 'react';
-import * as fiber from '@react-three/fiber';
-import * as drei from '@react-three/drei';
-import * as OBJLoaderJs from 'three/examples/jsm/loaders/OBJLoader.js';
-import * as MTLLoaderJs from 'three/examples/jsm/loaders/MTLLoader.js';
-import * as three from 'three';
-import { OrthographicCamera } from '@react-three/drei';
-
+import React, { useRef, useState, useEffect, memo, Suspense } from 'react';
+import { Canvas, useThree, useFrame } from '@react-three/fiber';
+import * as Three from 'three';
+import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
+import { OrbitControls } from '@react-three/drei';
 import './index.css';
 
-function useDisableMiddleMouseScroll(ref: react.RefObject<HTMLDivElement>) {
-    const handleMouseDown = react.useCallback((e: MouseEvent) => {
+function useDisableMiddleMouseScroll(ref: React.RefObject<HTMLDivElement>) {
+    const handleMouseDown = (e: MouseEvent) => {
         if (e.button === 1) e.preventDefault();
-    }, []);
-    react.useEffect(() => {
+    };
+    useEffect(() => {
         const currentRef = ref.current;
         if (currentRef) {
             currentRef.addEventListener('mousedown', handleMouseDown);
@@ -21,51 +19,45 @@ function useDisableMiddleMouseScroll(ref: react.RefObject<HTMLDivElement>) {
                 currentRef.removeEventListener('mousedown', handleMouseDown);
             };
         }
-    }, [ref, handleMouseDown]);
+    }, [ref]);
 }
 
-fiber.extend({ OrthographicCamera });
+const Hud = memo(({ children, renderPriority }: { children: React.ReactNode; renderPriority: number }) => {
+    const { gl, scene, camera } = useThree();
+    useFrame(() => {
+        if (renderPriority === 1) {
+            gl.autoClear = true;
+            gl.clearColor();
+            gl.clearDepth();
+            gl.render(scene, camera);
+        } else {
+            gl.autoClear = false;
+            gl.clearDepth();
+            gl.render(scene, camera);
+            gl.autoClear = true;
+        }
+    }, renderPriority);
+    return <>{children}</>;
+});
 
-interface HudProps {
-    children: JSX.Element;
-    renderPriority?: number;
-}
+const ViewportTriad = memo(() => {
+    const { camera } = useThree();
+    const triadScene = useRef(new Three.Scene()).current;
+    useEffect(() => {
+        const xArrow = new Three.ArrowHelper(new Three.Vector3(1, 0, 0), new Three.Vector3(0, 0, 0), 1, 0xff0000, 0.05);
+        const yArrow = new Three.ArrowHelper(new Three.Vector3(0, 1, 0), new Three.Vector3(0, 0, 0), 1, 0x00ff00, 0.05);
+        const zArrow = new Three.ArrowHelper(new Three.Vector3(0, 0, 1), new Three.Vector3(0, 0, 0), 1, 0x0000ff, 0.05);
+        triadScene.add(xArrow, yArrow, zArrow);
+    }, []);
 
-const Hud: react.FC<HudProps> = ({ children }) => {
-  const { gl, scene, camera } = fiber.useThree();
-  fiber.useFrame(() => {
-    const originalAutoClear = gl.autoClear;
-    gl.autoClear = false;
-    gl.clearDepth();
-    gl.render(scene, camera);
-    gl.autoClear = originalAutoClear;
-  }, 2);
-
-    return fiber.createPortal(children, scene);;
-};
-
-const ViewportTriad = () => {
-  const { size } = fiber.useThree();
-  const triadScene = react.useRef(new three.Scene()).current;
-      const arrowLength = 1;
-      const arrowHeadSize = 0.05;
-
-    // Setup the triad scene once
-  react.useEffect(() => {
-      const xArrow = new three.ArrowHelper(new three.Vector3(1, 0, 0), new three.Vector3(0, 0, 0), arrowLength, 0xff0000, arrowHeadSize);
-      const yArrow = new three.ArrowHelper(new three.Vector3(0, 1, 0), new three.Vector3(0, 0, 0), arrowLength, 0x00ff00, arrowHeadSize);
-      const zArrow = new three.ArrowHelper(new three.Vector3(0, 0, 1), new three.Vector3(0, 0, 0), arrowLength, 0x0000ff, arrowHeadSize);
-    triadScene.add(xArrow, yArrow, zArrow);
-  }, []);
-
-    return (
-        <Hud>
-        <primitive object={triadScene}
-        position={[size.width - 100, size.height - 100, 0]}
-        />
-        </Hud>
-    );
-};
+    useFrame(() => {
+        const camRightTop = new Three.Vector3(1, 1, camera.near).unproject(camera);
+        const position = camRightTop.clone().add(new Three.Vector3(-0.1, -0.1, 0));
+        triadScene.position.copy(position);
+        triadScene.quaternion.copy(camera.quaternion);
+    }, 2);
+    return (<Hud renderPriority={2}><primitive object={triadScene} /></Hud>);
+});
 
 interface ObjModelProps {
     setModelLoaded: (loaded: boolean) => void;
@@ -77,15 +69,15 @@ interface Model {
     objFile: string;
 }
 
-const ObjModel = react.memo(({ setModelLoaded, model }: ObjModelProps) => {
-    const { scene } = fiber.useThree();
+const ObjModel = memo(({ setModelLoaded, model }: ObjModelProps) => {
+    const { scene } = useThree();
 
-    react.useEffect(() => {
+    useEffect(() => {
         if (!model) return;
 
-        const loadModel = async (model: Model): Promise<three.Object3D> => {
-            const mtlLoader = new MTLLoaderJs.MTLLoader();
-            const objLoader = new OBJLoaderJs.OBJLoader();
+        const loadModel = async () => {
+            const mtlLoader = new MTLLoader();
+            const objLoader = new OBJLoader();
 
             try {
                 const materials = await mtlLoader.loadAsync(model.mtlFile);
@@ -96,32 +88,30 @@ const ObjModel = react.memo(({ setModelLoaded, model }: ObjModelProps) => {
                 console.log("OBJ file loaded successfully");
 
                 // Calculate the bounding box and center the object
-                const boundingBox = new three.Box3().setFromObject(object);
-                const center = new three.Vector3();
-                boundingBox.getCenter(center);
-                object.position.sub(center);
+                const box = new Three.Box3().setFromObject(object);
+                const size = box.getSize(new Three.Vector3());
+                const maxDim = Math.max(size.x, size.y, size.z);
+                const scale = 2 / maxDim;
+                object.scale.set(scale, scale, scale);
+                const center = box.getCenter(new Three.Vector3()).multiplyScalar(scale);
+                object.position.add(center);
 
                 scene.add(object);
-                return object;
+                setModelLoaded(true);
             } catch (error) {
-                console.error(`Failed to load model: ${model.objFile}`, error);
-                throw error;
+                console.error(`Failed to load model: ${model.objFile}, error`);
+                setModelLoaded(false);
             }
         };
-
-        loadModel(model)
-            .then(() => setModelLoaded(true))
-            .catch(() => setModelLoaded(false));
-
+        loadModel();
     }, [setModelLoaded, model, scene]);
-
     return null;
 });
 
 function App() {
-    const [modelLoaded, setModelLoaded] = react.useState(false);
-    const [progress] = react.useState(0);
-    const containerRef = react.useRef<HTMLDivElement>(null);
+    const [modelLoaded, setModelLoaded] = useState(false);
+    const [progress] = useState(0);
+    const containerRef = useRef<HTMLDivElement>(null);
     const initialModel = {
         mtlFile: "uploads/Assem1.mtl",
         objFile: "uploads/Assem1.obj"
@@ -131,16 +121,20 @@ function App() {
 
     return (
         <div ref={containerRef} className="object-container">
-            <fiber.Canvas>
-                <drei.OrthographicCamera makeDefault position={[0, 0, 5]} />
+            <Canvas
+                camera={{ position: [0, 0, 5], near: 0.1, far: 1000, type: "OrthographicCamera" }}
+                onCreated={({ gl }) => {
+                    gl.setClearColor(new Three.Color(0x000000));
+                }}
+            >
                 <ambientLight intensity={0.6} />
                 <spotLight position={[10, 15, 10]} angle={0.3} />
-                <react.Suspense >
+                <Suspense fallback={null}>
                     <ObjModel setModelLoaded={setModelLoaded} model={initialModel} />
-                </react.Suspense>
-                <drei.OrbitControls />
+                </Suspense>
+                <OrbitControls />
                 <ViewportTriad />
-            </fiber.Canvas>
+            </Canvas>
             {!modelLoaded && <div className="loading">Loading... {Math.round(progress)}%</div>}
             <div className="instructions">Use mouse or touch to orbit, zoom, and pan</div>
         </div>
