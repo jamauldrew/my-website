@@ -1,11 +1,13 @@
 /* App.tsx */
 import React, { useRef, DependencyList, EffectCallback, useState, useEffect, memo, Suspense } from 'react';
-import { Canvas, useThree, useFrame } from '@react-three/fiber';
+import { Canvas,  useThree, useFrame } from '@react-three/fiber';
 import * as Three from 'three';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
+import { OrbitControls as OrbitControlsThree } from 'three/examples/jsm/controls/OrbitControls.js';
 import { OrbitControls } from '@react-three/drei';
 import './index.css';
+
 
 function useDebouncedEffect(effect: EffectCallback, deps: DependencyList, delay: number): void {
   const callback = useRef<EffectCallback>();
@@ -102,7 +104,6 @@ const ViewportTriad: React.FC<ViewportTriadProps> = memo(({ modelOrientation }) 
         triadScene.position.copy(viewport);
         const scale = camera.zoom ? 1 / camera.zoom : 1;
         triadScene.scale.set(scale, scale, scale);
-        triadScene.lookAt(camera.position)
         triadScene.quaternion.copy(modelOrientation.invert());
 
         gl.clearDepth();
@@ -115,7 +116,6 @@ const ViewportTriad: React.FC<ViewportTriadProps> = memo(({ modelOrientation }) 
         </Hud>
     );
 });
-
 
 const ObjModel = memo(({ setModelLoaded, model, setModelOrientation }: ObjModelProps) => {
     const { scene } = useThree();
@@ -135,6 +135,13 @@ const ObjModel = memo(({ setModelLoaded, model, setModelOrientation }: ObjModelP
                 const object = await objLoader.loadAsync(model.objFile);
                 console.log("OBJ file loaded successfully");
 
+                object.traverse((child: Three.Object3D) => {
+                    if (child instanceof Three.Mesh) {
+                        child.material.dispose();
+                        child.geometry.dispose();
+                    }
+                });
+
                 // Calculate the bounding box and center the object
                 const box = new Three.Box3().setFromObject(object);
                 const size = box.getSize(new Three.Vector3());
@@ -146,8 +153,22 @@ const ObjModel = memo(({ setModelLoaded, model, setModelOrientation }: ObjModelP
 
                 scene.add(object);
 
-                // Inside ObjModel useEffect, after object is added to the scene
-                object.quaternion.normalize(); // Ensure the quaternion is normalized (if needed)
+//                const aspectRatio = window.innerWidth / window.innerHeight;
+//                // Parameters for OrthographicCamera: left, right, top, bottom, near, far
+//                const camera = new Three.OrthographicCamera(-aspectRatio, aspectRatio, 0.33, -0.33, 0.3, 100);
+//
+//                // Set the camera position for a SW isometric view.
+//                // Assuming the positive X-axis goes right, the positive Y-axis goes up, and the positive Z-axis comes out of the screen.
+//                // You might need to adjust these values based on the size and position of your scene's contents.
+//                camera.position.set(-1, 1, 1); // Moving the camera to the SW position relative to the centered object
+//
+//                // Look at the center of the scene (or the object)
+//                camera.lookAt(scene.position);
+//
+//                // Add the camera to the scene
+//                scene.add(camera);
+                // Cleanup
+                object.quaternion.normalize();
                 setModelOrientation(object.quaternion);
 
                 setModelLoaded(true);
@@ -157,8 +178,18 @@ const ObjModel = memo(({ setModelLoaded, model, setModelOrientation }: ObjModelP
             }
         };
         loadModel();
+        return () => {
+            // Cleanup: dispose of objects and materials if unmounting
+            scene.children.forEach((child) => {
+                if (child instanceof Three.Mesh) {
+                    child.material.dispose();
+                    child.geometry.dispose();
+                }
+                scene.remove(child);
+            });
+        };
     }, [setModelLoaded, model, scene, setModelOrientation], 500);
-    return null;
+    return <primitive object={ObjModel} />;
 });
 
 function App() {
@@ -171,6 +202,16 @@ function App() {
         objFile: "uploads/Assem1.obj"
     };
 
+    // Function to reset the model orientation
+    const controlsRef = useRef< OrbitControlsThree | null>(null);
+    const resetModelOrientation = () => {
+        // Resetting to the identity quaternion (no rotation)
+        setModelOrientation(new Three.Quaternion(0, 0, 0, 1));
+        if (controlsRef.current) {
+            controlsRef.current.update();
+        }
+    };
+
     useDisableMiddleMouseScroll(containerRef);
 
     return (
@@ -181,16 +222,18 @@ function App() {
                     gl.setClearColor(new Three.Color(0xf0f0f0));
                 }}
             >
+                <directionalLight position={[5, 3, 5]} intensity={0.5} />
                 <ambientLight intensity={0.6} />
                 <spotLight position={[10, 15, 10]} angle={0.3} />
                 <Suspense fallback={null}>
                     <ObjModel setModelLoaded={setModelLoaded} model={initialModel} setModelOrientation = {setModelOrientation}/>
                 </Suspense>
-                <OrbitControls enableDamping dampingFactor={0.09} />
+                <OrbitControls enableDamping dampingFactor={0.05} />
                 <ViewportTriad modelOrientation={modelOrientation}/>
             </Canvas>
             {!modelLoaded && <div className="loading">Loading... {Math.round(progress)}%</div>}
             <div className="instructions">Use mouse or touch to orbit, zoom, and pan</div>
+            <button className="resetButton" onClick={resetModelOrientation}>Reset Orientation</button>
         </div>
     );
 }
