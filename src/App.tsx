@@ -1,5 +1,5 @@
 /* App.tsx */
-import React, { useRef, useState, useEffect, memo, Suspense } from 'react';
+import React, { useRef, DependencyList, EffectCallback, useState, useEffect, memo, Suspense } from 'react';
 import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import * as Three from 'three';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
@@ -7,6 +7,28 @@ import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import { OrbitControls } from '@react-three/drei';
 import './index.css';
 
+function useDebouncedEffect(effect: EffectCallback, deps: DependencyList, delay: number): void {
+  const callback = useRef<EffectCallback>();
+
+  // Store the latest effect callback
+  useEffect(() => {
+    callback.current = effect;
+  }, [effect]);
+
+  useEffect(() => {
+    const handler = () => {
+      if (callback.current) {
+        callback.current();
+      }
+    };
+
+    // Set up the timeout to run the effect
+    const timer = setTimeout(handler, delay);
+
+    // Clear the timeout if the dependencies change or the component unmounts
+    return () => clearTimeout(timer);
+  }, [...deps, delay]); // Ensure delay is also a dependency
+}
 
 interface ViewportTriadProps {
     modelOrientation: Three.Quaternion;
@@ -65,7 +87,7 @@ const ViewportTriad: React.FC<ViewportTriadProps> = memo(({ modelOrientation }) 
     const yArrow = useRef<Three.ArrowHelper | null>(null);
     const zArrow = useRef<Three.ArrowHelper | null>(null);
 
-    useEffect(() => {
+    useDebouncedEffect(() => {
         const arrowLength = 0.02;
         const headLength = 0.01;
 
@@ -73,14 +95,15 @@ const ViewportTriad: React.FC<ViewportTriadProps> = memo(({ modelOrientation }) 
         yArrow.current = new Three.ArrowHelper(new Three.Vector3(0, 1, 0), new Three.Vector3(0, 0, 0), arrowLength, 0x00ff00, headLength);
         zArrow.current = new Three.ArrowHelper(new Three.Vector3(0, 0, 1), new Three.Vector3(0, 0, 0), arrowLength, 0x0000ff, headLength);
         triadScene.add(xArrow.current, yArrow.current, zArrow.current);
-  }, []);
+  }, [modelOrientation], 500);
 
     useFrame(() => {
         const viewport = new Three.Vector3(0.8, 0.8, camera.near).unproject(camera);
         triadScene.position.copy(viewport);
         const scale = camera.zoom ? 1 / camera.zoom : 1;
         triadScene.scale.set(scale, scale, scale);
-        triadScene.quaternion.copy(modelOrientation.clone().invert());
+        triadScene.lookAt(camera.position)
+        triadScene.quaternion.copy(modelOrientation.invert());
 
         gl.clearDepth();
         gl.render(triadScene, camera);
@@ -97,7 +120,7 @@ const ViewportTriad: React.FC<ViewportTriadProps> = memo(({ modelOrientation }) 
 const ObjModel = memo(({ setModelLoaded, model, setModelOrientation }: ObjModelProps) => {
     const { scene } = useThree();
 
-    useEffect(() => {
+    useDebouncedEffect(() => {
         if (!model) return;
 
         const loadModel = async () => {
@@ -134,7 +157,7 @@ const ObjModel = memo(({ setModelLoaded, model, setModelOrientation }: ObjModelP
             }
         };
         loadModel();
-    }, [setModelLoaded, model, scene, setModelOrientation]);
+    }, [setModelLoaded, model, scene, setModelOrientation], 500);
     return null;
 });
 
