@@ -6,6 +6,16 @@ import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import { OrbitControls } from '@react-three/drei';
 import './index.css';
 
+// // Additional component for handling vertex points
+const VertexPoint = ({ position }: { position: Three.Vector3 }) => {
+    return (
+        <mesh position={position}>
+            <sphereBufferGeometry args={[0.02, 16, 16]} />
+            <meshBasicMaterial color="blue" />
+        </mesh>
+    );
+};
+
 function useDebouncedEffect(effect: EffectCallback, deps: DependencyList, delay: number): void {
   const callback = useRef<EffectCallback>();
 
@@ -32,7 +42,7 @@ interface ViewportTriadProps {
 }
 
 interface ObjModelProps {
-    setModelOrientation: (orientation: Three.Quaternion) => void;
+    setModelOrientation?: (quaternion: any) => void;
     setModelLoaded: (loaded: boolean) => void;
     model?: Model;
 }
@@ -141,7 +151,71 @@ const ViewportTriad: React.FC<ViewportTriadProps> = memo(({ modelOrientation, on
 });
 
 const ObjModel = memo(({ setModelLoaded, model, setModelOrientation }: ObjModelProps) => {
-  const { scene } = useThree();
+  const { scene, camera } = useThree();
+  const [selectedVertex, setSelectedVertex] = useState<Three.Vector3 | null>(null);
+  const raycaster = new Three.Raycaster();
+
+  // Manage canvas element using useRef
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  const handleClick = (event: React.MouseEvent<HTMLCanvasElement>) => {
+      const canvas = canvasRef.current;
+      if (!Canvas) return;
+
+    const { clientX, clientY } = event.nativeEvent;
+    const normalized = new Three.Vector2(
+      (clientX / window.innerWidth) * 2 - 1,
+      -(clientY / window.innerHeight) * 2 + 1
+    );
+
+    raycaster.setFromCamera(normalized, camera);
+    const intersects = raycaster.intersectObject(scene, true); // Intersect with scene
+
+    if (intersects.length > 0) {
+      const closestIntersect = intersects.sort((a, b) => a.distance - b.distance)[0];
+      const intersectedObject = closestIntersect.object;
+      const faceIndex = closestIntersect.faceIndex; // Get intersected face index
+
+      // Calculate closest vertex position based on intersected face and geometry
+      const vertexPosition = calculateVertexPosition(intersectedObject, faceIndex);
+      setSelectedVertex(vertexPosition);
+    } else {
+      setSelectedVertex(null);
+    }
+  };
+
+  const calculateVertexPosition = (object: Three.Mesh, faceIndex: number): Three.Vector3 => {
+    const geometry = object.geometry;
+    if (!geometry.attributes.position) {
+      console.error('Geometry missing position attribute');
+      return new Three.Vector3(); // Return a default vector in case of error
+    }
+
+    const positions = geometry.attributes.position.array as Float32Array;
+    const faceLength = 3; // Assuming triangles
+
+    const vertexIndices = [
+      faceIndex * faceLength,
+      faceIndex * faceLength + 1,
+      faceIndex * faceLength + 2,
+    ];
+
+    const vertices = vertexIndices.map((index) => new Three.Vector3(positions[index * 3], positions[index * 3 + 1], positions[index * 3 + 2]));
+
+    // You might need to implement logic to average vertex positions for faces
+    // or choose a specific vertex based on your selection criteria
+    return vertices[0]; // Returning the first vertex for now
+  };
+
+  useEffect(() => {
+    // Access canvas element using ref
+    const canvas = canvasRef.current;
+
+    if (canvas) {
+      canvas.addEventListener('click', handleClick);
+      return () => canvas.removeEventListener('click', handleClick);
+    }
+  }, [canvasRef.current, handleClick]);
 
   const loadModel = async () => {
     if (!model) return;
@@ -197,7 +271,19 @@ const ObjModel = memo(({ setModelLoaded, model, setModelOrientation }: ObjModelP
     fetchData();
   }, [model, loadModel]); // Only re-run when model or loadModel changes
 
-  return null;
+  useEffect(() => {
+    if (canvas) {
+      canvas.addEventListener('click', handleClick);
+      return () => canvas.removeEventListener('click', handleClick);
+    }
+  }, [canvas, handleClick]);
+
+  return (
+    <>
+      {/* Render your ObjModel mesh */}
+      {selectedVertex && <VertexPoint position={selectedVertex} />}
+    </>
+  );
 });
 
 function App() {
@@ -210,25 +296,25 @@ function App() {
     useDisableMiddleMouseScroll(containerRef);
 
     return (
-            <div ref={containerRef} className="object-container">
-                <Canvas
-                    camera={{ position: [-1, 1, 2], near: 0.1, far: 1000, type: "OrthographicCamera" }}
-                    onCreated={({ gl }) => {
-                        gl.setClearColor(new Three.Color(0xf0f0f0));
-                    }}
-                >
-                    <directionalLight position={[5, 3, 5]} intensity={0.5} />
-                    <ambientLight intensity={0.6} />
-                    <spotLight position={[10, 15, 10]} angle={0.3} />
-                    <Suspense fallback={null}>
-                        <ObjModel setModelLoaded={setModelLoaded} model={initialModel} setModelOrientation={setModelOrientation} />
-                    </Suspense>
-                    <OrbitControls enableDamping dampingFactor={0.05} />
-                    <ViewportTriad modelOrientation={modelOrientation} />
-                </Canvas>
-                {!modelLoaded && <div className="loading">Loading... {Math.round(progress)}%</div>}
-                <div className="instructions">Use mouse or touch to orbit, zoom, and pan</div>
-            </div>
+        <div ref={containerRef} className="object-container">
+            <Canvas
+                camera={{ position: [-1, 1, 2], near: 0.1, far: 1000, type: "OrthographicCamera" }}
+                onCreated={({ gl }) => {
+                    gl.setClearColor(new Three.Color(0xf0f0f0));
+                }}
+            >
+                <directionalLight position={[5, 3, 5]} intensity={0.5} />
+                <ambientLight intensity={0.6} />
+                <spotLight position={[10, 15, 10]} angle={0.3} />
+                <Suspense fallback={null}>
+                    <ObjModel setModelLoaded={setModelLoaded} model={initialModel} setModelOrientation={setModelOrientation} />
+                </Suspense>
+                <OrbitControls enableDamping dampingFactor={0.05} />
+                <ViewportTriad modelOrientation={modelOrientation} />
+            </Canvas>
+            {!modelLoaded && <div className="loading">Loading... {Math.round(progress)}%</div>}
+            <div className="instructions">Use mouse or touch to orbit, zoom, and pan</div>
+        </div>
     );
 }
 

@@ -7,30 +7,15 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-  --light-color: #f8f8f8;
-  --dark-color: #333;
-  --accent-color: #E7D192;
-  --dark-accent: #8F0D0D;
-  --light-shadow: 0 0.4rem 0.8rem 0 rgba(0, 0, 0, 0.2), 0 0.6rem 2rem 0 rgba(0, 0, 0, 0.19);
-  --dark-shadow: 0 0.4rem 0.8rem 0 rgba(255, 255, 255, 0.2), 0 0.6rem 2rem 0 rgba(255, 255, 255, 0.19);
-  --accent-opaque: rgba(231, 209, 146, 0.5);
-  --dark-accent-opaque: rgba(143, 13, 13, 0.5);
-  --white-color: rgba(255, 255, 255, 1);
-  --light-text-shadow: 0 0.025rem 0.025rem rgba(255, 255, 255, 1), 0 0.05rem 0.1rem rgba(255, 255, 255, 1);
-  --dark-text-shadow: 0 0.025rem 0.025rem rgba(0, 0, 0, 1), 0 0.05rem 0.1rem rgba(0, 0, 0, 1);
-  --sublight-color: #f8f8f8;
-  --subdark-color: #2E4053;
-  --subaccent-color: #5D6D7E;
-  --subprimary-color: #34495E;
-  --subshadow-color: rgba(0, 0, 0, 0.75);
-  --subhighlight-color: rgba(255, 255, 255, 0.15);
-  --subborder-color: #283747;
+
 }
 
 body {
   margin: auto;
   max-width: 90vw;
   padding: 1em;
+  background-color: var(--light-color);
+  color: var(--dark-color);
 }
 
 code {
@@ -57,11 +42,35 @@ code {
 html {
   scroll-behavior: smooth;
   font-size: 62.5%;
+
+  --light-color: #f8f8f8;
+  --dark-color: #333;
+
+  --accent-color: #E7D192;
+  --dark-accent: #8F0D0D;
+
+  --light-shadow: 0 0.4rem 0.8rem 0 rgba(0, 0, 0, 0.2), 0 0.6rem 2rem 0 rgba(0, 0, 0, 0.19);
+  --dark-shadow: 0 0.4rem 0.8rem 0 rgba(255, 255, 255, 0.2), 0 0.6rem 2rem 0 rgba(255, 255, 255, 0.19);
+
+  --accent-opaque: rgba(231, 209, 146, 0.5);
+  --dark-accent-opaque: rgba(143, 13, 13, 0.5);
+
+  --white-color: rgba(255, 255, 255, 1);
+
+  --light-text-shadow: 0 0.025rem 0.025rem rgba(255, 255, 255, 1), 0 0.05rem 0.1rem rgba(255, 255, 255, 1);
+  --dark-text-shadow: 0 0.025rem 0.025rem rgba(0, 0, 0, 1), 0 0.05rem 0.1rem rgba(0, 0, 0, 1);
+
+  --sublight-color: #f8f8f8;
+  --subdark-color: #2E4053;
+  --subaccent-color: #5D6D7E;
+  --subprimary-color: #34495E;
+  --subshadow-color: rgba(0, 0, 0, 0.75);
+  --subhighlight-color: rgba(255, 255, 255, 0.15);
+  --subborder-color: #283747;
+
 }
 
 /* body { */
-/*   background-color: var(--light-color); */
-/*   color: var(--dark-color); */
 /*   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; */
 /* } */
 
@@ -82,7 +91,7 @@ button {
   padding: 10px 20px;
   border: none;
   background-color: var(--dark-color);
-  color: var(--light-fg);
+  color: var(--light-color);
   cursor: pointer;
 }
 

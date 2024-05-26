@@ -1,18 +1,23 @@
 // Utility function to toggle dark mode styles
 function toggleDarkModeStyles() {
   const root = document.documentElement;
+
+  // List of CSS variables and their toggles
   const styleProperties = [
-    '--light-color', '--dark-color',
-    '--accent-color', '--dark-accent',
-    '--light-text-shadow', '--dark-text-shadow',
-    '--accent-opaque', '--dark-accent-opaque'
+    ['--light-color', '--dark-color'],
+    ['--accent-color', '--dark-accent'],
+    // ['--light-shadow', '--dark-shadow'],
+    ['--accent-opaque', '--dark-accent-opaque'],
+    // ['--light-text-shadow', '--dark-text-shadow']
   ];
 
-  styleProperties.forEach(prop => {
-    const lightModeValue = getComputedStyle(root).getPropertyValue(prop);
-    const darkModeValue = getComputedStyle(root).getPropertyValue(prop.replace('light', 'dark').replace('dark', 'temp')); // Temporarily swap names
-    root.style.setProperty(prop.replace('dark', 'light').replace('temp', 'dark'), lightModeValue);
-    root.style.setProperty(prop, darkModeValue);
+  styleProperties.forEach(([lightProp, darkProp]) => {
+    const lightModeValue = getComputedStyle(root).getPropertyValue(lightProp);
+    const darkModeValue = getComputedStyle(root).getPropertyValue(darkProp);
+
+    // Toggle the light and dark values
+    root.style.setProperty(lightProp, darkModeValue);
+    root.style.setProperty(darkProp, lightModeValue);
   });
 }
 
