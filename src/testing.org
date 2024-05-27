@@ -1,0 +1,139 @@
+* Project Setup Checklist
+
+** Server-Side Rendering
+*** entry-server.jsx Setup
+- [ ] Confirm ReactDOMServer.renderToString wraps App with <React.StrictMode>:
+  sh
+  # Edit and check render function
+  nano src/entry-server.jsx
+  # Search for render function
+  grep -A 3 'renderToString' src/entry-server.jsx
+
+- [ ] Verify the render function returns { html } correctly:
+  sh
+  # Open server entry file and verify return
+  nano src/entry-server.jsx
+  # Check for correct return statement
+  grep 'return { html }' src/entry-server.jsx
+
+
+*** HTML Root Element
+- [ ] Ensure server sends HTML with SSR-rendered content:
+  sh
+  # Inspect response from server
+  curl -s http://localhost:3000 | grep -i "<html>"
+
+- [ ] Verify the HTML root element has the correct id attribute:
+  sh
+  # Check HTML template for root element
+  nano public/index.html
+  # Search for id="root"
+  grep 'id="root"' public/index.html
+
+
+*** Context and State Hydration
+- [ ] Pass initial state from server to client if using context/global state:
+  sh
+  # Check for initial state transfer in server code
+  nano src/entry-server.jsx
+  # Look for initial state code
+  grep -C 3 'initialState' src/entry-server.jsx
+
+
+** Client-Side Hydration
+*** entry-client.jsx Code
+- [ ] Confirm ReactDOM.hydrateRoot targets the element with id="root":
+  sh
+  # Open client entry file
+  nano src/entry-client.jsx
+  # Check for hydrateRoot targeting root element
+  grep 'hydrateRoot' src/entry-client.jsx
+
+- [ ] Ensure App is wrapped with <React.StrictMode> inside hydrateRoot:
+  sh
+  # Open and verify strict mode wrapping
+  nano src/entry-client.jsx
+  grep -A 3 'hydrateRoot' src/entry-client.jsx
+
+
+*** Matching IDs
+- [ ] Double-check root element id in server HTML and document.getElementById call matches 'root':
+  sh
+  # Verify root element in server HTML
+  grep 'id="root"' public/index.html
+  # Check client code for matching ID
+  grep 'getElementById("root")' src/entry-client.jsx
+
+
+*** Loading Order
+- [ ] Ensure server-generated HTML loads completely before hydrateRoot is called to avoid re-render issues:
+  sh
+  # Inspect HTML load and script order
+  nano public/index.html
+
+
+** Full HTML Setup
+*** HTML Document Structure
+- [ ] Include <!DOCTYPE html> at the beginning of the HTML document:
+  sh
+  # Verify doctype in HTML
+  head -n 1 public/index.html
+
+- [ ] Verify <head> contains meta tags, title, and stylesheet links:
+  sh
+  # Check head tags and links
+  nano public/index.html
+
+- [ ] Ensure <body> contains root element with server-rendered content:
+  sh
+  # Inspect body content
+  nano public/index.html
+
+- [ ] Add client-side script at the end of the body:
+  sh
+  # Ensure script tag at end of body
+  tail -n 5 public/index.html
+
+
+** Network Requests
+*** Static Assets
+- [ ] Verify CSS and JS static assets load correctly:
+  sh
+  # Check network requests in browser dev tools (or use curl)
+  curl -I http://localhost:3000/static/css/main.css
+  curl -I http://localhost:3000/static/js/main.js
+
+- [ ] Ensure paths to static assets are correct in HTML and server configurations:
+  sh
+  # Check asset paths in HTML
+  nano public/index.html
+
+
+** General Troubleshooting
+*** Server Logs
+- [ ] Monitor server logs for rendering errors during SSR:
+  sh
+  # Tail server logs
+  tail -f logs/server.log
+
+
+*** Browser Console
+- [ ] Review browser console for hydration warnings or errors:
+  sh
+  # Open browser console (F12 or Ctrl+Shift+I) and check for errors
+
+
+*** Network Requests
+- [ ] Confirm successful loading of static and dynamic network requests:
+  sh
+  # Use browser dev tools Network tab (F12 or Ctrl+Shift+I) or curl commands
+  curl -I http://localhost:3000
+
+
+** Additional Considerations
+*** Error Handling
+- [ ] Add checks in:
+  sh
+  # Edit and enhance error handling in server/client code
+  nano src/entry-server.jsx
+  nano src/entry-client.jsx

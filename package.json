@@ -1,14 +1,14 @@
 {
   "name": "my-webpage",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "dev": "node server",
+    "dev": "vite",
     "build": "npm run build:client && npm run build:server",
     "build:client": "vite build --ssrManifest --outDir dist/client",
     "build:server": "vite build --ssr src/entry-server.jsx --outDir dist/server",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives",
+    "lint": "eslint . --ext .jsx,.js,.ts,.tsx --report-unused-disable-directives",
     "preview": "cross-env NODE_ENV=production node server"
   },
   "dependencies": {
@@ -26,8 +26,8 @@
     "@react-three/drei": "^9.105.5",
     "@react-three/fiber": "^8.16.2",
     "@types/node": "^20.12.7",
-    "@types/react": "^18.3.1",
-    "@types/react-dom": "^18.3.0",
+    "@types/react": "^18.2.19",
+    "@types/react-dom": "^18.0.10",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react": "^4.2.1",
@@ -36,8 +36,53 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
     "path": "^0.12.7",
+    "prettier": "^3.2.5",
     "typescript": "^5.2.2",
     "vite": "^5.2.11",
-    "vite-plugin-html": "^3.2.2"
+    "vite-plugin-html": "^3.2.2",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-import": "^2.26.0"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "semi": false,
+    "trailingComma": "es5",
+    "bracketSpacing": true,
+    "arrowParens": "avoid",
+    "endOfLine": "auto"
+  },
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:react-hooks/recommended",
+      "plugin:jsx-a11y/recommended",
+      "plugin:import/errors",
+      "plugin:import/warnings",
+      "plugin:import/typescript",
+      "prettier"
+    ],
+    "plugins": ["react-hooks", "@typescript-eslint", "jsx-a11y", "import"],
+    "rules": {
+      "@typescript-eslint/no-unused-vars": ["error"],
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn",
+      "import/no-unresolved": "error",
+      "import/order": [
+        "error",
+        {
+          "groups": [
+            "builtin",
+            "external",
+            "internal",
+            "sibling",
+            "parent",
+            "index"
+          ],
+          "newlines-between": "always"
+        }
+      ]
+    }
   }
 }
