@@ -8,6 +8,7 @@ function toggleDarkModeStyles() {
     ['--accent-color', '--dark-accent'],
     // ['--light-shadow', '--dark-shadow'],
     ['--accent-opaque', '--dark-accent-opaque'],
+    ['--sublight-color', '--subdark-color']
     // ['--light-text-shadow', '--dark-text-shadow']
   ];
 
