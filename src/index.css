@@ -198,15 +198,16 @@ a:hover {
 }
 .about-list > li {
 	/* margin: 0.3125rem 0; */
-	font-size: 1.8rem;
+	font-size: 1.4rem;
 	position: relative;
 	padding: 0.5rem 0.2rem;
 	padding-left: 2rem;
 	line-height: 1.6;
 	border-bottom: 1px solid var(--accent-color);
-	font-weight: 700;
+	font-weight: 500;
 	color: var(--subdark-color);
 	margin-right: 2rem;
+	text-transform: uppercase;
 }
 .about-list,
 .technical-list {
@@ -229,8 +230,9 @@ a:hover {
 .technical-list > li {
 	margin: 0.3125rem 0;
 	font-size: 1.8rem;
-	font-weight: 700;
+	font-weight: 500;
 	padding-left: 3rem;
+	text-transform: uppercase;
 }
 .technical-list li ul li {
 	list-style-type: none;
