@@ -151,6 +151,8 @@ a:hover {
 	font-weight: 700;
 	font-size: 2.4rem;
 	text-transform: uppercase;
+	font-family: 'Computer Modern Sans', sans-serif;
+	font-stretch: semi-condensed;
 }
 .title {
 	border-bottom: 0.125rem solid var(--accent-color);
@@ -171,8 +173,9 @@ a:hover {
 	font-weight: 500;
 
 	/* text-transform: none; */
+	font-stretch: semi-condensed;
 	position: relative;
-	font-family: 'Arial', sans-serif;
+	font-family: 'Computer Modern Sans', sans-serif;
 	/* font-style: italic; */
 	text-transform: uppercase;
 }
@@ -297,6 +300,7 @@ a:hover {
 	font-size: 3.2rem;
 	padding-bottom: 1rem;
 	margin: 0;
+	font-family: 'Computer Modern Sans', sans-serif;
 }
 #nav-title a {
 	text-decoration: none;
