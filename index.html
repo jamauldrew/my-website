@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Jamaul Drew - Mechanical Engineer</title>
-    <meta name="theme-color" content="#000000" />
+    <!-- <meta name="theme-color" content="#000000" /> -->
     <link rel="stylesheet" href="/src/index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,34 +21,75 @@
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
-</head>
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    </head>
 
-<body>
-    <header class="header">
-        <h1 id="nav-title">
-            <a>JAMAUL DREW</a>
-        </h1>
-        <nav>
-            <ul>
-                <li><a class="bold-selection" href="#about">About</a></li>
-                <li class="navbar-separator">|</li>
-                <li><a class="bold-selection" href="#services-section">Services</a></li>
-                <li class="fold-down-menu">
-                    <span class="navbar-separator">|</span>
-                    <a class="bold-selection" href="#explore">Explore &#9662;</a>
-                    <div class="fold-down-content">
-                        <a class="bold-href" href="#mechanical-engineering">Fluid System Design</a>
-                        <a class="bold-href" href="#structural-steel">Structural Steel Design</a>
-                        <a class="bold-href" href="#p-and-id-section">Process Piping Design</a>
-                        <a class="bold-href" href="#qa-qc-section">Quality Assurance/Quality Control (QA/QC)</a>
-                        <a class="bold-href" href="#isometrics-section">Computer-Aided Design (CAD)</a>
-                    </div>
-                </li>
-                <li class="navbar-separator">|</li>
-                <li><a class="bold-selection" href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+    <body>
+
+    <div class="hamburger-menu">
+        <div class="hamburger-container">
+            <button class="hamburger-button" aria-label="menu" onclick="toggleMenu()">☰</button>
+            <nav id="nav-menu" class="nav-hidden">
+                <ul>
+                    <li><a class="bold-selection" href="#about">About</a></li>
+                    <li><a class="bold-selection" href="#services-section">Services</a></li>
+                    <li class="fold-down-menu">
+                        <a class="bold-selection" href="#" onclick="toggleFoldDown(event)">Explore</a>
+                        <div class="fold-down-content">
+                            <a class="bold-href" href="#mechanical-engineering">Fluid System Design</a>
+                            <a class="bold-href" href="#structural-steel">Structural Steel Design</a>
+                            <a class="bold-href" href="#p-and-id-section">Process Piping Design</a>
+                            <a class="bold-href" href="#qa-qc-section">Quality Assurance/Quality Control (QA/QC)</a>
+                            <a class="bold-href" href="#isometrics-section">Computer-Aided Design (CAD)</a>
+                        </div>
+                    </li>
+                    <li><a class="bold-selection" href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+        <h1 id="nav-title"><a href="#">Jamaul Drew</a></h1>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('nav-menu');
+            const isShown = menu.classList.contains('nav-shown');
+            menu.classList.toggle('nav-shown', !isShown);
+            menu.classList.toggle('nav-hidden', isShown);
+        }
+
+        function toggleFoldDown(event) {
+            event.preventDefault();
+            const foldDownContent = event.target.nextElementSibling;
+            foldDownContent.classList.toggle('shown');
+        }
+    </script>
+
+<!-- <header class="header">
+            <h1 id="nav-title">
+                <a>JAMAUL DREW</a>
+            </h1>
+            <nav>
+                <ul>
+                    <li><a class="bold-selection" href="#about">About</a></li>
+                    <li class="navbar-separator">|</li>
+                    <li><a class="bold-selection" href="#services-section">Services</a></li>
+                    <li class="fold-down-menu">
+                        <span class="navbar-separator">|</span>
+                        <a class="bold-selection" href="#explore">Explore &#9662;</a>
+                        <div class="fold-down-content">
+                            <a class="bold-href" href="#mechanical-engineering">Fluid System Design</a>
+                            <a class="bold-href" href="#structural-steel">Structural Steel Design</a>
+                            <a class="bold-href" href="#p-and-id-section">Process Piping Design</a>
+                            <a class="bold-href" href="#qa-qc-section">Quality Assurance/Quality Control (QA/QC)</a>
+                            <a class="bold-href" href="#isometrics-section">Computer-Aided Design (CAD)</a>
+                        </div>
+                    </li>
+                    <li class="navbar-separator">|</li>
+                    <li><a class="bold-selection" href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </header> -->
 
     <div class="profile-banner">
         <div class="profile-image">
@@ -56,9 +97,9 @@
         </div>
         <div class="profile-text">
             <h2>
-                <span class="profile-banner-item">Jamaul Drew</span>
-                <span class="profile-banner-item">Design Engineer</span>
-                <span class="profile-banner-item">AutoCAD Certified Professional</span>
+                <!-- <span class="profile-banner-item">Jamaul Drew</span> -->
+                <span class="profile-banner-item">Mechanical Engineer </span>
+                <span class="profile-banner-item">Autodesk Certified Professional</span>
             </h2>
             <h3>Professional Summary</h3>
         </div>
