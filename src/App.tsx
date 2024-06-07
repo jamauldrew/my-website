@@ -14,16 +14,17 @@ import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js'
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js'
 import { OrbitControls } from '@react-three/drei'
 import './index.css'
+import ExampleComponent from './react_component.jsx'
 
 // // Additional component for handling vertex points
-const VertexPoint = ({ position }: { position: Three.Vector3 }) => {
-  return (
-    <mesh position={position}>
-      <sphereBufferGeometry args={[0.02, 16, 16]} />
-      <meshBasicMaterial color="blue" />
-    </mesh>
-  )
-}
+/* const VertexPoint = ({ position }: { position: Three.Vector3 }) => {
+ *   return (
+ *     <mesh position={position}>
+ *       <sphereBufferGeometry args={[0.02, 16, 16]} />
+ *       <meshBasicMaterial color="blue" />
+ *     </mesh>
+ *   )
+ * } */
 
 function useDebouncedEffect(
   effect: EffectCallback,
@@ -264,37 +265,40 @@ function App() {
   useDisableMiddleMouseScroll(containerRef)
 
   return (
-    <div ref={containerRef} className="object-container">
-      <Canvas
-        camera={{
-          position: [-1, 1, 2],
-          near: 0.1,
-          far: 1000,
-          type: 'OrthographicCamera',
-        }}
-        onCreated={({ gl }) => {
-          gl.setClearColor(new Three.Color(0xf0f0f0))
-        }}
-      >
-        <directionalLight position={[5, 3, 5]} intensity={0.5} />
-        <ambientLight intensity={0.6} />
-        <spotLight position={[10, 15, 10]} angle={0.3} />
-        <Suspense fallback={null}>
-          <ObjModel
-            setModelLoaded={setModelLoaded}
-            model={initialModel}
-            setModelOrientation={setModelOrientation}
-          />
-        </Suspense>
-        <OrbitControls enableDamping dampingFactor={0.05} />
-        <ViewportTriad modelOrientation={modelOrientation} />
-      </Canvas>
-      {!modelLoaded && (
-        <div className="loading">Loading... {Math.round(progress)}%</div>
-      )}
-      <div className="instructions">
-        Use mouse or touch to orbit, zoom, and pan
+    <div className="App">
+      <div ref={containerRef} className="object-container">
+        <Canvas
+          camera={{
+            position: [-1, 1, 2],
+            near: 0.1,
+            far: 1000,
+            type: 'OrthographicCamera',
+          }}
+          onCreated={({ gl }) => {
+            gl.setClearColor(new Three.Color(0xf0f0f0))
+          }}
+        >
+          <directionalLight position={[5, 3, 5]} intensity={0.5} />
+          <ambientLight intensity={0.6} />
+          <spotLight position={[10, 15, 10]} angle={0.3} />
+          <Suspense fallback={null}>
+            <ObjModel
+              setModelLoaded={setModelLoaded}
+              model={initialModel}
+              setModelOrientation={setModelOrientation}
+            />
+          </Suspense>
+          <OrbitControls enableDamping dampingFactor={0.05} />
+          <ViewportTriad modelOrientation={modelOrientation} />
+        </Canvas>
+        {!modelLoaded && (
+          <div className="loading">Loading... {Math.round(progress)}%</div>
+        )}
+        <div className="instructions">
+          Use mouse or touch to orbit, zoom, and pan
+        </div>
       </div>
+      <ExampleComponent />
     </div>
   )
 }

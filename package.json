@@ -1,5 +1,6 @@
 {
-  "name": "my-webpage",
+  "name": "my-website",
+  "homepage": "https://github.com/jamauldrew/my-website",
   "private": true,
   "version": "0.0.1",
   "type": "module",
@@ -33,15 +34,16 @@
     "@vitejs/plugin-react": "^4.2.1",
     "cross-env": "^7.0.3",
     "eslint": "^8.57.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
+    "gh-pages": "^6.1.1",
     "path": "^0.12.7",
     "prettier": "^3.2.5",
     "typescript": "^5.2.2",
     "vite": "^5.2.11",
-    "vite-plugin-html": "^3.2.2",
-    "eslint-plugin-jsx-a11y": "^6.7.1",
-    "eslint-plugin-import": "^2.26.0"
+    "vite-plugin-html": "^3.2.2"
   },
   "prettier": {
     "singleQuote": true,

@@ -1,6 +1,6 @@
 // vite.config.ts
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   base: '/',
@@ -11,15 +11,18 @@ export default defineConfig({
       input: 'index.html',
       output: {
         manualChunks(id) {
-           if (id.includes('node_modules')) {
-            return 'vendor';
+          if (id.includes('node_modules')) {
+            return 'vendor'
           }
         },
       },
     },
     chunkSizeWarningLimit: 1000,
+  },
+  plugins: [react()],
+  server: {
+    proxy: {
+      '/api': 'http://localhost:5001',
     },
-  plugins: [
-    react(),
-  ],
-});
+  },
+})
