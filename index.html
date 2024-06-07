@@ -21,7 +21,7 @@
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     </head>
 
     <body>
@@ -57,39 +57,12 @@
             menu.classList.toggle('nav-shown', !isShown);
             menu.classList.toggle('nav-hidden', isShown);
         }
-
         function toggleFoldDown(event) {
             event.preventDefault();
             const foldDownContent = event.target.nextElementSibling;
             foldDownContent.classList.toggle('shown');
         }
     </script>
-
-<!-- <header class="header">
-            <h1 id="nav-title">
-                <a>JAMAUL DREW</a>
-            </h1>
-            <nav>
-                <ul>
-                    <li><a class="bold-selection" href="#about">About</a></li>
-                    <li class="navbar-separator">|</li>
-                    <li><a class="bold-selection" href="#services-section">Services</a></li>
-                    <li class="fold-down-menu">
-                        <span class="navbar-separator">|</span>
-                        <a class="bold-selection" href="#explore">Explore &#9662;</a>
-                        <div class="fold-down-content">
-                            <a class="bold-href" href="#mechanical-engineering">Fluid System Design</a>
-                            <a class="bold-href" href="#structural-steel">Structural Steel Design</a>
-                            <a class="bold-href" href="#p-and-id-section">Process Piping Design</a>
-                            <a class="bold-href" href="#qa-qc-section">Quality Assurance/Quality Control (QA/QC)</a>
-                            <a class="bold-href" href="#isometrics-section">Computer-Aided Design (CAD)</a>
-                        </div>
-                    </li>
-                    <li class="navbar-separator">|</li>
-                    <li><a class="bold-selection" href="#contact">Contact</a></li>
-                </ul>
-            </nav>
-        </header> -->
 
     <div class="profile-banner">
         <div class="profile-image">
@@ -136,34 +109,52 @@
                 precision and potential of CAD and coding, pushing me to constantly improve functionality and precision.
                 I aim for excellence, prioritizing quality and safety in each project. My mix of technical skills and
                 programming drives me to innovate in fluid system engineering.</p>
-            <p class="subtitle" style="border-bottom: 0.125rem solid var(--accent-color); margin-right: 8.5rem;">Technical Proficiencies:</p>
-            <ul class="technical-list">
-                <li>Fluid System Engineering:
-                    <ul>
-                        <li>Design and Optimization</li>
-                        <li>Simulation and Refinement</li>
-                    </ul>
-                </li>
-                <li>Computer-Aided Design (CAD):
-                    <ul>
-                        <li>Advanced Modeling Techniques</li>
-                        <li>Integration of CAD with Fluid Dynamics</li>
-                    </ul>
-                </li>
-                <li>Programming for Engineering:
-                    <ul>
-                        <li>Enhancing System Functionality</li>
-                        <li>Driving Innovation through Code</li>
-                    </ul>
-                </li>
-                <li>Achieving Quality and Safety:
-                    <ul>
-                        <li>Standards of Excellence</li>
-                        <li>Safety-First Engineering</li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+        <h3 class="subtitle">Technical Proficiencies:</h3>
+        <ul class="technical-list">
+            <li>
+                <i class="fas fa-cogs"></i> Fluid System Engineering:
+                <ul>
+                    <li><i class="fas fa-check"></i> Design and Optimization</li>
+                    <li><i class="fas fa-check"></i> Simulation and Refinement</li>
+                    <li><i class="fas fa-check"></i> Experience with Gate Stations (Metering & Regulating)</li>
+                    <li><i class="fas fa-check"></i> Design of District Regulator Stations</li>
+                    <li><i class="fas fa-check"></i> Development of Large Volume Meter Sets</li>
+                    <li><i class="fas fa-check"></i> Engineering of Liquefied Natural Gas (LNG) Peak-Shaving Plants</li>
+                </ul>
+            </li>
+            <li>
+                <i class="fas fa-drafting-compass"></i> Computer-Aided Design (CAD):
+                <ul>
+                    <li><i class="fas fa-check"></i> Advanced Modeling Techniques</li>
+                    <li><i class="fas fa-check"></i> Integration of CAD with Fluid Dynamics</li>
+                    <li><i class="fas fa-check"></i> Isometric Drawings for Fabrication</li>
+                    <li><i class="fas fa-check"></i> 3D Piping Models with Pipe Specifications</li>
+                    <li><i class="fas fa-check"></i> Creation of Piping Plans and Section Views with Bill of Materials</li>
+                    <li><i class="fas fa-check"></i> Process Flow Diagrams (PFD)</li>
+                    <li><i class="fas fa-check"></i> Piping & Instrumentation Diagrams (P&ID)</li>
+                </ul>
+            </li>
+            <li>
+                <i class="fas fa-code"></i> Programming for Engineering:
+                <ul>
+                    <li><i class="fas fa-check"></i> Enhancing System Functionality</li>
+                    <li><i class="fas fa-check"></i> Driving Innovation through Code</li>
+                    <li><i class="fas fa-check"></i> Python and C++ for Engineering Applications</li>
+                    <li><i class="fas fa-check"></i> Development of Custom Scripts for CAD and CFD Integration</li>
+                    <li><i class="fas fa-check"></i> Automation of Repetitive Design Tasks</li>
+                </ul>
+            </li>
+            <li>
+                <i class="fas fa-shield-alt"></i> Achieving Quality and Safety:
+                <ul>
+                    <li><i class="fas fa-check"></i> Adherence to Standards of Excellence</li>
+                    <li><i class="fas fa-check"></i> Safety-First Engineering Practices</li>
+                    <li><i class="fas fa-check"></i> Compliance with US DOT 49 CFR Part 192 and 193</li>
+                    <li><i class="fas fa-check"></i> Expertise in NFPA 59A Standards</li>
+                    <li><i class="fas fa-check"></i> Knowledge of Massachusetts Gas Distribution Code (220 CMR 100.00)</li>
+                </ul>
+            </li>
+        </ul>
     </section>
 
     <section id="p-and-id" class="hidden">
