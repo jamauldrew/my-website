@@ -35,9 +35,9 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-      - name: npm install
+      - name: npm install dependencies
         run: npm install
-      - name: Build
+      - name: Build project
         run: npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload dist folder
-          path: './dist/client'
+          path: './dist'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
