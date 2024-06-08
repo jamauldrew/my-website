@@ -255,25 +255,28 @@ a:hover {
 	text-transform: uppercase;
 }
 
-.about-list,
-.technical-list {
+.about-list > li {
+	/* font-size: 1.8rem; */
+	position: relative;
+	padding: 0.5rem 0.2rem;
+	padding-left: 2rem;
+	line-height: 1.1;
+	border-bottom: 1px solid var(--accent-color);
+	/* font-weight: 500; */
+	color: var(--subdark-color);
+	margin-right: 6rem;
+}
+
+.about-list {
 	list-style-type: none;
-	padding: 0;
+	padding: 0.2rem 1.2rem;
+	padding-right: calc(2vw + 10rem);
 	margin: 0;
 	margin-left: 2.5rem;
 	margin-right: 2.5rem;
-}
-
-.about-list > li,
-.technical-list > li {
-	font-size: 1.8rem;
-	font-weight: 500;
 	color: var(--subdark-color);
-	margin-bottom: 1rem;
-	position: relative;
-	padding-left: 2rem;
+	font-weight: 700;
 }
-
 .about-list > li::before {
 	content: '►';
 	color: var(--accent-color);
@@ -309,7 +312,42 @@ a:hover {
 	bottom: -0.9em;
 	right: 0.2em;
 }
+.about-list > li {
+	font-size: 1.8rem;
+	font-weight: 500;
+	color: var(--subdark-color);
+	margin-bottom: 1rem;
+	position: relative;
+	padding-left: 2rem;
+}
 
+/* Styles for technical list */
+.technical-list {
+	padding-right: calc(2vw + 10rem);
+}
+
+.technical-list ul ul li {
+	position: relative;
+	list-style-type: none;
+	padding-left: 30px;
+}
+.technical-list ul ul li .fas.fa-check {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+.technical-list > li {
+	font-size: 1.8rem;
+	font-weight: 500;
+	margin-bottom: 1rem;
+	position: relative;
+	padding-left: 2rem;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	border-bottom: 0.125rem solid var(--accent-color);
+}
 .technical-list > li > i {
 	font-size: 1.5rem;
 	margin-right: 1rem;
@@ -320,6 +358,7 @@ a:hover {
 	padding: 0;
 	margin: 0;
 	margin-left: 3rem;
+	flex-grow: 1;
 }
 .technical-list ul > li {
 	font-size: 1.6rem;
@@ -328,24 +367,79 @@ a:hover {
 	align-items: center;
 	margin-bottom: 0.5rem;
 	position: relative;
-	padding-left: 1rem;
+	padding-left: 2rem;
 }
 .technical-list ul > li::before {
 	content: '';
-	color: var(--accent-color);
 	font-weight: 700;
 	font-size: 1.8rem;
 	position: absolute;
 	left: 0;
 	top: 50%;
 	transform: translateY(-50%);
+	margin-right: 1rem;
 }
 .technical-list ul > li > i {
 	font-size: 1.2rem;
-	margin-right: 0.5rem;
+	margin-right: 1rem;
+	margin-left: -2rem;
+	/* margin-right: 0.5rem; */
 	color: var(--accent-color);
 }
 
+/* .curly-brace { */
+/* 	font-size: 12rem; */
+/* 	color: var(--accent-color); */
+/* 	margin-left: 0.5rem; */
+/* 	/\* position: absolute; *\/ */
+/* 	/\* left: calc(1.5rem + 1rem); *\/ */
+/* 	top: 0; */
+/* 	line-height: 0; */
+/* } */
+
+/* Styles for progress bars */
+/* .progress-bar { */
+/* 	height: 1rem; */
+/* 	background-color: var(--light-color); */
+/* 	border-radius: 0.5rem; */
+/* 	overflow: hidden; */
+/* 	flex-grow: 1; */
+/* 	margin-left: 1rem; */
+/* } */
+/* .progress-bar > div { */
+/* 	height: 100%; */
+/* 	background-color: var(--accent-color); */
+/* 	border-radius: inherit; */
+/* 	width: 70%; /\* Adjust width according to proficiency *\/ */
+/* } */
+
+/* Styles for tooltips */
+.tooltips {
+	position: relative;
+	display: inline-block;
+}
+.tooltips .tooltiptext {
+	visibility: hidden;
+	width: 200px;
+	background-color: var(--dark-color);
+	color: var(--white-color);
+	text-align: center;
+	border-radius: 5px;
+	padding: 5px 0;
+	position: absolute;
+	z-index: 1;
+	bottom: 100%;
+	left: 50%;
+	margin-left: -100px;
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+.tooltips:hover .tooltiptext {
+	visibility: visible;
+	opacity: 1;
+}
+
+/* Subtitle styles */
 h3.subtitle {
 	border-bottom: 0.125rem solid var(--accent-color);
 	margin-right: 8.5rem;
