@@ -85,6 +85,7 @@ code {
 	padding: 0;
 	list-style: none;
 }
+
 .hamburger-menu {
 	position: relative;
 	background-color: transparent;
@@ -94,10 +95,12 @@ code {
 	padding: 10px;
 	flex-direction: row-reverse;
 }
+
 .hamburger-container {
 	display: flex;
 	align-items: center;
 }
+
 .hamburger-button {
 	font-size: 2.8rem;
 	background: none;
@@ -105,6 +108,7 @@ code {
 	cursor: pointer;
 	color: var(--dark-color);
 }
+
 #nav-title {
 	margin: 0;
 	font-size: 2.8rem;
@@ -113,61 +117,118 @@ code {
 	letter-spacing: 0.05rem;
 	text-transform: uppercase;
 }
+
 #nav-title a {
 	text-decoration: none;
 	color: var(--dark-color);
 }
+
 #nav-menu {
-	display: none;
-	flex-direction: row;
-	align-items: center;
-}
-#nav-menu.nav-shown {
+	position: fixed;
+	top: 0;
+	right: -300px; /* Adjust width as needed */
+	width: 300px;
+	height: 100%;
+	background: var(--light-color);
+	box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
 	display: flex;
-	order: -1;
+	flex-direction: column;
+	align-items: center;
+	transition: right 0.3s ease;
+	overflow-y: auto;
 }
+
+#nav-menu.nav-shown {
+	right: 0;
+}
+
 .hamburger-menu ul {
 	display: flex;
+	flex-direction: column;
+	width: 100%;
+	padding: 20px;
 }
+
 .bold-selection {
-	margin: 0 10px;
+	margin: 10px 0;
 	text-decoration: none;
 	color: var(--dark-color);
 	white-space: nowrap;
 	font-size: 1.8rem;
 	text-transform: uppercase;
+	cursor: pointer;
+	display: block;
+	width: 100%;
+	padding: 10px;
+	border-radius: 0.25rem;
+	transition:
+		background-color 0.3s ease,
+		color 0.3s ease;
 }
+
 .fold-down-menu {
 	position: relative;
+	width: 100%;
 }
+
 .fold-down-content {
 	display: none;
 	flex-direction: column;
-	position: absolute;
-	left: 0;
-	top: 100%;
-	background: transparent;
+	background: var(--light-color);
 	color: var(--dark-color);
 	font-size: 1.4rem;
 	text-transform: uppercase;
+	position: relative;
+	margin-top: 10px;
+	padding-left: 20px;
 }
+
 .fold-down-content.shown {
 	display: flex;
 }
-.fold-down-menu > a::after {
-	content: ' \25BC';
+
+.fold-down-menu > a {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
+
+.fold-down-menu > a .toggle {
+	margin-left: 10px;
+}
+
 a.bold-selection:hover,
 a.bold-href:hover,
 h1#nav-title a:hover {
 	background-color: var(--accent-opaque);
-	border-radius: 0.25rem;
-	transition: background-color 0.3s ease;
+	color: var(--accent-color);
 	text-decoration: none;
 }
+
 a.bold-href {
 	white-space: nowrap;
-	padding: 0.25rem;
+	padding: 0.25rem 10px;
+	display: block;
+	width: 100%;
+}
+
+.close-button {
+	align-self: flex-end;
+	font-size: 2rem;
+	background: none;
+	border: none;
+	cursor: pointer;
+	color: var(--dark-color);
+	padding: 10px;
+	margin: 10px;
+}
+
+#main-content {
+	transition: transform 0.3s ease;
+}
+
+#main-content.shifted {
+	transform: translateX(-300px);
 }
 
 .gold-banner {
@@ -255,82 +316,96 @@ a:hover {
 	text-transform: uppercase;
 }
 
-.about-list > li {
-	/* font-size: 1.8rem; */
+/* General styles for the card */
+.card {
+	padding: 1rem; /* Reduced padding for mobile */
+	border-radius: 1.5rem;
+	box-shadow: var(--light-shadow);
 	position: relative;
-	padding: 0.5rem 0.2rem;
-	padding-left: 2rem;
-	line-height: 1.1;
-	border-bottom: 1px solid var(--accent-color);
-	/* font-weight: 500; */
-	color: var(--subdark-color);
-	margin-right: 2rem;
+	margin-bottom: 1.5rem;
+	margin: 1rem; /* Reduced margin for mobile */
 }
 
+#about.card {
+	padding: 1rem; /* Reduced padding for mobile */
+	border-radius: 1.5rem;
+	box-shadow: var(--light-shadow);
+	position: relative;
+}
+
+/* Styles for the about list */
 .about-list {
 	list-style-type: none;
-	padding: 0.2rem 1rem;
+	padding: 0.2rem 1rem; /* Adjusted padding for mobile */
 	padding-right: calc(2vw + 10rem);
 	margin: 0;
-	margin-left: 1rem;
-	margin-right: 1rem;
 	color: var(--subdark-color);
 	font-weight: 700;
 }
+
+.about-list > li {
+	font-size: 1.6rem; /* Slightly reduced font size for mobile */
+	position: relative;
+	padding: 0.5rem 0.2rem;
+	padding-left: 2rem; /* Increased left padding */
+	line-height: 1.1;
+	border-bottom: 1px solid var(--accent-color);
+	color: var(--subdark-color);
+	margin-right: 1rem; /* Reduced right margin */
+}
+
 .about-list > li::before {
 	content: '►';
 	color: var(--accent-color);
 	font-weight: 700;
 	font-size: 1.8rem;
 	position: absolute;
-	left: 0;
+	left: -1rem; /* Adjusted left position */
 	top: 50%;
 	transform: translateY(-50%);
 }
+
 .about-text {
-	margin: 1rem;
-	font-size: 1.8rem;
-	padding: 1.5rem;
+	margin: 1rem 1.5rem; /* Adjusted margins for mobile */
+	font-size: 1.6rem; /* Slightly reduced font size */
+	padding: 1rem; /* Adjusted padding for mobile */
 	font-weight: 400;
 	position: relative;
 	font-family: 'EB Garamond', serif;
 }
+
 .about-text::before,
 .about-text::after {
 	content: '“';
 	font-family: 'Great Vibes', cursive;
-	font-size: 5em;
+	font-size: 3em; /* Reduced font size */
 	position: absolute;
 	color: var(--subdark-color);
 }
+
 .about-text::before {
 	top: -0.2em;
 	left: -0.2em;
 }
+
 .about-text::after {
 	content: '”';
 	bottom: -0.9em;
 	right: 0.2em;
 }
-.about-list > li {
-	font-size: 1.8rem;
-	font-weight: 500;
-	color: var(--subdark-color);
-	margin-bottom: 1rem;
-	position: relative;
-	padding-left: 2rem;
-}
 
 /* Styles for technical list */
 .technical-list {
-	padding-right: calc(2vw + 10rem);
+	padding: 0; /* Reset padding */
+	margin: 0; /* Reset margin */
 }
 
 .technical-list ul ul li {
 	position: relative;
 	list-style-type: none;
-	padding-left: 30px;
+	padding-left: 25px; /* Adjusted left padding */
 }
+
 .technical-list ul ul li .fas.fa-check {
 	position: absolute;
 	left: 0;
@@ -338,37 +413,41 @@ a:hover {
 }
 
 .technical-list > li {
-	font-size: 1.8rem;
+	font-size: 1.6rem; /* Slightly reduced font size */
 	font-weight: 500;
 	margin-bottom: 1rem;
 	position: relative;
-	padding-left: 2rem;
+	padding-left: 1.5rem; /* Increased left padding */
 	width: 100%;
 	display: flex;
 	align-items: center;
 	border-bottom: 0.125rem solid var(--accent-color);
 }
+
 .technical-list > li > i {
-	font-size: 1.5rem;
-	margin-right: 1rem;
+	font-size: 1.2rem; /* Reduced icon size */
+	margin-right: 0.5rem; /* Adjusted right margin */
 	color: var(--accent-color);
 }
+
 .technical-list ul {
 	list-style-type: none;
 	padding: 0;
 	margin: 0;
-	margin-left: 3rem;
+	margin-left: 2rem; /* Adjusted left margin */
 	flex-grow: 1;
 }
+
 .technical-list ul > li {
-	font-size: 1.6rem;
+	font-size: 1.4rem; /* Slightly reduced font size */
 	font-weight: 400;
 	display: flex;
 	align-items: center;
 	margin-bottom: 0.5rem;
 	position: relative;
-	padding-left: 2rem;
+	padding-left: 2rem; /* Increased left padding */
 }
+
 .technical-list ul > li::before {
 	content: '';
 	font-weight: 700;
@@ -379,12 +458,45 @@ a:hover {
 	transform: translateY(-50%);
 	margin-right: 1rem;
 }
+
 .technical-list ul > li > i {
-	font-size: 1.2rem;
-	margin-right: 1rem;
-	margin-left: -2rem;
-	/* margin-right: 0.5rem; */
+	font-size: 1rem; /* Reduced icon size */
+	margin-right: 0.5rem; /* Adjusted right margin */
+	margin-left: -1.5rem; /* Adjusted left margin */
 	color: var(--accent-color);
+}
+
+/* Media queries for further adjustments on smaller screens */
+@media (max-width: 768px) {
+	.card {
+		padding: 0.5rem; /* Further reduced padding for small screens */
+		margin: 0.5rem; /* Further reduced margin for small screens */
+	}
+
+	.about-list > li {
+		font-size: 1.4rem; /* Further reduced font size for small screens */
+		padding-left: 1.5rem; /* Further increased left padding */
+	}
+
+	.about-list > li::before {
+		left: -1rem; /* Further adjusted left position */
+	}
+
+	.about-text {
+		margin: 0.5rem 1rem; /* Further adjusted margins for small screens */
+		font-size: 1.4rem; /* Further reduced font size */
+		padding: 0.5rem; /* Further adjusted padding for small screens */
+	}
+
+	.technical-list > li {
+		font-size: 1.4rem; /* Further reduced font size */
+		padding-left: 1rem; /* Further increased left padding */
+	}
+
+	.technical-list ul > li {
+		font-size: 1.2rem; /* Further reduced font size */
+		padding-left: 1.5rem; /* Further increased left padding */
+	}
 }
 
 /* .curly-brace { */
@@ -485,20 +597,6 @@ h3.subtitle {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-}
-.card {
-	padding: 1rem;
-	border-radius: 1.5rem;
-	box-shadow: var(--light-shadow);
-	position: relative;
-	margin-bottom: 1.5rem;
-	margin: 2.5rem;
-}
-#about.card {
-	padding: 2.5rem;
-	border-radius: 1.5rem;
-	box-shadow: var(--light-shadow);
-	position: relative;
 }
 .badge-container {
 	position: absolute;

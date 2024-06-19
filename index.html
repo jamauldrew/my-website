@@ -20,21 +20,25 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
         rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    </head>
+</head>
 
-    <body>
+<body>
 
     <div class="hamburger-menu">
         <div class="hamburger-container">
             <button class="hamburger-button" aria-label="menu" onclick="toggleMenu()">☰</button>
             <nav id="nav-menu" class="nav-hidden">
+                <button class="close-button" onclick="toggleMenu()">✕</button>
                 <ul>
                     <li><a class="bold-selection" href="#about">About</a></li>
                     <li><a class="bold-selection" href="#services-section">Services</a></li>
                     <li class="fold-down-menu">
-                        <a class="bold-selection" href="#" onclick="toggleFoldDown(event)">Explore</a>
+                        <a class="bold-selection" href="#" onclick="toggleFoldDown(event)">Explore <span
+                                class="toggle">&#9662;</span></a>
                         <div class="fold-down-content">
                             <a class="bold-href" href="#mechanical-engineering">Fluid System Design</a>
                             <a class="bold-href" href="#structural-steel">Structural Steel Design</a>
@@ -53,351 +57,380 @@
     <script>
         function toggleMenu() {
             const menu = document.getElementById('nav-menu');
+            const mainContent = document.getElementById('main-content');
             const isShown = menu.classList.contains('nav-shown');
             menu.classList.toggle('nav-shown', !isShown);
             menu.classList.toggle('nav-hidden', isShown);
+            mainContent.classList.toggle('shifted', !isShown);
+
+            if (!isShown) {
+                document.addEventListener('click', closeMenuOnClickOutside);
+            } else {
+                document.removeEventListener('click', closeMenuOnClickOutside);
+            }
         }
+
         function toggleFoldDown(event) {
             event.preventDefault();
             const foldDownContent = event.target.nextElementSibling;
             foldDownContent.classList.toggle('shown');
         }
+
+        function closeMenuOnClickOutside(event) {
+            const menu = document.getElementById('nav-menu');
+            if (!menu.contains(event.target) && event.target !== document.querySelector('.hamburger-button')) {
+                toggleMenu();
+            }
+        }
     </script>
 
-    <div class="profile-banner">
-        <div class="profile-image">
-            <img class="profile-pic" src="./images/IMG_2075.jpg" alt="Profile Picture">
+    <div id="main-content">
+        <div class="profile-banner">
+            <div class="profile-image">
+                <img class="profile-pic" src="./images/IMG_2075.jpg" alt="Profile Picture">
+            </div>
+            <div class="profile-text">
+                <h2>
+                    <!-- <span class="profile-banner-item">Jamaul Drew</span> -->
+                    <span class="profile-banner-item">Mechanical Engineer </span>
+                    <span class="profile-banner-item">Autodesk Certified Professional</span>
+                </h2>
+                <h3>Professional Summary</h3>
+            </div>
         </div>
-        <div class="profile-text">
-            <h2>
-                <!-- <span class="profile-banner-item">Jamaul Drew</span> -->
-                <span class="profile-banner-item">Mechanical Engineer </span>
-                <span class="profile-banner-item">Autodesk Certified Professional</span>
-            </h2>
-            <h3>Professional Summary</h3>
-        </div>
+
+        <section>
+            <div id="about" class="card">
+                <span class="subtitle">About Me</span>
+                <div class="gold-banner"></div>
+                <div class="badge-container">
+                    <a href="https://www.credly.com/badges/21b672c8-6319-4264-bc56-27579d99ece8/public_url"
+                        target="_blank">
+                        <img src="./images/autodesk-certified-professional-in-autocad-for-design-and-drafting.png"
+                            alt="Autodesk Certification Badge">
+                    </a>
+                    <div class="credly-badge" data-share-badge-id="21b672c8-6319-4264-bc56-27579d99ece8"
+                        data-share-badge-host="https://www.credly.com">
+                        <script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+                        <noscript>
+                            <img id="fallback-image"
+                                src="https://www.credly.com/badges/da41bbf4-44bd-4709-bdf0-1419cb1added/public_url"
+                                alt="Badge" style="display:block;">
+                        </noscript>
+                    </div>
+                </div>
+                <ul class="about-list">
+                    <!-- <li>Mechanical Engineering Bachelor with Honors (Cum Laude)</li> -->
+                    <!-- <li>Certified AutoCAD Professional</li> -->
+                    <li>Fluid Dynamics Expert with 2 Years of Research & Project Experience</li>
+                    <li>Specialist in Design & Simulation (Autodesk, SolidWorks, ANSYS)</li>
+                    <li>Champion of Innovation</li>
+                    <li>Lifelong Learner</li>
+                </ul>
+                <p class="about-text">As a Mechanical Engineer holding a Bachelor's degree, my passion for fluid
+                    dynamics has honed my skills in designing, simulating, and perfecting fluid systems. My drive is
+                    fueled by the precision and potential of CAD and coding, pushing me to constantly improve
+                    functionality and precision. I aim for excellence, prioritizing quality and safety in each project.
+                    My mix of technical skills and programming drives me to innovate in fluid system engineering.</p>
+                <h3 class="subtitle">Technical Proficiencies:</h3>
+                <ul class="technical-list">
+                    <li>
+                        <i class="fas fa-cogs"></i> Fluid System Engineering:
+                        <!-- <span class="curly-brace">{</span> -->
+                        <ul>
+                            <li>
+                                <i class="fas fa-check"></i> Design and Optimization
+                                <div class="progress-bar">
+                                    <div style="width: 90%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i> Simulation and Refinement
+                                <div class="progress-bar">
+                                    <div style="width: 85%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i> Experience with Gate Stations (Metering & Regulating)
+                                <div class="progress-bar">
+                                    <div style="width: 80%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i> Design of District Regulator Stations
+                                <div class="progress-bar">
+                                    <div style="width: 75%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i> Development of Large Volume Meter Sets
+                                <div class="progress-bar">
+                                    <div style="width: 70%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i> Engineering of Liquefied Natural Gas (LNG) Peak-Shaving
+                                Plants
+                                <div class="progress-bar">
+                                    <div style="width: 65%;"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <i class="fas fa-drafting-compass"></i> Computer-Aided Design (CAD):
+                        <ul>
+                            <li>
+                                <i class="fas fa-check"></i> Advanced Modeling Techniques
+                                <div class="progress-bar">
+                                    <div style="width: 90%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i> Integration of CAD with Fluid Dynamics
+                                <div class="progress-bar">
+                                    <div style="width: 85%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i> Isometric Drawings for Fabrication
+                                <div class="progress-bar">
+                                    <div style="width: 80%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i> 3D Piping Models with Pipe Specifications
+                                <div class="progress-bar">
+                                    <div style="width: 75%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i> Creation of Piping Plans and Section Views with Bill of
+                                Materials
+                                <div class="progress-bar">
+                                    <div style="width: 70%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i> Process Flow Diagrams (PFD)
+                                <div class="progress-bar">
+                                    <div style="width: 65%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i> Piping & Instrumentation Diagrams (P&ID)
+                                <div class="progress-bar">
+                                    <div style="width: 60%;"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <i class="fas fa-code"></i> Programming for Engineering:
+                        <ul>
+                            <li>
+                                <i class="fas fa-check"></i> Enhancing System Functionality
+                                <div class="progress-bar">
+                                    <div style="width: 90%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i> Driving Innovation through Code
+                                <div class="progress-bar">
+                                    <div style="width: 85%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i> Python and C++ for Engineering Applications
+                                <div class="progress-bar">
+                                    <div style="width: 80%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i> Development of Custom Scripts for CAD and CFD Integration
+                                <div class="progress-bar">
+                                    <div style="width: 75%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i> Automation of Repetitive Design Tasks
+                                <div class="progress-bar">
+                                    <div style="width: 70%;"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <i class="fas fa-shield-alt"></i> Achieving Quality and Safety:
+                        <ul>
+                            <li>
+                                <i class="fas fa-check"></i> Adherence to Standards of Excellence
+                                <div class="progress-bar">
+                                    <div style="width: 90%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i> Safety-First Engineering Practices
+                                <div class="progress-bar">
+                                    <div style="width: 85%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i> Compliance with US DOT 49 CFR Part 192 and 193
+                                <div class="progress-bar">
+                                    <div style="width: 80%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i> Expertise in NFPA 59A Standards
+                                <div class="progress-bar">
+                                    <div style="width: 75%;"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-check"></i> Knowledge of Massachusetts Gas Distribution Code (220 CMR
+                                100.00)
+                                <div class="progress-bar">
+                                    <div style="width: 70%;"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="p-and-id" class="hidden">
+            <div class="card">
+                <span class="subtitle">Process Piping</span>
+                <div class="gold-banner"></div>
+                <p class="lightGrey"></p>
+
+                <div class="polaroid-wrapper">
+                    <div class="polaroid hidden">
+                        <p class="title">Propane-Air</p>
+                        <img src="./images/process-piping-1.png" alt="" />
+                    </div>
+
+                    <div class="polaroid hidden">
+                        <p class="title">Water Glycol</p>
+                        <img src="./images/piping-sections-isometrics.png" alt="" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="structural-steel" class="hidden">
+            <div class="card">
+                <span class="subtitle">Structural Steel</span>
+                <div class="gold-banner"></div>
+                <p class="lightGrey"></p>
+
+                <div class="polaroid-wrapper">
+                    <div class="polaroid hidden">
+                        <p class="title">Pipe Supports</p>
+                        <img src="./images/structural-steel-pipe-support.png" alt="" />
+                    </div>
+
+                    <div class="polaroid hidden">
+                        <p class="title">Pump Skids</p>
+                        <img src="./images/structural-steel-skid.png" alt="" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="p-and-id-section" class="hidden">
+            <div class="card">
+                <span class="subtitle">P&ID/PFD Schematics</span>
+                <div class="gold-banner"></div>
+                <p class="lightGrey"></p>
+
+                <div class="polaroid-wrapper">
+                    <div class="polaroid hidden">
+                        <p class="title">Piping & Instrumentation Diagrams</p>
+                        <img src="./images/pid-1.png" alt="" />
+                    </div>
+
+                    <div class="polaroid hidden">
+                        <p class="title">Process Flow Diagrams</p>
+                        <img src="./images/pid-2.png" alt="" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="qa-qc-section" class="hidden">
+            <div class="card">
+                <span class="subtitle">QA/QC</span>
+                <div class="gold-banner"></div>
+                <p class="lightGrey"></p>
+
+                <div class="polaroid-wrapper">
+                    <div class="polaroid hidden">
+                        <p class="title">Orthographic Piping Sections</p>
+                        <img src="./images/regulator-run-1.png" alt="" />
+                    </div>
+
+                    <div class="polaroid hidden">
+                        <p class="title">MTR Tracking</p>
+                        <img src="./images/material-test-reports.png" alt="" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="isometrics-section" class="hidden">
+            <div class="card">
+                <span class="subtitle">Isometrics</span>
+                <div class="gold-banner"></div>
+                <p class="lightGrey"></p>
+
+                <div class="polaroid-wrapper">
+                    <div class="polaroid hidden">
+                        <p class="title">Fabrication Shop Isometrics</p>
+                        <img src="./images/fab-iso-truck.png" alt="" />
+                    </div>
+                    <div class="polaroid hidden">
+                        <p class="title">Isometric Piping</p>
+                        <img src="./images/process-piping-2-2.png" alt="" />
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="object-section" id="object-container" id="root">
+        </section>
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <section class="hidden">
+            <div class="card">
+                <span class="subtitle" id="contact">Contact</span>
+                <div class="gold-banner"></div>
+                <div class="form-container">
+                    <form id="my-form" action="https://formspree.io/f/xyyabqnn" method="POST">
+                        <h3>GET IN TOUCH</h3>
+                        <input type="text" name="name" id="name" placeholder="Your Name" required>
+                        <input type="email" name="email" id="email" placeholder="Email" required>
+                        <input type="text" name="phone" id="phone" placeholder="Phone" required>
+                        <textarea name="message" id="message" rows="4" placeholder="How can I help you?"></textarea>
+                        <button id="my-form-button" type="submit">Send</button>
+                        <p-1 id="my-form-status"></p>
+                    </form>
+                </div>
+            </div>
+        </section>
     </div>
-
-    <section>
-        <div id="about" class="card">
-            <span class="subtitle">About Me</span>
-            <div class="gold-banner"></div>
-            <div class="badge-container">
-                <a href="https://www.credly.com/badges/21b672c8-6319-4264-bc56-27579d99ece8/public_url" target="_blank">
-                    <img src="./images/autodesk-certified-professional-in-autocad-for-design-and-drafting.png" alt="Autodesk Certification Badge">
-                </a>
-                <div class="credly-badge" data-share-badge-id="21b672c8-6319-4264-bc56-27579d99ece8" data-share-badge-host="https://www.credly.com">
-                    <script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
-                    <noscript>
-                        <img id="fallback-image" src="https://www.credly.com/badges/da41bbf4-44bd-4709-bdf0-1419cb1added/public_url" alt="Badge" style="display:block;">
-                    </noscript>
-                </div>
-            </div>
-            <ul class="about-list">
-                <!-- <li>Mechanical Engineering Bachelor with Honors (Cum Laude)</li> -->
-                <!-- <li>Certified AutoCAD Professional</li> -->
-                <li>Fluid Dynamics Expert with 2 Years of Research & Project Experience</li>
-                <li>Specialist in Design & Simulation (Autodesk, SolidWorks, ANSYS)</li>
-                <li>Champion of Innovation</li>
-                <li>Lifelong Learner</li>
-            </ul>
-            <p class="about-text">As a Mechanical Engineer holding a Bachelor's degree, my passion for fluid dynamics has honed my skills in designing, simulating, and perfecting fluid systems. My drive is fueled by the precision and potential of CAD and coding, pushing me to constantly improve functionality and precision. I aim for excellence, prioritizing quality and safety in each project. My mix of technical skills and programming drives me to innovate in fluid system engineering.</p>
-            <h3 class="subtitle">Technical Proficiencies:</h3>
-            <ul class="technical-list">
-                <li>
-                    <i class="fas fa-cogs"></i> Fluid System Engineering:
-                    <!-- <span class="curly-brace">{</span> -->
-                    <ul>
-                        <li>
-                            <i class="fas fa-check"></i> Design and Optimization
-                            <div class="progress-bar">
-                                <div style="width: 90%;"></div>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-check"></i> Simulation and Refinement
-                            <div class="progress-bar">
-                                <div style="width: 85%;"></div>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-check"></i> Experience with Gate Stations (Metering & Regulating)
-                            <div class="progress-bar">
-                                <div style="width: 80%;"></div>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-check"></i> Design of District Regulator Stations
-                            <div class="progress-bar">
-                                <div style="width: 75%;"></div>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-check"></i> Development of Large Volume Meter Sets
-                            <div class="progress-bar">
-                                <div style="width: 70%;"></div>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-check"></i> Engineering of Liquefied Natural Gas (LNG) Peak-Shaving Plants
-                            <div class="progress-bar">
-                                <div style="width: 65%;"></div>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <i class="fas fa-drafting-compass"></i> Computer-Aided Design (CAD):
-                    <ul>
-                        <li>
-                            <i class="fas fa-check"></i> Advanced Modeling Techniques
-                            <div class="progress-bar">
-                                <div style="width: 90%;"></div>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-check"></i> Integration of CAD with Fluid Dynamics
-                            <div class="progress-bar">
-                                <div style="width: 85%;"></div>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-check"></i> Isometric Drawings for Fabrication
-                            <div class="progress-bar">
-                                <div style="width: 80%;"></div>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-check"></i> 3D Piping Models with Pipe Specifications
-                            <div class="progress-bar">
-                                <div style="width: 75%;"></div>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-check"></i> Creation of Piping Plans and Section Views with Bill of Materials
-                            <div class="progress-bar">
-                                <div style="width: 70%;"></div>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-check"></i> Process Flow Diagrams (PFD)
-                            <div class="progress-bar">
-                                <div style="width: 65%;"></div>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-check"></i> Piping & Instrumentation Diagrams (P&ID)
-                            <div class="progress-bar">
-                                <div style="width: 60%;"></div>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <i class="fas fa-code"></i> Programming for Engineering:
-                    <ul>
-                        <li>
-                            <i class="fas fa-check"></i> Enhancing System Functionality
-                            <div class="progress-bar">
-                                <div style="width: 90%;"></div>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-check"></i> Driving Innovation through Code
-                            <div class="progress-bar">
-                                <div style="width: 85%;"></div>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-check"></i> Python and C++ for Engineering Applications
-                            <div class="progress-bar">
-                                <div style="width: 80%;"></div>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-check"></i> Development of Custom Scripts for CAD and CFD Integration
-                            <div class="progress-bar">
-                                <div style="width: 75%;"></div>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-check"></i> Automation of Repetitive Design Tasks
-                            <div class="progress-bar">
-                                <div style="width: 70%;"></div>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <i class="fas fa-shield-alt"></i> Achieving Quality and Safety:
-                    <ul>
-                        <li>
-                            <i class="fas fa-check"></i> Adherence to Standards of Excellence
-                            <div class="progress-bar">
-                                <div style="width: 90%;"></div>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-check"></i> Safety-First Engineering Practices
-                            <div class="progress-bar">
-                                <div style="width: 85%;"></div>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-check"></i> Compliance with US DOT 49 CFR Part 192 and 193
-                            <div class="progress-bar">
-                                <div style="width: 80%;"></div>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-check"></i> Expertise in NFPA 59A Standards
-                            <div class="progress-bar">
-                                <div style="width: 75%;"></div>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fas fa-check"></i> Knowledge of Massachusetts Gas Distribution Code (220 CMR 100.00)
-                            <div class="progress-bar">
-                                <div style="width: 70%;"></div>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </section>
-
-    <section id="p-and-id" class="hidden">
-        <div class="card">
-            <span class="subtitle">Process Piping</span>
-            <div class="gold-banner"></div>
-            <p class="lightGrey"></p>
-
-            <div class="polaroid-wrapper">
-                <div class="polaroid hidden">
-                    <p class="title">Propane-Air</p>
-                    <img src="./images/process-piping-1.png" alt="" />
-                </div>
-
-                <div class="polaroid hidden">
-                    <p class="title">Water Glycol</p>
-                    <img src="./images/piping-sections-isometrics.png" alt="" />
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="structural-steel" class="hidden">
-        <div class="card">
-            <span class="subtitle">Structural Steel</span>
-            <div class="gold-banner"></div>
-            <p class="lightGrey"></p>
-
-            <div class="polaroid-wrapper">
-                <div class="polaroid hidden">
-                    <p class="title">Pipe Supports</p>
-                    <img src="./images/structural-steel-pipe-support.png" alt="" />
-                </div>
-
-                <div class="polaroid hidden">
-                    <p class="title">Pump Skids</p>
-                    <img src="./images/structural-steel-skid.png" alt="" />
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="p-and-id-section" class="hidden">
-        <div class="card">
-            <span class="subtitle">P&ID/PFD Schematics</span>
-            <div class="gold-banner"></div>
-            <p class="lightGrey"></p>
-
-            <div class="polaroid-wrapper">
-                <div class="polaroid hidden">
-                    <p class="title">Piping & Instrumentation Diagrams</p>
-                    <img src="./images/pid-1.png" alt="" />
-                </div>
-
-                <div class="polaroid hidden">
-                    <p class="title">Process Flow Diagrams</p>
-                    <img src="./images/pid-2.png" alt="" />
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="qa-qc-section" class="hidden">
-        <div class="card">
-            <span class="subtitle">QA/QC</span>
-            <div class="gold-banner"></div>
-            <p class="lightGrey"></p>
-
-            <div class="polaroid-wrapper">
-                <div class="polaroid hidden">
-                    <p class="title">Orthographic Piping Sections</p>
-                    <img src="./images/regulator-run-1.png" alt="" />
-                </div>
-
-                <div class="polaroid hidden">
-                    <p class="title">MTR Tracking</p>
-                    <img src="./images/material-test-reports.png" alt="" />
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="isometrics-section" class="hidden">
-        <div class="card">
-            <span class="subtitle">Isometrics</span>
-            <div class="gold-banner"></div>
-            <p class="lightGrey"></p>
-
-            <div class="polaroid-wrapper">
-                <div class="polaroid hidden">
-                    <p class="title">Fabrication Shop Isometrics</p>
-                    <img src="./images/fab-iso-truck.png" alt="" />
-                </div>
-                <div class="polaroid hidden">
-                    <p class="title">Isometric Piping</p>
-                    <img src="./images/process-piping-2-2.png" alt="" />
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="object-section" id="object-container" id="root">
-    </section>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <section class="hidden">
-        <div class="card">
-            <span class="subtitle" id="contact">Contact</span>
-            <div class="gold-banner"></div>
-            <div class="form-container">
-                <form id="my-form" action="https://formspree.io/f/xyyabqnn" method="POST">
-                    <h3>GET IN TOUCH</h3>
-                    <input type="text" name="name" id="name" placeholder="Your Name" required>
-                    <input type="email" name="email" id="email" placeholder="Email" required>
-                    <input type="text" name="phone" id="phone" placeholder="Phone" required>
-                    <textarea name="message" id="message" rows="4" placeholder="How can I help you?"></textarea>
-                    <button id="my-form-button" type="submit">Send</button>
-                    <p-1 id="my-form-status"></p>
-                </form>
-            </div>
-        </div>
-    </section>
-
     <footer>
         <div class="scroll-container">
             <button onclick="topFunction()" id="scroll-button" title="Scroll to top">Top</button>
         </div>
         <p class="footer-text">&copy; 2024 Jamaul Drew. All rights reserved.</p>
-        </footer>
+    </footer>
 
-        <script src="/@vite/client" type="module"></script>
-        <script type="module" src="/src/main.tsx"></script>
-        <script type="module" src="/script.js"></script>
-        <script type="module" src="/src/entry-client.jsx"></script>
+    <script src="/@vite/client" type="module"></script>
+    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="/script.js"></script>
+    <script type="module" src="/src/entry-client.jsx"></script>
 
-    </body>
+</body>
 
 </html>
