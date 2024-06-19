@@ -521,7 +521,7 @@ h3.subtitle {
 	flex: 0 0 45%;
 	margin: 1rem;
 	border-radius: 1.5rem;
-	padding: 2rem;
+	padding: 1rem;
 	box-shadow: var(--light-shadow);
 	background-color: var(--white-color);
 	padding-top: 0;
