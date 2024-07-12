@@ -1,3 +1,130 @@
+/*
+.about-list, .technical-list {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.about-list > li, .technical-list > li {
+    padding: var(--space-md);
+    margin-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--accent-color);
+}
+
+.about-list > li::before, .technical-list > li::before {
+    content: '►';
+    color: var(--accent-color);
+    margin-right: var(--space-sm);
+}
+
+/*
+:root {
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 2rem;
+    --space-xl: 4rem;
+}
+
+/* Base styles for all screen sizes */
+/*html, body {*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*    height: 100%;*/
+/*}*/
+
+/*.full-screen-section {*/
+/*    min-height: 100vh;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    justify-content: center;*/
+/*    padding: 2rem;*/
+/*    box-sizing: border-box;*/
+/*}*/
+
+/* Extra small devices (phones, 600px and down) */
+/*@media only screen and (max-width: 600px) {*/
+/*    .full-screen-section {*/
+/*        padding: 1rem;*/
+/*    }*/
+    
+    /* Adjust font sizes for readability on small screens */
+/*    body {*/
+/*        font-size: 14px;*/
+/*    }*/
+    
+/*    h1 { font-size: 1.8em; }*/
+/*    h2 { font-size: 1.5em; }*/
+/*    h3 { font-size: 1.2em; }*/
+/*}*/
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+/*@media only screen and (min-width: 600px) {*/
+/*    body {*/
+/*        font-size: 16px;*/
+/*    }*/
+/*}*/
+
+/* Medium devices (landscape tablets, 768px and up) */
+/*@media only screen and (min-width: 768px) {*/
+/*    .full-screen-section {*/
+/*        padding: 2rem;*/
+/*    }*/
+    
+/*    body {*/
+/*        font-size: 16px;*/
+/*    }*/
+/*}*/
+
+/* Large devices (laptops/desktops, 992px and up) */
+/*@media only screen and (min-width: 992px) {*/
+/*    body {*/
+/*        font-size: 18px;*/
+/*    }*/
+/*}*/
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+/*@media only screen and (min-width: 1200px) {*/
+/*    .full-screen-section {*/
+/*        padding: 3rem;*/
+/*    }*/
+    
+/*    body {*/
+/*        font-size: 20px;*/
+/*    }*/
+/*}*/
+
+/* For very tall screens, ensure content doesn't stretch too much */
+/*@media only screen and (min-height: 1000px) {*/
+/*    .full-screen-section {*/
+/*        max-width: 1200px;*/
+/*        margin: 0 auto;*/
+/*    }*/
+/*}*/
+
+/* For very wide screens, limit the width to maintain readability */
+/*@media only screen and (min-width: 1400px) {*/
+/*    .full-screen-section {*/
+/*        max-width: 1400px;*/
+/*        margin: 0 auto;*/
+/*    }*/
+/*}*/
+
+/* Adjustments for smaller heights to prevent content overflow */
+/*@media only screen and (max-height: 700px) {*/
+/*    .full-screen-section {*/
+/*        padding-top: 1rem;*/
+/*        padding-bottom: 1rem;*/
+/*    }*/
+/*}*/
+
+/* Ensure text remains readable on very small devices */
+/*@media only screen and (max-width: 320px) {*/
+/*    body {*/
+/*        font-size: 12px;*/
+/*    }*/
+/*}*/
+
 :root {
 	/* Font smoothing and text size adjustment */
 	-webkit-font-smoothing: antialiased;
