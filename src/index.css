@@ -445,29 +445,13 @@ a:hover {
 	margin: 1rem 1rem 1.5rem;
 }
 
+/* Improved styles for the about-me section */
 #about.card {
 	padding: 1rem;
 	border-radius: 1.5rem;
 	box-shadow: var(--light-shadow);
 	position: relative;
 }
-
-/* Improved styles for the about-me section */
-/* #about { */
-/* 	max-width: 1200px; */
-/* 	margin: 0 auto; */
-/* 	padding: 3rem; */
-/* 	background-color: var(--light-color); */
-/* 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
-/* 	border-radius: 8px; */
-/* } */
-
-/* .subtitle { */
-/* 	font-size: 2.4rem; */
-/* 	color: var(--dark-accent); */
-/* 	margin-bottom: 2rem; */
-/* 	text-align: center; */
-/* } */
 
 .gold-banner {
 	height: 4px;
@@ -572,6 +556,7 @@ a:hover {
 .technical-list > li > ul > li > i.fas.fa-check {
 	display: none;
 }
+
 .technical-list,
 .technical-list ul {
 	list-style-type: none;
