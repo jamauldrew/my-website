@@ -478,18 +478,13 @@ a:hover {
 	list-style-type: none;
 }
 
-.about-list > li {
-    padding: 1rem 150px 1rem 2.5rem;  /* Updated padding for about-list items */
-    margin-bottom: 1rem;
-    border-bottom: 1px solid var(--accent-color);
-    font-size: 1.6rem;
-    position: relative;
-    line-height: 1.4;
-    color: var(--subdark-color);
+.about-list > li:first-child {
+    padding-right: 150px;  /* Apply 150px right padding only to the first list item */
 }
 
+.about-list > li,
 .technical-list > li {
-    padding: 1rem 0 1rem 2.5rem;  /* Original padding for technical-list items */
+    padding: 1rem 0 1rem 2.5rem;
     margin-bottom: 1rem;
     border-bottom: 1px solid var(--accent-color);
     font-size: 1.6rem;
