@@ -650,32 +650,81 @@ h3.subtitle {
 	max-width: 100%;
 	height: auto;
 }
+/* Existing styles with some modifications */
 .polaroid-wrapper {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem; /* Added gap for consistent spacing */
 }
+
 .polaroid {
-	flex: 0 0 45%;
-	margin: 1rem;
-	border-radius: 1.5rem;
-	padding: 1rem;
-	box-shadow: var(--light-shadow);
-	background-color: var(--white-color);
-	padding-top: 0;
+    flex: 0 0 45%;
+    margin: 1rem;
+    border-radius: 1.5rem;
+    padding: 1rem;
+    box-shadow: var(--light-shadow);
+    background-color: var(--white-color);
+    padding-top: 0;
+    max-width: 400px; /* Added max-width for larger screens */
 }
+
 .polaroid img:hover:not(.zoomed) {
-	cursor: zoom-in;
+    cursor: zoom-in;
 }
+
 .polaroid img.zoomed:hover {
-	cursor: zoom-out;
+    cursor: zoom-out;
 }
+
 .polaroid img {
-	width: 100%;
-	max-width: 100%;
-	display: block;
-	margin: auto;
-	border-radius: 1.5rem;
+    width: 100%;
+    max-width: 100%;
+    display: block;
+    margin: auto;
+    border-radius: 1.5rem;
+    height: auto; /* Ensure aspect ratio is maintained */
+    object-fit: cover; /* Ensure image covers the area without distortion */
+}
+
+/* New styles for mobile optimization */
+@media (max-width: 768px) {
+    .polaroid-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .polaroid {
+        flex: 0 0 90%; /* Adjust width for mobile */
+        max-width: none;
+        margin: 1rem 0; /* Adjust vertical margin */
+    }
+
+    .polaroid img {
+        max-height: 300px; /* Limit height on mobile */
+        object-fit: contain; /* Show full image without cropping */
+    }
+
+    .polaroid .title {
+        font-size: 1rem;
+        margin: 0.5rem 0;
+        text-align: center;
+    }
+}
+
+/* Additional improvements for larger screens */
+@media (min-width: 769px) {
+    .polaroid-wrapper {
+        justify-content: space-around;
+    }
+
+    .polaroid {
+        flex: 0 0 calc(50% - 2rem); /* Adjust for gap */
+    }
+
+    .polaroid img {
+        max-height: 400px; /* Limit height on larger screens */
+    }
 }
 .instructions {
 	position: absolute;
