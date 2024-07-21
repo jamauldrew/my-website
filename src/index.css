@@ -479,7 +479,7 @@ a:hover {
 }
 
 .about-list > li {
-    padding: 1rem 15rem 1rem 2.5rem;  /* Updated padding for about-list items */
+    padding: 1rem 150px 1rem 2.5rem;  /* Updated padding for about-list items */
     margin-bottom: 1rem;
     border-bottom: 1px solid var(--accent-color);
     font-size: 1.6rem;
