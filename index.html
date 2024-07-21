@@ -28,35 +28,34 @@
 
 <body>
 
-    <div class="hamburger-menu">
-        <div class="hamburger-container">
-            <button class="hamburger-button" aria-label="menu" onclick="toggleMenu()">☰</button>
-            <nav id="nav-menu" class="nav-hidden">
-                <button class="close-button" onclick="toggleMenu()">✕</button>
-                <ul>
-                    <li><a class="bold-selection" href="#about">About</a></li>
-                    <li><a class="bold-selection" href="#process-piping">Services</a></li>
-                    <li class="fold-down-menu">
-                        <a class="bold-selection" href="#" onclick="toggleFoldDown(event)">Explore <span
-                                class="toggle">&#9662;</span></a>
-                        <div class="fold-down-content">
-                            <a class="bold-href" href="#ndt-traceability">NDT Traceability</a>
-                            <a class="bold-href" href="#process-piping">Fluid System Design</a>
-                            <a class="bold-href" href="#structural-steel">Structural Steel Design</a>
-                            <a class="bold-href" href="#p-and-id">Process Piping Design</a>
-                            <a class="bold-href" href="#qa-qc-section">Quality Assurance/Quality Control (QA/QC)</a>
-                            <a class="bold-href" href="#isometrics-section">Computer-Aided Design (CAD)</a>
-                        </div>
-                    </li>
-                    <li><a class="bold-selection" href="#contact">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
-        <h1 id="nav-title"><a href="#">Jamaul Drew LLC</a></h1>
-            <div class="logo-container">
-                <img class="company-logo" src="./JM_Logo.svg" alt="Company Logo">
-            </div>
-            </div>
+<div class="hamburger-menu">
+    <div class="hamburger-container">
+        <button class="hamburger-button" aria-label="menu" onclick="toggleMenu()">☰</button>
+        <nav id="nav-menu" class="nav-hidden">
+            <button class="close-button" onclick="toggleMenu()">✕</button>
+            <ul>
+                <li><a class="bold-selection" href="#about">About</a></li>
+                <li><a class="bold-selection" href="#services">Services</a></li>
+                <li class="fold-down-menu">
+                    <a class="bold-selection" href="#" onclick="toggleFoldDown(event)">Expertise <span class="toggle">&#9662;</span></a>
+                    <div class="fold-down-content">
+                        <a class="bold-href" href="#engineering-services">Engineering Services</a>
+                        <a class="bold-href" href="#process-piping">Process Piping Design</a>
+                        <a class="bold-href" href="#structural-engineering">Structural Engineering</a>
+                        <a class="bold-href" href="#process-diagrams">Process Flow and Instrumentation</a>
+                        <a class="bold-href" href="#quality-assurance">Quality Assurance & Control</a>
+                        <a class="bold-href" href="#isometric-drawings">Isometric Drawings</a>
+                    </div>
+                </li>
+                <li><a class="bold-selection" href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+    <h1 id="nav-title"><a href="#">Jamaul Drew LLC</a></h1>
+    <div class="logo-container">
+        <img class="company-logo" src="./JM_Logo.svg" alt="Jamaul Drew LLC Logo">
+    </div>
+</div>
 
     <script>
         function toggleMenu() {
@@ -178,124 +177,125 @@
             </div>
         </section>
 
-        <section id="ndt-traceability" class="hidden">
-            <div class="card">
-                <span class="subtitle">NDT Traceability</span>
-                <div class="gold-banner"></div>
-                <p class="lightGrey"></p>
+<section id="engineering-services" class="hidden">
+    <div class="card">
+        <span class="subtitle">Engineering Services</span>
+        <div class="gold-banner"></div>
+        <p class="lightGrey"></p>
 
-                <div class="polaroid-wrapper">
-                    <div class="polaroid hidden">
-                        <p class="title">Isometric Weld Maps</p>
-                        <img src="./images/Page 1.png" alt="" />
-                    </div>
-
-                    <div class="polaroid hidden">
-                        <p class="title">Shop Drawings</p>
-                        <img src="./images/Page 2.png" alt="" />
-                    </div>
-                </div>
+        <div class="polaroid-wrapper">
+            <div class="polaroid hidden">
+                <p class="title">Isometric Weld Maps</p>
+                <img src="./images/Page 1.png" alt="Isometric Weld Map Example" />
             </div>
-        </section>
 
-        <section id="process-piping" class="hidden">
-            <div class="card">
-                <span class="subtitle">Process Piping</span>
-                <div class="gold-banner"></div>
-                <p class="lightGrey"></p>
-
-                <div class="polaroid-wrapper">
-                    <div class="polaroid hidden">
-                        <p class="title">Propane-Air</p>
-                        <img src="./images/process-piping-1.png" alt="" />
-                    </div>
-
-                    <div class="polaroid hidden">
-                        <p class="title">Water Glycol</p>
-                        <img src="./images/piping-sections-isometrics.png" alt="" />
-                    </div>
-                </div>
+            <div class="polaroid hidden">
+                <p class="title">Detailed Shop Drawings</p>
+                <img src="./images/Page 2.png" alt="Detailed Shop Drawing Example" />
             </div>
-        </section>
+        </div>
+    </div>
+</section>
 
-        <section id="structural-steel" class="hidden">
-            <div class="card">
-                <span class="subtitle">Structural Steel</span>
-                <div class="gold-banner"></div>
-                <p class="lightGrey"></p>
+<section id="process-piping" class="hidden">
+    <div class="card">
+        <span class="subtitle">Process Piping Design</span>
+        <div class="gold-banner"></div>
+        <p class="lightGrey"></p>
 
-                <div class="polaroid-wrapper">
-                    <div class="polaroid hidden">
-                        <p class="title">Pipe Supports</p>
-                        <img src="./images/structural-steel-pipe-support.png" alt="" />
-                    </div>
-
-                    <div class="polaroid hidden">
-                        <p class="title">Pump Skids</p>
-                        <img src="./images/structural-steel-skid.png" alt="" />
-                    </div>
-                </div>
+        <div class="polaroid-wrapper">
+            <div class="polaroid hidden">
+                <p class="title">Propane-Air System Layout</p>
+                <img src="./images/process-piping-1.png" alt="Propane-Air System Piping Layout" />
             </div>
-        </section>
 
-        <section id="p-and-id" class="hidden">
-            <div class="card">
-                <span class="subtitle">P&ID/PFD Schematics</span>
-                <div class="gold-banner"></div>
-                <p class="lightGrey"></p>
-
-                <div class="polaroid-wrapper">
-                    <div class="polaroid hidden">
-                        <p class="title">Piping & Instrumentation Diagrams</p>
-                        <img src="./images/pid-1.png" alt="" />
-                    </div>
-
-                    <div class="polaroid hidden">
-                        <p class="title">Process Flow Diagrams</p>
-                        <img src="./images/pid-2.png" alt="" />
-                    </div>
-                </div>
+            <div class="polaroid hidden">
+                <p class="title">Water Glycol System Design</p>
+                <img src="./images/piping-sections-isometrics.png" alt="Water Glycol System Piping Design" />
             </div>
-        </section>
+        </div>
+    </div>
+</section>
 
-        <section id="qa-qc-section" class="hidden">
-            <div class="card">
-                <span class="subtitle">QA/QC</span>
-                <div class="gold-banner"></div>
-                <p class="lightGrey"></p>
+<section id="structural-engineering" class="hidden">
+    <div class="card">
+        <span class="subtitle">Structural Engineering</span>
+        <div class="gold-banner"></div>
+        <p class="lightGrey"></p>
 
-                <div class="polaroid-wrapper">
-                    <div class="polaroid hidden">
-                        <p class="title">Orthographic Piping Sections</p>
-                        <img src="./images/regulator-run-1.png" alt="" />
-                    </div>
-
-                    <div class="polaroid hidden">
-                        <p class="title">MTR Tracking</p>
-                        <img src="./images/material-test-reports.png" alt="" />
-                    </div>
-                </div>
+        <div class="polaroid-wrapper">
+            <div class="polaroid hidden">
+                <p class="title">Custom Pipe Support Structures</p>
+                <img src="./images/structural-steel-pipe-support.png" alt="Custom Pipe Support Structure Design" />
             </div>
-        </section>
 
-        <section id="isometrics-section" class="hidden">
-            <div class="card">
-                <span class="subtitle">Isometrics</span>
-                <div class="gold-banner"></div>
-                <p class="lightGrey"></p>
-
-                <div class="polaroid-wrapper">
-                    <div class="polaroid hidden">
-                        <p class="title">Fabrication Shop</p>
-                        <img src="./images/fab-iso-truck.png" alt="" />
-                    </div>
-                    <div class="polaroid hidden">
-                        <p class="title">Piping</p>
-                        <img src="./images/process-piping-2-2.png" alt="" />
-                    </div>
-                </div>
+            <div class="polaroid hidden">
+                <p class="title">Engineered Pump Skid Designs</p>
+                <img src="./images/structural-steel-skid.png" alt="Engineered Pump Skid Design" />
             </div>
-        </section>
+        </div>
+    </div>
+</section>
+
+<section id="process-diagrams" class="hidden">
+    <div class="card">
+        <span class="subtitle">Process Flow and Instrumentation</span>
+        <div class="gold-banner"></div>
+        <p class="lightGrey"></p>
+
+        <div class="polaroid-wrapper">
+            <div class="polaroid hidden">
+                <p class="title">Detailed P&ID Schematics</p>
+                <img src="./images/pid-1.png" alt="Detailed Piping and Instrumentation Diagram" />
+            </div>
+
+            <div class="polaroid hidden">
+                <p class="title">Comprehensive PFD Layouts</p>
+                <img src="./images/pid-2.png" alt="Comprehensive Process Flow Diagram" />
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="quality-assurance" class="hidden">
+    <div class="card">
+        <span class="subtitle">Quality Assurance & Control</span>
+        <div class="gold-banner"></div>
+        <p class="lightGrey"></p>
+
+        <div class="polaroid-wrapper">
+            <div class="polaroid hidden">
+                <p class="title">Precision Orthographic Piping Sections</p>
+                <img src="./images/regulator-run-1.png" alt="Precision Orthographic Piping Section" />
+            </div>
+
+            <div class="polaroid hidden">
+                <p class="title">Comprehensive MTR Documentation</p>
+                <img src="./images/material-test-reports.png" alt="Comprehensive Material Test Report Tracking" />
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="isometric-drawings" class="hidden">
+    <div class="card">
+        <span class="subtitle">Isometric Drawings</span>
+        <div class="gold-banner"></div>
+        <p class="lightGrey"></p>
+
+        <div class="polaroid-wrapper">
+            <div class="polaroid hidden">
+                <p class="title">Fabrication Shop Isometrics</p>
+                <img src="./images/fab-iso-truck.png" alt="Fabrication Shop Isometric Drawing" />
+            </div>
+            <div class="polaroid hidden">
+                <p class="title">Detailed Piping Isometrics</p>
+                <img src="./images/process-piping-2-2.png" alt="Detailed Piping Isometric Drawing" />
+            </div>
+        </div>
+    </div>
+</section>
+
         <section class="object-section" id="object-container" id="root">
         </section>
         <noscript>You need to enable JavaScript to run this app.</noscript>
