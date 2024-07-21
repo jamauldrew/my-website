@@ -1,12 +1,4 @@
-/* Company Logo */
-.logo-container {
-	text-align: center;
-	margin-bottom: 2rem;
-}
-.company-logo {
-	max-width: 200px;
-	height: auto;
-}
+
 /* Base styles for all screen sizes */
 .full-screen-section {
 	min-height: 100vh;
@@ -201,46 +193,88 @@ code {
 .hamburger-menu .hamburger-container,
 .hamburger-menu nav,
 .hamburger-menu ul {
-	margin: 0;
-	padding: 0;
-	list-style: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
 .hamburger-menu {
-	position: relative;
-	background-color: transparent;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 10px;
-	flex-direction: row-reverse;
+    position: relative;
+    background-color: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
 }
 
 .hamburger-container {
-	display: flex;
-	align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .hamburger-button {
-	font-size: 2.8rem;
-	background: none;
-	border: none;
-	cursor: pointer;
-	color: var(--dark-color);
+    font-size: 2.8rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--dark-color);
+}
+
+.logo-title-container {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    order: 2;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.logo-container {
+    margin-right: 1rem;
+}
+
+.company-logo {
+    max-width: 50px;
+    height: auto;
 }
 
 #nav-title {
-	margin: 0;
-	font-size: 2.8rem;
-	margin-right: auto;
-	font-weight: 600;
-	letter-spacing: 0.05rem;
-	text-transform: uppercase;
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05rem;
+    text-transform: uppercase;
 }
 
 #nav-title a {
-	text-decoration: none;
-	color: var(--dark-color);
+    text-decoration: none;
+    color: var(--dark-color);
+}
+
+@media (min-width: 768px) {
+    .hamburger-menu {
+        flex-wrap: nowrap;
+    }
+
+    .logo-title-container {
+        width: auto;
+        order: 1;
+        margin-top: 0;
+    }
+
+    .company-logo {
+        max-width: 200px;
+    }
+
+    #nav-title {
+        font-size: 2.8rem;
+    }
+
+    .hamburger-container {
+        order: 2;
+    }
 }
 
 #nav-menu {
