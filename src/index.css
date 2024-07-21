@@ -478,16 +478,24 @@ a:hover {
 	list-style-type: none;
 }
 
-.about-list > li,
+.about-list > li {
+    padding: 1rem 15rem 1rem 2.5rem;  /* Updated padding for about-list items */
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--accent-color);
+    font-size: 1.6rem;
+    position: relative;
+    line-height: 1.4;
+    color: var(--subdark-color);
+}
+
 .technical-list > li {
-	padding: 1rem 0;
-	margin-bottom: 1rem;
-	border-bottom: 1px solid var(--accent-color);
-	font-size: 1.6rem;
-	position: relative;
-	padding-left: 2.5rem;
-	line-height: 1.4;
-	color: var(--subdark-color);
+    padding: 1rem 0 1rem 2.5rem;  /* Original padding for technical-list items */
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--accent-color);
+    font-size: 1.6rem;
+    position: relative;
+    line-height: 1.4;
+    color: var(--subdark-color);
 }
 
 .about-list > li::before,
