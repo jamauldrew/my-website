@@ -27,35 +27,34 @@
 </head>
 
 <body>
-
-<div class="hamburger-menu">
-    <div class="hamburger-container">
-        <button class="hamburger-button" aria-label="menu" onclick="toggleMenu()">☰</button>
-        <nav id="nav-menu" class="nav-hidden">
+    <header class="header">
+        <div class="logo-title-container">
+            <img class="company-logo" src="./JM_Logo.svg" alt="Jamaul Drew LLC Logo">
+            <h1 id="nav-title"><a href="#">Jamaul Drew LLC</a></h1>
+        </div>
+        <div class="hamburger-container">
+            <button class="hamburger-button" aria-label="menu" onclick="toggleMenu()">☰</button>
+        </div>
+        <nav id="nav-menu">
             <button class="close-button" onclick="toggleMenu()">✕</button>
             <ul>
-                <li><a class="bold-selection" href="#about">About</a></li>
-                <li><a class="bold-selection" href="#services">Services</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
                 <li class="fold-down-menu">
-                    <a class="bold-selection" href="#" onclick="toggleFoldDown(event)">Expertise <span class="toggle">&#9662;</span></a>
+                    <a href="#" onclick="toggleFoldDown(event)">Expertise <span class="toggle">&#9662;</span></a>
                     <div class="fold-down-content">
-                        <a class="bold-href" href="#engineering-services">Engineering Services</a>
-                        <a class="bold-href" href="#process-piping">Process Piping Design</a>
-                        <a class="bold-href" href="#structural-engineering">Structural Engineering</a>
-                        <a class="bold-href" href="#process-diagrams">Process Flow and Instrumentation</a>
-                        <a class="bold-href" href="#quality-assurance">Quality Assurance & Control</a>
-                        <a class="bold-href" href="#isometric-drawings">Isometric Drawings</a>
+                        <a href="#engineering-services">Engineering Services</a>
+                        <a href="#process-piping">Process Piping Design</a>
+                        <a href="#structural-engineering">Structural Engineering</a>
+                        <a href="#process-diagrams">Process Flow and Instrumentation</a>
+                        <a href="#quality-assurance">Quality Assurance & Control</a>
+                        <a href="#isometric-drawings">Isometric Drawings</a>
                     </div>
                 </li>
-                <li><a class="bold-selection" href="#contact">Contact</a></li>
+                <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
-    </div>
-    <h1 id="nav-title"><a href="#">Jamaul Drew LLC</a></h1>
-    <div class="logo-container">
-        <img class="company-logo" src="./JM_Logo.svg" alt="Jamaul Drew LLC Logo">
-    </div>
-</div>
+    </header>
 
     <script>
         function toggleMenu() {
