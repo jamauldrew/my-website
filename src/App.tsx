@@ -15,6 +15,7 @@ import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js'
 import { OrbitControls } from '@react-three/drei'
 import './index.css'
 import ExampleComponent from './react_component.jsx'
+import Contact from './components/Contact'
 
 // // Additional component for handling vertex points
 /* const VertexPoint = ({ position }: { position: Three.Vector3 }) => {
@@ -299,6 +300,7 @@ function App() {
         </div>
       </div>
       <ExampleComponent />
+      <Contact />
     </div>
   )
 }

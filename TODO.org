@@ -1,0 +1,372 @@
+#+title: TODO
+* TODO Transition CSS to Tailwind CSS [0/1]
+  :PROPERTIES:
+  :CREATED: [2024-08-10]
+  :END:
+
+** Understand Tailwind Utility Classes
+   - [ ] Replace specific CSS rules with Tailwind's predefined classes.
+
+** Mapping Existing CSS to Tailwind
+   - [ ] Typography: Replace font sizes and styles with Tailwind's text utilities.
+   - [ ] Layout: Use Tailwind's flexbox and grid utilities.
+   - [ ] Spacing: Use Tailwind's margin and padding utilities.
+
+** Handling Media Queries
+   - [ ] Use Tailwind responsive utilities.
+
+** Colors and Shadows
+   - [ ] Define custom colors and shadows in `tailwind.config.js`:
+     - [ ] Colors: dark, light, accent
+     - [ ] Shadows: light, dark
+
+** Custom Classes as Needed
+   - [ ] Define minimal custom classes for complex styles.
+
+** Streamlining in Doom Emacs
+   - [ ] Use advanced editor features:
+     - [ ] Multiple Cursors
+     - [ ] `evil-surround`
+     - [ ] Regex Replace
+   - [ ] Utilize Org Babel for testing Tailwind CSS snippets.
+
+** Testing and Validation
+   - [ ] Test functionality and design on multiple devices.
+
+** Example Transition
+   - [ ] Original CSS:
+     #+begin_src css
+     .logo-container {
+       text-align: center;
+       margin-bottom: 2rem;
+     }
+     .company-logo {
+       max-width: 200px;
+       height: auto;
+     }
+     #+end_src
+   - [ ] Transitioned to Tailwind:
+     #+begin_src html
+     <div class="text-center mb-8">
+       <img src="logo.png" class="max-w-xs h-auto" alt="Company Logo">
+     </div>
+     #+end_src
+
+** Media Query Example
+   - [ ] Original CSS:
+     #+begin_src css
+     @media only screen and (max-width: 600px) {
+       .full-screen-section {
+         padding: 1rem;
+       }
+     }
+     #+end_src
+   - [ ] Tailwind Equivalent:
+     #+begin_src html
+     <div class="min-h-screen flex flex-col justify-center sm:px-4 px-2">
+       <!-- Content -->
+     </div>
+     #+end_src
+
+** Custom Variable Transition
+   - [ ] Define colors and shadows in `tailwind.config.js`:
+     #+begin_src javascript
+     theme: {
+       extend: {
+         colors: {
+           dark: '#333',
+           light: '#f8f8f8',
+           accent: '#e7d192',
+           // add other colors here...
+         },
+         boxShadow: {
+           light: '0 0.4rem 0.8rem rgba(0, 0, 0, 0.2), 0 0.6rem 2rem rgba(0, 0, 0, 0.19)',
+           dark: '0 0.4rem 0.8rem rgba(255, 255, 255, 0.2), 0 0.6rem 2rem rgba(255, 255, 255, 0.19)',
+           medium: '0 0.2rem 0.4rem rgba(0, 0, 0, 0.1), 0 0.3rem 1rem rgba(0, 0, 0, 0.15)', // Example of adding another boxShadow
+         }
+       }
+     }
+     #+end_src
+
+** Tools in Doom Emacs
+   - [ ] **Multiple Cursors**: Quickly modify similar code.
+   - [ ] **Regex Replace**: Use `evil-mode` for mass replacement.
+   - [ ] **Org Babel**: Test Tailwind CSS snippets.
+
+** CLI Techniques
+   - [ ] **PurgeCSS**: Remove unused CSS.
+   - [ ] **Tailwind CLI**: Run `tailwindcss build` to generate a custom build.
+
+** Checklist for Implemented Styles
+   - [x] Colors (`dark`, `light`, `accent`, etc.)
+   - [x] Box Shadows (`light`, `dark`, `medium`)
+   - [x] Transition Properties (`height`, `spacing`, `colors`, `opacity`, `boxShadow`, `transform`)
+   - [x] Transition Durations (`0ms`, `200ms`, `400ms`, `600ms`, `800ms`, `1000ms`)
+   - [x] Transition Timing Functions (`ease-in`, `ease-out`, `ease-in-out`, `linear`)
+   - [x] Transition Delays (`0ms`, `100ms`, `200ms`, `300ms`)
+
+
+* TODO Contact Form Architecture with Vercel and MongoDB
+** Code
+// 1. Create an API route in Vercel (e.g., pages/api/submit-form.js)
+import { MongoClient } from 'mongodb';
+import axios from 'axios';
+
+export default async function handler(req, res) {
+  if (req.method === 'POST') {
+    const { name, email, message, recaptchaToken, honeypot } = req.body;
+
+    // Check honeypot
+    if (honeypot) {
+      return res.status(400).json({ message: 'Nice try, bot!' });
+    }
+
+    // Verify reCAPTCHA
+    try {
+      const recaptchaResponse = await axios.post(
+        `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptchaToken}`
+      );
+
+      if (!recaptchaResponse.data.success) {
+        return res.status(400).json({ message: 'reCAPTCHA verification failed' });
+      }
+    } catch (error) {
+      console.error('reCAPTCHA verification error:', error);
+      return res.status(500).json({ message: 'reCAPTCHA verification error' });
+    }
+
+    // Connect to MongoDB
+    const client = await MongoClient.connect(process.env.MONGODB_URI);
+    const db = client.db('your_database_name');
+
+    // Insert the form data
+    await db.collection('form_submissions').insertOne({
+      name,
+      email,
+      message,
+      createdAt: new Date()
+    });
+
+    // Close the connection
+    await client.close();
+
+    // Send a response
+    res.status(200).json({ message: 'Form submitted successfully' });
+  } else {
+    res.status(405).json({ message: 'Method not allowed' });
+  }
+}
+
+// Front-end form submission (React example)
+import React, { useState } from 'react';
+import ReCAPTCHA from "react-google-recaptcha";
+
+function ContactForm() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: '',
+    honeypot: '' // Honeypot field
+  });
+  const [recaptchaToken, setRecaptchaToken] = useState('');
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleRecaptchaChange = (token) => {
+    setRecaptchaToken(token);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('/api/submit-form', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, recaptchaToken })
+      });
+      const data = await response.json();
+      console.log(data.message);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input name="name" onChange={handleChange} placeholder="Name" required />
+      <input name="email" type="email" onChange={handleChange} placeholder="Email" required />
+      <textarea name="message" onChange={handleChange} placeholder="Message" required />
+      <input name="honeypot" type="text" onChange={handleChange} style={{display: 'none'}} />
+      <ReCAPTCHA
+        sitekey="YOUR_RECAPTCHA_SITE_KEY"
+        onChange={handleRecaptchaChange}
+      />
+      <button type="submit">Send</button>
+    </form>
+  );
+}
+
+export default ContactForm;
+
+** Instructions
+Certainly. I'll expand the code snippet to include reCAPTCHA and a honeypot field, and then provide some Vercel CLI commands to help you manage your project and database.
+
+
+
+```javascript
+// 1. Create an API route in Vercel (e.g., pages/api/submit-form.js)
+import { MongoClient } from 'mongodb';
+import axios from 'axios';
+
+export default async function handler(req, res) {
+  if (req.method === 'POST') {
+    const { name, email, message, recaptchaToken, honeypot } = req.body;
+
+    // Check honeypot
+    if (honeypot) {
+      return res.status(400).json({ message: 'Nice try, bot!' });
+    }
+
+    // Verify reCAPTCHA
+    try {
+      const recaptchaResponse = await axios.post(
+        `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptchaToken}`
+      );
+
+      if (!recaptchaResponse.data.success) {
+        return res.status(400).json({ message: 'reCAPTCHA verification failed' });
+      }
+    } catch (error) {
+      console.error('reCAPTCHA verification error:', error);
+      return res.status(500).json({ message: 'reCAPTCHA verification error' });
+    }
+
+    // Connect to MongoDB
+    const client = await MongoClient.connect(process.env.MONGODB_URI);
+    const db = client.db('your_database_name');
+
+    // Insert the form data
+    await db.collection('form_submissions').insertOne({
+      name,
+      email,
+      message,
+      createdAt: new Date()
+    });
+
+    // Close the connection
+    await client.close();
+
+    // Send a response
+    res.status(200).json({ message: 'Form submitted successfully' });
+  } else {
+    res.status(405).json({ message: 'Method not allowed' });
+  }
+}
+
+// Front-end form submission (React example)
+import React, { useState } from 'react';
+import ReCAPTCHA from "react-google-recaptcha";
+
+function ContactForm() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: '',
+    honeypot: '' // Honeypot field
+  });
+  const [recaptchaToken, setRecaptchaToken] = useState('');
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleRecaptchaChange = (token) => {
+    setRecaptchaToken(token);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('/api/submit-form', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, recaptchaToken })
+      });
+      const data = await response.json();
+      console.log(data.message);
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input name="name" onChange={handleChange} placeholder="Name" required />
+      <input name="email" type="email" onChange={handleChange} placeholder="Email" required />
+      <textarea name="message" onChange={handleChange} placeholder="Message" required />
+      <input name="honeypot" type="text" onChange={handleChange} style={{display: 'none'}} />
+      <ReCAPTCHA
+        sitekey="YOUR_RECAPTCHA_SITE_KEY"
+        onChange={handleRecaptchaChange}
+      />
+      <button type="submit">Send</button>
+    </form>
+  );
+}
+
+export default ContactForm;
+
+```
+
+Now, let's go through some useful Vercel CLI commands to help you manage your project and database:
+
+1. To list your deployments:
+   ```
+   vercel ls
+   ```
+
+2. To view environment variables:
+   ```
+   vercel env ls
+   ```
+
+3. To add a new environment variable:
+   ```
+   vercel env add MONGODB_URI
+   ```
+
+4. To remove an environment variable:
+   ```
+   vercel env rm MONGODB_URI
+   ```
+
+5. To pull the latest environment variables to your local development environment:
+   ```
+   vercel env pull
+   ```
+
+6. To view your project information:
+   ```
+   vercel project ls
+   ```
+
+7. To view your MongoDB connection string (if stored as an environment variable):
+   ```
+   vercel env pull .env.local
+   cat .env.local | grep MONGODB_URI
+   ```
+
+8. To view your deployment logs:
+   ```
+   vercel logs
+   ```
+
+These commands will help you manage your Vercel project and environment variables. However, they won't directly show you the keys used in your MongoDB database. To explore your MongoDB database structure, you'd need to connect to it directly using a MongoDB client or use MongoDB Atlas if that's where your database is hosted.
+
+For security reasons, avoid exposing your database structure or connection details publicly. Always use environment variables to store sensitive information like database URIs and API keys.
+
+Remember to replace "YOUR_RECAPTCHA_SITE_KEY" in the React component with your actual reCAPTCHA site key. You'll also need to set up reCAPTCHA in your Google account and add the secret key to your Vercel environment variables.
+
+This enhanced setup includes both a honeypot field and reCAPTCHA verification, significantly improving your form's protection against bots and spam submissions.

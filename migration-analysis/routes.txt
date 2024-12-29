@@ -1,0 +1,36 @@
+  BrowserRouter as Router,
+  Route,
+  Routes,
+import ProtectedRoute from './components/ProtectedRoute'
+const AppRoutes: React.FC = () => {
+    <Router>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/login" element={<Login />} />
+        <Route
+            <ProtectedRoute isAuthenticated={isAuthenticated()}>
+            </ProtectedRoute>
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </Router>
+export default AppRoutes
+src/components/ProtectedRoute.tsx:/* ProtectedRoute.tsx */
+src/components/ProtectedRoute.tsx:interface ProtectedRouteProps {
+src/components/ProtectedRoute.tsx:const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+src/components/ProtectedRoute.tsx:export default ProtectedRoute
+src/routes.tsx:  BrowserRouter as Router,
+src/routes.tsx:  Route,
+src/routes.tsx:  Routes,
+src/routes.tsx:import ProtectedRoute from './components/ProtectedRoute'
+src/routes.tsx:const AppRoutes: React.FC = () => {
+src/routes.tsx:    <Router>
+src/routes.tsx:      <Routes>
+src/routes.tsx:        <Route path="/" element={<App />} />
+src/routes.tsx:        <Route path="/login" element={<Login />} />
+src/routes.tsx:        <Route
+src/routes.tsx:            <ProtectedRoute isAuthenticated={isAuthenticated()}>
+src/routes.tsx:            </ProtectedRoute>
+src/routes.tsx:        <Route path="*" element={<Navigate to="/" replace />} />
+src/routes.tsx:      </Routes>
+src/routes.tsx:    </Router>
+src/routes.tsx:export default AppRoutes
