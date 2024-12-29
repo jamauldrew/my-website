@@ -205,10 +205,12 @@ code {
     padding: 10px 20px;
     background-color: var(--light-color);
 }
+
 .logo-title-container {
     display: flex;
     align-items: center;
 }
+
 #nav-title {
     margin: 0;
     font-size: 1.8rem;
@@ -216,13 +218,21 @@ code {
     letter-spacing: 0.05rem;
     text-transform: uppercase;
 }
+
 #nav-title a {
     text-decoration: none;
     color: var(--dark-color);
 }
+
 .hamburger-container {
     order: 2;
 }
+
+.hamburger-container:hover {
+    background-color: var(--accent-opaque);
+    border-radius: 2.5rem;
+}
+
 .hamburger-button {
     font-size: 2.8rem;
     background: none;
@@ -312,6 +322,12 @@ code {
     margin-right: 10px;
 }
 
+.company-logo:hover {
+    cursor: pointer;
+    background-color: var(--accent-opaque);
+    border-radius: 2.5rem;
+}
+
 #nav-menu {
     position: fixed;
     top: 0;
@@ -342,7 +358,7 @@ code {
     display: block;
     width: 100%;
     padding: 10px;
-    border-radius: 0.25rem;
+    border-radius: 2.5rem;
     transition:
         background-color 0.3s ease,
         color 0.3s ease;
@@ -385,6 +401,7 @@ h1#nav-title a:hover {
     background-color: var(--accent-opaque);
     color: var(--accent-color);
     text-decoration: none;
+    border-radius: 2.5rem;
 }
 
 a.bold-href {
@@ -421,13 +438,17 @@ h5,
 h6 {
     color: var(--dark-color);
 }
+
 a {
     color: var(--dark-color);
     text-decoration: none;
 }
+
 a:hover {
-    text-decoration: underline;
+    background-color: var(--accent-opaque);
+    border-radius: 2.5rem;
 }
+
 .button {
     background-color: var(--dark-color);
     color: var(--dark-color);
@@ -436,34 +457,42 @@ a:hover {
     border-radius: 5px;
     cursor: pointer;
 }
+
 .button:hover {
     background-color: darken(var(--accent-color), 10%);
 }
+
 .border {
     border-color: var(--accent-color);
 }
+
 .alert {
     background-color: lighten(var(--accent-color), 60%);
     color: var(--light-color);
     padding: 10px;
     border-radius: 5px;
 }
+
 .text h1 {
     margin: 0.5rem 0;
     font-size: 2.4rem;
 }
+
 .text h2 {
     margin: 0.5rem 0;
     font-size: 1.8rem;
 }
+
 .text h3 {
     margin: 0.5rem 0;
     font-size: 1.4rem;
 }
+
 .footer-text {
     margin: 0.5rem 0;
     font-size: 0.9rem;
 }
+
 .subtitle {
     padding-bottom: 0.3125rem;
     margin-top: 1.25rem;
@@ -474,6 +503,7 @@ a:hover {
     /* font-family: 'Computer Modern Sans', sans-serif; */
     /* font-stretch: semi-condensed; */
 }
+
 .title {
     padding-bottom: 0.3125rem;
     margin-top: 1.25rem;
@@ -506,6 +536,7 @@ a:hover {
 }
 
 .gold-banner {
+    width: 27px;
     height: 4px;
     background-color: var(--accent-color);
     margin: 2rem 0;
@@ -516,6 +547,10 @@ a:hover {
     justify-content: center;
     align-items: center;
     margin-bottom: 2rem;
+}
+
+.badge-container:hover {
+    cursor: pointer;
 }
 
 .certification-badge {
@@ -846,16 +881,24 @@ h3.subtitle {
 .polaroid-hidden .title .gold-banner {
     height: 3px;
     background: var(--accent-color);
-    width: 20%;
-    margin: 0;
+    width: 20px;
+    /* margin: 0; */
     position: relative;
     z-index: 3;
 }
 
 /* Hover effects - Modified for persistent titles */
 .polaroid-hidden:hover {
-    transform: translateY(-2rem);
+    /* transform: translateY(-2rem); */
     z-index: 3;
+}
+
+.polaroid-hidden img:hover:not(.zoomed) {
+    cursor: zoom-in;
+}
+
+.polaroid-hidden img.zoomed:hover {
+    cursor: zoom-out;
 }
 
 /* Responsive adjustments */
@@ -947,14 +990,6 @@ h3.subtitle {
 /*     background-color: var(--white-color); */
 /*     padding-top: 0; */
 /*     max-width: 400px; /\* Added max-width for larger screens *\/ */
-/* } */
-
-/* .polaroid img:hover:not(.zoomed) { */
-/*     cursor: zoom-in; */
-/* } */
-
-/* .polaroid img.zoomed:hover { */
-/*     cursor: zoom-out; */
 /* } */
 
 /* .polaroid img { */
@@ -1079,19 +1114,23 @@ form button {
     border-radius: 3rem;
     transition: background-color 0.3s ease;
 }
+
 form input:hover,
 form textarea:hover {
     background-color: var(--accent-opaque);
 }
+
 form button:hover {
     background-color: var(--accent-color);
 }
+
 .scroll-container {
     position: fixed;
     bottom: 2rem;
     left: 50%;
     transform: translateX(-50%);
 }
+
 #scroll-button {
     width: 6vw;
     height: 6vw;
@@ -1108,10 +1147,14 @@ form button:hover {
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 4;
+    position: relative;
 }
+
 #scroll-button:hover {
     background-color: var(--accent-color);
 }
+
 .footer-text {
     text-align: center;
     margin-top: 2rem;
