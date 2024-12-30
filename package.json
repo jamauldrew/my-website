@@ -1,3 +1,4 @@
+// package.json
 {
   "name": "my-website",
   "homepage": "https://github.com/jamauldrew/my-website",
@@ -42,6 +43,7 @@
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.16",
     "path": "^0.12.7",
+    "pnpm": "^9.15.2",
     "postcss": "^8.4.49",
     "prettier": "^3.4.2",
     "stylelint": "^16.12.0",
