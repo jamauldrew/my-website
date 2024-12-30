@@ -1,4 +1,3 @@
-// package.json
 {
   "name": "my-website",
   "homepage": "https://github.com/jamauldrew/my-website",
@@ -7,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "node server",
-    "build": "pnpm run build:client && pnpm run build:server",
+    "build": "npm run build:client && npm run build:server",
     "build:client": "vite build --ssrManifest --outDir dist/client",
     "build:server": "vite build --ssr src/entry-server.jsx --outDir dist/server",
     "lint": "eslint . --ext .jsx,.js,.ts,.tsx --report-unused-disable-directives",
@@ -74,16 +73,9 @@
       "plugin:import/typescript",
       "prettier"
     ],
-    "plugins": [
-      "react-hooks",
-      "@typescript-eslint",
-      "jsx-a11y",
-      "import"
-    ],
+    "plugins": ["react-hooks", "@typescript-eslint", "jsx-a11y", "import"],
     "rules": {
-      "@typescript-eslint/no-unused-vars": [
-        "error"
-      ],
+      "@typescript-eslint/no-unused-vars": ["error"],
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "warn",
       "import/no-unresolved": "error",
@@ -103,5 +95,5 @@
       ]
     }
   },
-  "packageManager": "pnpm@9.7.1+sha512.faf344af2d6ca65c4c5c8c2224ea77a81a5e8859cbc4e06b1511ddce2f0151512431dd19e6aff31f2c6a8f5f2aced9bd2273e1fed7dd4de1868984059d2c4247"
+  "packageManager": "npm"
 }
