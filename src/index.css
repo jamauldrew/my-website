@@ -240,6 +240,7 @@ code {
     cursor: pointer;
     color: var(--dark-color);
 }
+
 #nav-menu {
     position: fixed;
     top: 0;
@@ -266,6 +267,10 @@ code {
     background: none;
     border: none;
     cursor: pointer;
+}
+.close-button:hover {
+    background-color: var(--accent-opaque);
+    border-radius: 0.5rem;
 }
 #nav-menu ul {
     list-style: none;
@@ -391,6 +396,13 @@ code {
     justify-content: space-between;
 }
 
+/* Hover states for all links */
+#nav-menu ul li a:hover,
+.fold-down-content a:hover {
+    background-color: var(--accent-opaque);
+    border-radius: 0.5rem;
+}
+
 .fold-down-menu > a .toggle {
     margin-left: 10px;
 }
@@ -442,11 +454,6 @@ h6 {
 a {
     color: var(--dark-color);
     text-decoration: none;
-}
-
-a:hover {
-    background-color: var(--accent-opaque);
-    border-radius: 2.5rem;
 }
 
 .button {
@@ -536,7 +543,7 @@ a:hover {
 }
 
 .gold-banner {
-    width: 27px;
+    width: 8rem;
     height: 4px;
     background-color: var(--accent-color);
     margin: 2rem 0;
@@ -554,7 +561,7 @@ a:hover {
 }
 
 .certification-badge {
-    max-width: 150px;
+    max-width: 25vw;
     height: auto;
 }
 
@@ -594,6 +601,10 @@ a:hover {
     padding: 0 2rem;
     position: relative;
     margin-bottom: 4rem;
+    max-width: 65vw; /* Set the maximum width */
+    margin-left: auto; /* Center the text horizontally */
+    margin-right: auto; /* Center the text horizontally */
+    text-align: center; /* Center the text within the div */
 }
 
 .about-text::before,
@@ -670,7 +681,7 @@ a:hover {
     border-radius: 5px;
     padding: 5px 0;
     position: absolute;
-    z-index: 1;
+    z-index: 4;
     bottom: 100%;
     left: 50%;
     margin-left: -100px;
@@ -684,7 +695,7 @@ a:hover {
 
 /* Subtitle styles */
 h3.subtitle {
-    border-bottom: 0.125rem solid var(--accent-color);
+    /* border-bottom: 0.125rem solid var(--accent-color); */
     margin-right: 8.5rem;
 }
 
@@ -694,32 +705,38 @@ h3.subtitle {
     text-align: center;
     flex-direction: column;
 }
+
 .profile-image {
     display: flex;
     justify-content: center;
     padding: 2rem;
 }
+
 .profile-pic {
     width: 20vw;
     border-radius: 50%;
     box-shadow: var(--light-shadow);
-    margin-top: 2rem;
+    margin-top: 1rem;
 }
+
 .profile-text {
     font-size: 1.4rem;
     font-weight: 500;
     letter-spacing: 0.05rem;
 }
+
 .profile-banner-item {
     white-space: nowrap;
     margin-right: 0.5rem;
 }
+
 .profile-banner-item:not(:last-child)::after {
     content: '|';
     color: var(--accent-color);
     margin-left: 0.3rem;
     margin-right: 0.3rem;
 }
+
 .badge-container {
     position: absolute;
     z-index: 2;
@@ -728,6 +745,7 @@ h3.subtitle {
     width: 14rem;
     height: auto;
 }
+
 .badge-container img {
     max-width: 100%;
     height: auto;
@@ -752,13 +770,13 @@ h3.subtitle {
 /* Optimized Section Layout */
 /* Primary Section Configuration */
 .polaroid-section {
-    min-height: 100vh;
-    display: flex;
+    min-height: 80vh;
+    align-items: flex-start;
     align-items: center;
     justify-content: center;
     background-color: var(--light-color);
     position: relative;
-    padding: 3rem 1rem;
+    padding: 1.5rem 1rem;
     margin-bottom: 12rem;
 }
 
@@ -768,25 +786,25 @@ h3.subtitle {
     width: 95vw; /* Using viewport width for better screen coverage */
     max-width: 180rem; /* Doubled from previous 90rem */
     border-radius: 2rem;
-    margin: 3rem auto;
+    margin: 1.5rem auto;
     box-shadow: var(--light-shadow);
     padding: 5rem;
     position: relative;
 }
 
 /* Background offset effect */
-.polaroid-card::before {
-    content: '';
-    position: absolute;
-    top: 4rem;
-    left: 4rem;
-    right: -4rem;
-    bottom: -4rem;
-    background: var(--light-color);
-    border-radius: 2rem;
-    z-index: -1;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-}
+/* .polaroid-card::before { */
+/*     content: ''; */
+/*     position: absolute; */
+/*     top: 4rem; */
+/*     left: 4rem; */
+/*     right: -4rem; */
+/*     bottom: -4rem; */
+/*     background: var(--light-color); */
+/*     border-radius: 2rem; */
+/*     z-index: -1; */
+/*     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); */
+/* } */
 
 /* Section title area */
 .polaroid-card .title-container {
@@ -881,7 +899,7 @@ h3.subtitle {
 .polaroid-hidden .title .gold-banner {
     height: 3px;
     background: var(--accent-color);
-    width: 20px;
+    width: 6rem;
     /* margin: 0; */
     position: relative;
     z-index: 3;
@@ -1129,6 +1147,7 @@ form button:hover {
     bottom: 2rem;
     left: 50%;
     transform: translateX(-50%);
+    z-index: 1000;
 }
 
 #scroll-button {
@@ -1147,7 +1166,7 @@ form button:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 4;
+    z-index: 1000;
     position: relative;
 }
 

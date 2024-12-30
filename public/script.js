@@ -110,6 +110,54 @@ function initializePage() {
 
   // Form submission handling
   document.addEventListener('DOMContentLoaded', () => {
+    const header = document.querySelector('.header')
+    const targetSection = document.querySelector('#engineering-services')
+
+    // Configure observer with high-precision threshold values
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+    }
+
+    let previousY = window.scrollY
+    let isAboveTarget = true
+
+    const intersectionCallback = entries => {
+      entries.forEach(entry => {
+        const currentY = window.scrollY
+
+        // Determine scroll direction and section visibility
+        const scrollingDown = currentY > previousY
+        const intersectionRatio = entry.intersectionRatio
+
+        if (scrollingDown) {
+          if (intersectionRatio < 0.5) {
+            header.style.position = 'absolute'
+            header.style.transform = 'translateY(-100%)'
+            isAboveTarget = false
+          }
+        } else {
+          if (intersectionRatio > 0.5 || currentY < entry.target.offsetTop) {
+            header.style.position = 'fixed'
+            header.style.transform = 'translateY(0)'
+            isAboveTarget = true
+          }
+        }
+
+        previousY = currentY
+      })
+    }
+
+    const observer = new IntersectionObserver(
+      intersectionCallback,
+      observerOptions
+    )
+
+    if (targetSection) {
+      observer.observe(targetSection)
+    }
+
     const form = document.getElementById('contact-form')
     const submitButton = document.getElementById('submit-button')
     const buttonText = submitButton.querySelector('.button-text')

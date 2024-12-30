@@ -62,10 +62,10 @@
         <button class="close-button" onclick="toggleMenu()">✕</button>
         <ul>
           <li><a href="#about">About</a></li>
-          <li><a href="#services">Services</a></li>
+          <li><a href="#expertise">Expertise</a></li>
           <li class="fold-down-menu">
             <a href="#" onclick="toggleFoldDown(event)"
-              >Expertise <span class="toggle">&#9662;</span></a
+              >Services <span class="toggle">&#9662;</span></a
             >
             <div class="fold-down-content">
               <a href="#engineering-services">Engineering Services</a>
@@ -148,9 +148,10 @@
       </div>
 
       <section class="polaroid-section">
-        <div class="polaroid-card">
+        <div class="polaroid-card" id="about">
           <div class="title-container">
             <h2 class="subtitle">Engineering Excellence</h2>
+            <div class="gold-banner"></div>
           <link rel="icon" type="image/svg+xml" href="/JM_Logo.svg" />
           <div class="badge-container">
             <a
@@ -214,7 +215,7 @@
             </div>
           </div>
 
-          <div class="technical-expertise">
+          <div class="technical-expertise" id="expertise">
             <h3 class="subtitle">Core Competencies</h3>
 
             <div class="expertise-grid">
