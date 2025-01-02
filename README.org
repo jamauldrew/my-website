@@ -226,3 +226,446 @@ touch tests/bootstrap.php
    - [ ] Integration tests
    - [ ] Performance optimization
    - [ ] Security hardening
+
+* New List
+** Revised Workflow
+*** Parse the HTML File with Beautiful Soup
+   Extract relevant information, such as:
+   - Tag names (<div>, <p>, etc.)
+   - Inline styles
+   - Class names
+   - IDs (if necessary for mapping CSS rules)
+
+*** Parse the CSS File
+   Use the cssutils library to extract and map selectors (classes, IDs, or tags) to their styles.
+
+*** Match HTML Elements with Their Styles
+   Combine:
+   - Inline styles
+   - External CSS styles (resolved using class names, IDs, or tags)
+
+*** Convert Styles to Tailwind CSS
+   Use a mapping or predefined rules to translate CSS properties into Tailwind classes.
+
+*** Rebuild the HTML with Tailwind CSS
+   Replace inline styles and class names with Tailwind classes, and save the output to a new HTML file.
+
+** Step-by-Step Implementation
+*** Install Required Libraries
+   #+BEGIN_SRC
+   pip install beautifulsoup4 cssutils
+   #+END_SRC
+
+*** Parse the HTML File
+Extract tags, inline styles, and class names.
+
+#+BEGIN_SRC python :results output
+from bs4 import BeautifulSoup
+
+# Load the HTML file
+with open("/mnt/e/code/html/my-website/index.html", "r", encoding="utf-8") as file:
+    soup = BeautifulSoup(file, "html.parser")
+
+# Extract relevant information
+elements = []
+for el in soup.find_all(True):  # Finds all tags
+    tag_name = el.name
+    inline_style = el.get("style", "")
+    class_name = el.get("class", [])
+    elements.append({
+        "tag": tag_name,
+        "classes": class_name,
+        "inline_style": inline_style,
+    })
+
+print(elements)  # List of elements with styles and classes
+#+END_SRC
+
+#+RESULTS:
+: [{'tag': 'html', 'classes': [], 'inline_style': ''}, {'tag': 'head', 'classes': [], 'inline_style': ''}, {'tag': 'meta', 'classes': [], 'inline_style': ''}, {'tag': 'link', 'classes': [], 'inline_style': ''}, {'tag': 'meta', 'classes': [], 'inline_style': ''}, {'tag': 'meta', 'classes': [], 'inline_style': ''}, {'tag': 'title', 'classes': [], 'inline_style': ''}, {'tag': 'link', 'classes': [], 'inline_style': ''}, {'tag': 'link', 'classes': [], 'inline_style': ''}, {'tag': 'link', 'classes': [], 'inline_style': ''}, {'tag': 'link', 'classes': [], 'inline_style': ''}, {'tag': 'link', 'classes': [], 'inline_style': ''}, {'tag': 'link', 'classes': [], 'inline_style': ''}, {'tag': 'link', 'classes': [], 'inline_style': ''}, {'tag': 'link', 'classes': [], 'inline_style': ''}, {'tag': 'link', 'classes': [], 'inline_style': ''}, {'tag': 'body', 'classes': [], 'inline_style': ''}, {'tag': 'header', 'classes': ['header'], 'inline_style': ''}, {'tag': 'div', 'classes': ['logo-title-container'], 'inline_style': ''}, {'tag': 'img', 'classes': ['company-logo'], 'inline_style': ''}, {'tag': 'div', 'classes': ['hamburger-container'], 'inline_style': ''}, {'tag': 'button', 'classes': ['hamburger-button'], 'inline_style': ''}, {'tag': 'nav', 'classes': [], 'inline_style': ''}, {'tag': 'button', 'classes': ['close-button'], 'inline_style': ''}, {'tag': 'ul', 'classes': [], 'inline_style': ''}, {'tag': 'li', 'classes': [], 'inline_style': ''}, {'tag': 'a', 'classes': [], 'inline_style': ''}, {'tag': 'li', 'classes': [], 'inline_style': ''}, {'tag': 'a', 'classes': [], 'inline_style': ''}, {'tag': 'li', 'classes': ['fold-down-menu'], 'inline_style': ''}, {'tag': 'a', 'classes': [], 'inline_style': ''}, {'tag': 'span', 'classes': ['toggle'], 'inline_style': ''}, {'tag': 'div', 'classes': ['fold-down-content'], 'inline_style': ''}, {'tag': 'a', 'classes': [], 'inline_style': ''}, {'tag': 'a', 'classes': [], 'inline_style': ''}, {'tag': 'a', 'classes': [], 'inline_style': ''}, {'tag': 'a', 'classes': [], 'inline_style': ''}, {'tag': 'a', 'classes': [], 'inline_style': ''}, {'tag': 'a', 'classes': [], 'inline_style': ''}, {'tag': 'li', 'classes': [], 'inline_style': ''}, {'tag': 'a', 'classes': [], 'inline_style': ''}, {'tag': 'script', 'classes': [], 'inline_style': ''}, {'tag': 'div', 'classes': [], 'inline_style': ''}, {'tag': 'div', 'classes': ['profile-banner'], 'inline_style': ''}, {'tag': 'div', 'classes': ['profile-image'], 'inline_style': ''}, {'tag': 'img', 'classes': ['profile-pic'], 'inline_style': ''}, {'tag': 'div', 'classes': ['profile-text'], 'inline_style': ''}, {'tag': 'h2', 'classes': [], 'inline_style': ''}, {'tag': 'span', 'classes': ['profile-banner-item'], 'inline_style': ''}, {'tag': 'span', 'classes': ['profile-banner-item'], 'inline_style': ''}, {'tag': 'span', 'classes': ['profile-banner-item'], 'inline_style': ''}, {'tag': 'h3', 'classes': [], 'inline_style': ''}, {'tag': 'section', 'classes': ['polaroid-section'], 'inline_style': ''}, {'tag': 'div', 'classes': ['polaroid-card'], 'inline_style': ''}, {'tag': 'div', 'classes': ['title-container'], 'inline_style': ''}, {'tag': 'h2', 'classes': ['subtitle'], 'inline_style': ''}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': ''}, {'tag': 'link', 'classes': [], 'inline_style': ''}, {'tag': 'div', 'classes': ['badge-container'], 'inline_style': ''}, {'tag': 'a', 'classes': [], 'inline_style': ''}, {'tag': 'img', 'classes': [], 'inline_style': ''}, {'tag': 'div', 'classes': ['credly-badge'], 'inline_style': ''}, {'tag': 'script', 'classes': [], 'inline_style': ''}, {'tag': 'noscript', 'classes': [], 'inline_style': ''}, {'tag': 'img', 'classes': [], 'inline_style': 'display: block'}, {'tag': 'div', 'classes': ['expertise-highlights'], 'inline_style': ''}, {'tag': 'ul', 'classes': ['highlights-grid'], 'inline_style': ''}, {'tag': 'li', 'classes': ['highlight-item'], 'inline_style': ''}, {'tag': 'span', 'classes': ['arrow-icon'], 'inline_style': ''}, {'tag': 'li', 'classes': ['highlight-item'], 'inline_style': ''}, {'tag': 'span', 'classes': ['arrow-icon'], 'inline_style': ''}, {'tag': 'li', 'classes': ['highlight-item'], 'inline_style': ''}, {'tag': 'span', 'classes': ['arrow-icon'], 'inline_style': ''}, {'tag': 'li', 'classes': ['highlight-item'], 'inline_style': ''}, {'tag': 'span', 'classes': ['arrow-icon'], 'inline_style': ''}, {'tag': 'div', 'classes': ['about-text'], 'inline_style': ''}, {'tag': 'p', 'classes': [], 'inline_style': ''}, {'tag': 'div', 'classes': ['technical-expertise'], 'inline_style': ''}, {'tag': 'h3', 'classes': ['subtitle'], 'inline_style': ''}, {'tag': 'div', 'classes': ['expertise-grid'], 'inline_style': ''}, {'tag': 'div', 'classes': ['expertise-card'], 'inline_style': ''}, {'tag': 'h4', 'classes': ['expertise-title'], 'inline_style': ''}, {'tag': 'ul', 'classes': ['expertise-list'], 'inline_style': ''}, {'tag': 'li', 'classes': [], 'inline_style': ''}, {'tag': 'span', 'classes': ['check-icon'], 'inline_style': ''}, {'tag': 'li', 'classes': [], 'inline_style': ''}, {'tag': 'span', 'classes': ['check-icon'], 'inline_style': ''}, {'tag': 'li', 'classes': [], 'inline_style': ''}, {'tag': 'span', 'classes': ['check-icon'], 'inline_style': ''}, {'tag': 'div', 'classes': ['expertise-card'], 'inline_style': ''}, {'tag': 'h4', 'classes': ['expertise-title'], 'inline_style': ''}, {'tag': 'ul', 'classes': ['expertise-list'], 'inline_style': ''}, {'tag': 'li', 'classes': [], 'inline_style': ''}, {'tag': 'span', 'classes': ['check-icon'], 'inline_style': ''}, {'tag': 'li', 'classes': [], 'inline_style': ''}, {'tag': 'span', 'classes': ['check-icon'], 'inline_style': ''}, {'tag': 'li', 'classes': [], 'inline_style': ''}, {'tag': 'span', 'classes': ['check-icon'], 'inline_style': ''}, {'tag': 'div', 'classes': ['expertise-card'], 'inline_style': ''}, {'tag': 'h4', 'classes': ['expertise-title'], 'inline_style': ''}, {'tag': 'ul', 'classes': ['expertise-list'], 'inline_style': ''}, {'tag': 'li', 'classes': [], 'inline_style': ''}, {'tag': 'span', 'classes': ['check-icon'], 'inline_style': ''}, {'tag': 'li', 'classes': [], 'inline_style': ''}, {'tag': 'span', 'classes': ['check-icon'], 'inline_style': ''}, {'tag': 'li', 'classes': [], 'inline_style': ''}, {'tag': 'span', 'classes': ['check-icon'], 'inline_style': ''}, {'tag': 'div', 'classes': ['expertise-card'], 'inline_style': ''}, {'tag': 'h4', 'classes': ['expertise-title'], 'inline_style': ''}, {'tag': 'ul', 'classes': ['expertise-list'], 'inline_style': ''}, {'tag': 'li', 'classes': [], 'inline_style': ''}, {'tag': 'span', 'classes': ['check-icon'], 'inline_style': ''}, {'tag': 'li', 'classes': [], 'inline_style': ''}, {'tag': 'span', 'classes': ['check-icon'], 'inline_style': ''}, {'tag': 'li', 'classes': [], 'inline_style': ''}, {'tag': 'span', 'classes': ['check-icon'], 'inline_style': ''}, {'tag': 'section', 'classes': ['polaroid-section'], 'inline_style': ''}, {'tag': 'div', 'classes': ['polaroid-card'], 'inline_style': ''}, {'tag': 'span', 'classes': ['subtitle'], 'inline_style': ''}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': ''}, {'tag': 'p', 'classes': ['lightGrey'], 'inline_style': ''}, {'tag': 'div', 'classes': ['polaroid-wrapper'], 'inline_style': ''}, {'tag': 'div', 'classes': ['polaroid-hidden'], 'inline_style': ''}, {'tag': 'p', 'classes': ['title'], 'inline_style': ''}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': ''}, {'tag': 'img', 'classes': [], 'inline_style': ''}, {'tag': 'div', 'classes': ['polaroid-hidden'], 'inline_style': ''}, {'tag': 'p', 'classes': ['title'], 'inline_style': ''}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': ''}, {'tag': 'img', 'classes': [], 'inline_style': ''}, {'tag': 'section', 'classes': ['polaroid-section'], 'inline_style': ''}, {'tag': 'div', 'classes': ['polaroid-card'], 'inline_style': ''}, {'tag': 'span', 'classes': ['subtitle'], 'inline_style': ''}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': ''}, {'tag': 'p', 'classes': ['lightGrey'], 'inline_style': ''}, {'tag': 'div', 'classes': ['polaroid-wrapper'], 'inline_style': ''}, {'tag': 'div', 'classes': ['polaroid-hidden'], 'inline_style': ''}, {'tag': 'p', 'classes': ['title'], 'inline_style': ''}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': ''}, {'tag': 'img', 'classes': [], 'inline_style': ''}, {'tag': 'div', 'classes': ['polaroid-hidden'], 'inline_style': ''}, {'tag': 'p', 'classes': ['title'], 'inline_style': ''}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': ''}, {'tag': 'img', 'classes': [], 'inline_style': ''}, {'tag': 'section', 'classes': ['polaroid-section'], 'inline_style': ''}, {'tag': 'div', 'classes': ['polaroid-card'], 'inline_style': ''}, {'tag': 'span', 'classes': ['subtitle'], 'inline_style': ''}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': ''}, {'tag': 'p', 'classes': ['lightGrey'], 'inline_style': ''}, {'tag': 'div', 'classes': ['polaroid-wrapper'], 'inline_style': ''}, {'tag': 'div', 'classes': ['polaroid-hidden'], 'inline_style': ''}, {'tag': 'p', 'classes': ['title'], 'inline_style': ''}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': ''}, {'tag': 'img', 'classes': [], 'inline_style': ''}, {'tag': 'div', 'classes': ['polaroid-hidden'], 'inline_style': ''}, {'tag': 'p', 'classes': ['title'], 'inline_style': ''}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': ''}, {'tag': 'img', 'classes': [], 'inline_style': ''}, {'tag': 'section', 'classes': ['polaroid-section'], 'inline_style': ''}, {'tag': 'div', 'classes': ['polaroid-card'], 'inline_style': ''}, {'tag': 'span', 'classes': ['subtitle'], 'inline_style': ''}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': ''}, {'tag': 'p', 'classes': ['lightGrey'], 'inline_style': ''}, {'tag': 'div', 'classes': ['polaroid-wrapper'], 'inline_style': ''}, {'tag': 'div', 'classes': ['polaroid-hidden'], 'inline_style': ''}, {'tag': 'p', 'classes': ['title'], 'inline_style': ''}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': ''}, {'tag': 'img', 'classes': [], 'inline_style': ''}, {'tag': 'div', 'classes': ['polaroid-hidden'], 'inline_style': ''}, {'tag': 'p', 'classes': ['title'], 'inline_style': ''}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': ''}, {'tag': 'img', 'classes': [], 'inline_style': ''}, {'tag': 'section', 'classes': ['polaroid-section'], 'inline_style': ''}, {'tag': 'div', 'classes': ['polaroid-card'], 'inline_style': ''}, {'tag': 'span', 'classes': ['subtitle'], 'inline_style': ''}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': ''}, {'tag': 'p', 'classes': ['lightGrey'], 'inline_style': ''}, {'tag': 'div', 'classes': ['polaroid-wrapper'], 'inline_style': ''}, {'tag': 'div', 'classes': ['polaroid-hidden'], 'inline_style': ''}, {'tag': 'p', 'classes': ['title'], 'inline_style': ''}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': ''}, {'tag': 'img', 'classes': [], 'inline_style': ''}, {'tag': 'div', 'classes': ['polaroid-hidden'], 'inline_style': ''}, {'tag': 'p', 'classes': ['title'], 'inline_style': ''}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': ''}, {'tag': 'img', 'classes': [], 'inline_style': ''}, {'tag': 'section', 'classes': ['polaroid-section'], 'inline_style': ''}, {'tag': 'div', 'classes': ['polaroid-card'], 'inline_style': ''}, {'tag': 'span', 'classes': ['subtitle'], 'inline_style': ''}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': ''}, {'tag': 'p', 'classes': ['lightGrey'], 'inline_style': ''}, {'tag': 'div', 'classes': ['polaroid-wrapper'], 'inline_style': ''}, {'tag': 'div', 'classes': ['polaroid-hidden'], 'inline_style': ''}, {'tag': 'p', 'classes': ['title'], 'inline_style': ''}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': ''}, {'tag': 'img', 'classes': [], 'inline_style': ''}, {'tag': 'div', 'classes': ['polaroid-hidden'], 'inline_style': ''}, {'tag': 'p', 'classes': ['title'], 'inline_style': ''}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': ''}, {'tag': 'img', 'classes': [], 'inline_style': ''}, {'tag': 'section', 'classes': ['form-section'], 'inline_style': ''}, {'tag': 'div', 'classes': ['form-card'], 'inline_style': ''}, {'tag': 'div', 'classes': ['form-header'], 'inline_style': ''}, {'tag': 'h2', 'classes': ['subtitle'], 'inline_style': ''}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': ''}, {'tag': 'form', 'classes': [], 'inline_style': ''}, {'tag': 'input', 'classes': ['form-hidden'], 'inline_style': ''}, {'tag': 'div', 'classes': ['form-group'], 'inline_style': ''}, {'tag': 'input', 'classes': [], 'inline_style': ''}, {'tag': 'div', 'classes': ['form-group'], 'inline_style': ''}, {'tag': 'input', 'classes': [], 'inline_style': ''}, {'tag': 'div', 'classes': ['form-group'], 'inline_style': ''}, {'tag': 'input', 'classes': [], 'inline_style': ''}, {'tag': 'div', 'classes': ['form-group'], 'inline_style': ''}, {'tag': 'textarea', 'classes': [], 'inline_style': ''}, {'tag': 'div', 'classes': ['status-message'], 'inline_style': ''}, {'tag': 'button', 'classes': ['submit-button'], 'inline_style': ''}, {'tag': 'span', 'classes': ['button-text'], 'inline_style': ''}, {'tag': 'span', 'classes': ['spinner', 'form-hidden'], 'inline_style': ''}, {'tag': 'footer', 'classes': [], 'inline_style': ''}, {'tag': 'div', 'classes': ['scroll-container'], 'inline_style': ''}, {'tag': 'button', 'classes': [], 'inline_style': ''}, {'tag': 'p', 'classes': ['footer-text'], 'inline_style': ''}, {'tag': 'script', 'classes': [], 'inline_style': ''}, {'tag': 'script', 'classes': [], 'inline_style': ''}, {'tag': 'script', 'classes': [], 'inline_style': ''}, {'tag': 'script', 'classes': [], 'inline_style': ''}]
+
+*** Parse the CSS File
+   Use cssutils to extract styles associated with classes, IDs, or tags.
+
+#+BEGIN_SRC python :results output :tangle extract_css.py
+# HTML parse
+from bs4 import BeautifulSoup
+
+# Load the HTML file
+with open("/mnt/e/code/html/my-website/index.html", "r", encoding="utf-8") as file:
+    soup = BeautifulSoup(file, "html.parser")
+
+# Extract relevant information
+elements = []
+for el in soup.find_all(True):  # Finds all tags
+    tag_name = el.name
+    inline_style = el.get("style", "")
+    class_name = el.get("class", [])
+    elements.append({
+        "tag": tag_name,
+        "classes": class_name,
+        "inline_style": inline_style,
+    })
+
+print(elements)  # List of elements with styles and classes
+
+# CSS Parse
+import cssutils
+
+# Parse the CSS file
+css_map = {}
+with open("/mnt/e/code/html/my-website/src/index.css", "r", encoding="utf-8") as css_file:
+    stylesheet = cssutils.parseString(css_file.read())
+
+    for rule in stylesheet:
+        if rule.type == rule.STYLE_RULE:
+            selector = rule.selectorText
+            styles = rule.style.cssText
+            css_map[selector] = styles
+
+print(css_map)  # Dictionary mapping selectors to styles
+#+END_SRC
+
+#+RESULTS:
+: {'.full-screen-section': 'box-sizing: border-box;\ndisplay: flex;\nflex-direction: column;\njustify-content: center;\nmin-height: 100vh;\npadding: 2rem', ':root': '--space-xs: 0.25rem;\n--space-sm: 0.5rem;\n--space-md: 1rem;\n--space-lg: 2rem;\n--space-xl: 4rem;\n/* Color Variables */\n--light-color: #f8f8f8;\n--dark-color: #333;\n--accent-color: #e7d192;\n--dark-accent: #8f0d0d;\n--white-color: #fff;\n--sublight-color: #dfdfdf;\n--subdark-color: #474747;\n--subaccent-color: #5d6d7e;\n--subprimary-color: #34495e;\n--subborder-color: #283747;\n--light-logo: "/images/JamLog.png";\n--dark-logo: "/images/JamLogDark.png";\n/* Shadow Variables */\n/* Opaque Variables */\n/* Text Shadow Variables */\n/* Highlight Variables */\n/* Font smoothing and text size adjustment */\n-webkit-font-smoothing: antialiased;\n-moz-osx-font-smoothing: grayscale;\ntext-size-adjust: 100%', 'html, body': 'height: 100%;\nmargin: 0;\npadding: 0', 'html': 'font-family: Arial, -apple-system, Roboto, BlinkMacSystemFont, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;\nfont-size: 62.5%;\nfont-stretch: semi-condensed;\nfont-weight: 400;\nline-height: 1.5;\nscroll-behavior: smooth', 'body': '/* margin: auto; */\n/* max-width: 90vw; */\n/* padding: 1em; */\nbackground-color: var(--light-color);\ncolor: var(--dark-color)', 'code': 'font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace', '.header': 'align-items: center;\nbackground-color: var(--light-color);\ndisplay: flex;\njustify-content: space-between;\npadding: 10px 20px', '.logo-title-container': 'align-items: center;\ndisplay: flex;\nflex-grow: 1;\nmargin-top: 10px;\norder: 2;\nwidth: 100%', '#nav-title': 'font-size: 1.8rem;\nfont-weight: 600;\nletter-spacing: 0.05rem;\nmargin: 0;\ntext-transform: uppercase', '#nav-title a': 'color: var(--dark-color);\ntext-decoration: none', '.hamburger-container': 'order: 2', '.hamburger-container:hover': 'background-color: var(--accent-opaque);\nborder-radius: 2.5rem', '.hamburger-button': 'background: none;\nborder: none;\ncolor: var(--dark-color);\ncursor: pointer;\nfont-size: 2.8rem', '#nav-menu': 'align-items: center;\nbackground: var(--light-color);\ndisplay: flex;\nflex-direction: column;\nheight: 100%;\noverflow-y: auto;\nposition: fixed;\nright: -300px;\n/* Adjust width as needed */\ntop: 0;\ntransition: right 0.3s ease;\nwidth: 300px', '#nav-menu.nav-shown': 'right: 0', '#nav-menu.nav-hidden': 'transform: translatex(100%)', '.close-button': 'align-self: flex-end;\nbackground: none;\nborder: none;\ncolor: var(--dark-color);\ncursor: pointer;\nfont-size: 2rem;\nmargin: 10px;\npadding: 10px', '.close-button:hover': 'background-color: var(--accent-opaque);\nborder-radius: 0.5rem', '#nav-menu ul': 'list-style: none;\nmargin-top: 50px;\npadding: 20px', '#nav-menu ul li': 'margin-bottom: 15px', '#nav-menu ul li a': 'color: var(--dark-color);\nfont-weight: bold;\ntext-decoration: none', '.fold-down-content': 'background: var(--light-color);\ncolor: var(--dark-color);\ndisplay: none;\nflex-direction: column;\nfont-size: 1.4rem;\nmargin-top: 10px;\npadding-left: 20px;\nposition: relative;\ntext-transform: uppercase', '.fold-down-content.shown': 'display: flex', '.fold-down-content a': 'display: block;\nmargin-top: 10px', '.logo-container': 'margin-right: 1rem', '.company-logo': 'height: auto;\nmargin-right: 10px;\nmax-width: 25vw', '.company-logo:hover': 'background-color: var(--accent-opaque);\nborder-radius: 2.5rem;\ncursor: pointer', '.bold-selection': 'border-radius: 2.5rem;\ncolor: var(--dark-color);\ncursor: pointer;\ndisplay: block;\nfont-size: 1.8rem;\nmargin: 10px 0;\npadding: 10px;\ntext-decoration: none;\ntext-transform: uppercase;\ntransition: background-color 0.3s ease, color 0.3s ease;\nwhite-space: nowrap;\nwidth: 100%', '.fold-down-menu': 'position: relative;\nwidth: 100%', '.fold-down-menu > a': 'align-items: center;\ndisplay: flex;\njustify-content: space-between', '#nav-menu ul li a:hover, .fold-down-content a:hover': 'background-color: var(--accent-opaque);\nborder-radius: 0.5rem', '.fold-down-menu > a .toggle': 'margin-left: 10px', 'a.bold-selection:hover, a.bold-href:hover, h1#nav-title a:hover': 'background-color: var(--accent-opaque);\nborder-radius: 2.5rem;\ncolor: var(--accent-color);\ntext-decoration: none', 'a.bold-href': 'display: block;\npadding: 0.25rem 10px;\nwhite-space: nowrap;\nwidth: 100%', 'button': 'background-color: var(--dark-color);\nborder: none;\ncolor: var(--light-color);\ncursor: pointer;\npadding: 10px 20px', 'p, h1, h2, h3, h4, h5, h6': 'color: var(--dark-color)', 'a': 'color: var(--dark-color);\ntext-decoration: none', '.button': 'background-color: var(--dark-color);\nborder: none;\nborder-radius: 5px;\ncolor: var(--dark-color);\ncursor: pointer;\npadding: 10px 20px', '.button:hover': 'background-color: darken(var(--accent-color), 10%)', '.border': 'border-color: var(--accent-color)', '.alert': 'background-color: lighten(var(--accent-color), 60%);\nborder-radius: 5px;\ncolor: var(--light-color);\npadding: 10px', '.text h1': 'font-size: 2.4rem;\nmargin: 0.5rem 0', '.text h2': 'font-size: 1.8rem;\nmargin: 0.5rem 0', '.text h3': 'font-size: 1.4rem;\nmargin: 0.5rem 0', '.footer-text': 'font-weight: 400;\nmargin-top: 2rem;\ntext-align: center', '.subtitle': "font-size: 2.4rem;\nfont-weight: 600;\nmargin-bottom: 0.625rem;\nmargin-top: 1.25rem;\npadding-bottom: 0.3125rem;\ntext-transform: uppercase;\n/* font-family: 'Computer Modern Sans', sans-serif; */\n/* font-stretch: semi-condensed; */", '.title': 'border-bottom: 0.125rem solid var(--accent-color);\ncolor: var(--dark-color);\nfont-size: 1.8rem;\nfont-weight: 500;\nmargin-bottom: 0.625rem;\nmargin-top: 1.25rem;\npadding-bottom: 0.3125rem;\ntext-transform: uppercase;\nz-index: 1', '.card': 'border-radius: 1.5rem;\nbox-shadow: var(--light-shadow);\nmargin: 1rem 1rem 1.5rem;\npadding: 1rem;\nposition: relative', '.section': 'align-items: center;\nborder-radius: 1.5rem;\ndisplay: flex;\nheight: 100vh;\njustify-content: center;\nmargin-bottom: 1.5rem;\npadding: 2rem', '.gold-banner': 'background-color: var(--accent-color);\nheight: 4px;\nmargin: 2rem 0;\nwidth: 8rem', '.badge-container': 'height: auto;\nposition: absolute;\nright: 2vw;\ntop: 5vw;\nwidth: 14rem;\nz-index: 2', '.badge-container:hover': 'cursor: pointer', '.certification-badge': 'height: auto;\nmax-width: 25vw', '.expertise-highlights': 'margin-bottom: 4rem', '.highlights-grid': 'display: grid;\ngap: 1.5rem;\ngrid-template-columns: repeat(2, 1fr);\nlist-style: none;\nmargin-bottom: 3rem;\npadding: 0', '.highlight-item': 'border-bottom: 2px solid var(--accent-color);\ncolor: var(--subdark-color);\nfont-size: 1.25rem;\npadding: 1.5rem;\npadding-left: 2.5rem;\nposition: relative', '.arrow-icon': 'color: var(--accent-color);\nfont-weight: bold;\nleft: 0;\nposition: absolute', '.about-text': 'color: var(--subdark-color);\nfont-size: 1.25rem;\nline-height: 1.75;\nmargin-bottom: 4rem;\nmargin-left: auto;\n/* Center the text horizontally */\nmargin-right: auto;\n/* Center the text horizontally */\nmax-width: 65vw;\n/* Set the maximum width */\npadding: 0 2rem;\nposition: relative;\ntext-align: center;\n/* Center the text within the div */', '.about-text::before, .about-text::after': 'color: var(--accent-color);\ncontent: "\\"";\nfont-family: serif;\nfont-size: 4rem;\nposition: absolute', '.about-text::before': 'left: -1rem;\ntop: -2rem', '.about-text::after': 'bottom: -3rem;\nright: 1rem', '.technical-expertise': 'margin-top: 4rem', '.expertise-grid': 'display: grid;\ngap: 3rem;\ngrid-template-columns: repeat(2, 1fr);\nmargin-top: 2rem', '.expertise-card': 'padding: 2rem', '.expertise-title': 'color: var(--dark-color);\nfont-size: 1.5rem;\nfont-weight: 600;\nmargin-bottom: 1.5rem', '.expertise-list': 'list-style: none;\nmargin: 0;\npadding: 0', '.expertise-list li': 'align-items: center;\ncolor: var(--subdark-color);\ndisplay: flex;\nfont-size: 1.125rem;\nmargin-bottom: 1rem', '.check-icon': 'color: var(--accent-color);\nmargin-right: 0.75rem', '.tooltips': 'display: inline-block;\nposition: relative', '.tooltips .tooltiptext': 'background-color: var(--dark-color);\nborder-radius: 5px;\nbottom: 100%;\ncolor: var(--white-color);\nleft: 50%;\nmargin-left: -100px;\nopacity: 0;\npadding: 5px 0;\nposition: absolute;\ntext-align: center;\ntransition: opacity 0.3s;\nvisibility: hidden;\nwidth: 200px;\nz-index: 4', '.tooltips:hover .tooltiptext': 'opacity: 1;\nvisibility: visible', 'h3.subtitle': '/* border-bottom: 0.125rem solid var(--accent-color); */\nmargin-right: 8.5rem', '.profile-banner': 'align-items: center;\ndisplay: flex;\nflex-direction: column;\ntext-align: center', '.profile-image': 'display: flex;\njustify-content: center;\npadding: 2rem', '.profile-pic': 'border-radius: 50%;\nbox-shadow: var(--light-shadow);\nmargin-top: 1rem;\nwidth: 20vw', '.profile-text': 'font-size: 1.4rem;\nfont-weight: 500;\nletter-spacing: 0.05rem', '.profile-banner-item': 'margin-right: 0.5rem;\nwhite-space: nowrap', '.profile-banner-item:not(:last-child)::after': 'color: var(--accent-color);\ncontent: "|";\nmargin-left: 0.3rem;\nmargin-right: 0.3rem', '.badge-container img': 'height: auto;\nmax-width: 100%', '#main-content': 'transition: transform 0.3s ease', '.polaroid-section': 'align-items: flex-start;\nalign-items: center;\nbackground-color: var(--light-color);\njustify-content: center;\nmargin-bottom: 12rem;\nmin-height: 80vh;\npadding: 1.5rem 1rem;\nposition: relative', '.polaroid-card': 'background: var(--light-color);\nborder-radius: 2rem;\nbox-shadow: var(--light-shadow);\nmargin: 1.5rem auto;\nmax-width: 180rem;\n/* Doubled from previous 90rem */\npadding: 5rem;\nposition: relative;\nwidth: 95vw;\n/* Using viewport width for better screen coverage */', '.polaroid-card .title-container': 'margin-bottom: 3rem;\nposition: relative;\nz-index: 2', '.polaroid-card .subtitle': 'color: var(--dark-color);\ndisplay: block;\nfont-size: 3.5rem;\nmargin-bottom: 0.5rem;\nposition: relative;\nz-index: 2', '.polaroid-card > .gold-banner': 'background: var(--accent-color);\nheight: 4px;\nmargin: 1rem 0;\nposition: relative;\nwidth: 8rem;\nz-index: 2', '.polaroid-wrapper': 'display: flex;\njustify-content: center;\nmargin-top: 8rem;\nmin-height: 1200px;\n/* Increased for larger cards */\nposition: relative', '.polaroid-hidden': 'background: var(--light-color);\nborder-radius: 2rem;\nmax-width: 150rem;\n/* Doubled from previous */\npadding: 3rem;\nposition: absolute;\ntransition: all 0.4s ease-in-out;\nwidth: calc(100% - 10rem)', '.polaroid-hidden img': 'border-radius: 1rem;\nheight: auto;\nmax-height: 900px;\n/* Increased from 600px */\nobject-fit: contain;\nwidth: 100%', '.polaroid-hidden:nth-child(1)': 'left: 0;\ntop: 0;\nz-index: 2', '.polaroid-hidden:nth-child(2)': 'left: 8rem;\n/* Increased offset */\ntop: 6rem;\n/* Increased offset */\nz-index: 1', '.polaroid-hidden .title': 'background: var(--light-color);\nborder-radius: 1rem;\ncolor: var(--dark-color);\ndisplay: flex;\nflex-direction: column;\nfont-size: 1.75rem;\ngap: 0.5rem;\nleft: 3rem;\nopacity: 1;\n/* Always visible */\npadding: 1rem 2rem;\nposition: absolute;\ntop: -3rem;\ntransform: translatey(0);\n/* No transform needed */\nz-index: 3', '.polaroid-hidden .title .gold-banner': 'background: var(--accent-color);\nheight: 3px;\n/* margin: 0; */\nposition: relative;\nwidth: 6rem;\nz-index: 3', '.polaroid-hidden:hover': '/* transform: translateY(-2rem); */\nz-index: 3', '.polaroid-hidden img:hover:not(.zoomed)': 'cursor: zoom-in', '.polaroid-hidden img.zoomed:hover': 'cursor: zoom-out', '.instructions': 'border-radius: 0.5rem;\ncolor: #fff;\nfont-size: 1.8rem;\npadding: 1rem;\nposition: absolute;\nright: 10px;\ntop: 10px', '.loading': 'border-radius: 5px;\ncolor: #fff;\npadding: 1rem;\nposition: absolute', '.object-container': 'align-items: center;\nbackground-color: var(--light-color);\ndisplay: flex;\nheight: 100vh;\njustify-content: center;\nmax-width: 100vw;\noverflow: hidden;\nposition: relative', 'form': 'background: var(--light-color);\nborder-radius: 1rem;\nbox-shadow: var(--light-shadow);\ncolor: var(--dark-color);\ndisplay: flex;\nflex-direction: column;\nmargin: 0 auto;\nmax-width: 60vw;\npadding: 4vw;\nwidth: 58rem', 'form .text, form h3, form input, form textarea, form button': 'color: var(--dark-color);\nfont-size: 2rem;\nfont-weight: 900', 'form input, form textarea': 'background: var(--light-color);\nborder: 0;\nborder-radius: 0.5rem;\nfont-size: 1.8rem;\nmargin: 1rem 0;\noutline: none;\npadding: 2rem', 'form button': 'background: var(--accent-opaque);\nborder: 0;\nborder-radius: 3rem;\ncolor: var(--light-color);\ncursor: pointer;\nfont-size: 1.8rem;\nmargin: 2rem auto 0;\noutline: none;\npadding: 1.5rem;\ntransition: background-color 0.3s ease;\nwidth: 15rem', 'form input:hover, form textarea:hover': 'background-color: var(--accent-opaque)', 'form button:hover': 'background-color: var(--accent-color)', '.scroll-container': 'bottom: 2rem;\nleft: 50%;\nposition: fixed;\ntransform: translatex(-50%);\nz-index: 1000', '#scroll-button': 'align-items: center;\nbackground-color: var(--accent-opaque);\nborder: none;\nborder-radius: 50%;\nbox-sizing: border-box;\ncolor: var(--light-color);\ncursor: pointer;\ndisplay: flex;\nfont-size: 1.6vw;\nheight: 6vw;\njustify-content: center;\noutline: none;\npadding: 1.1vw;\nposition: relative;\ntransition: background-color 0.3s ease;\nwidth: 6vw;\nz-index: 1000', '#scroll-button:hover': 'background-color: var(--accent-color)', 'footer': 'border-radius: 1rem;\nbox-shadow: var(--light-shadow);\nmargin-bottom: 5rem;\nmargin-top: -1rem;\npadding: 1rem;\nposition: relative;\ntext-align: center', '.form-hidden': 'border: none;\ndisplay: none !important;\n/* Ensures the honeypot is completely invisible */\nheight: 0;\nmargin: 0;\nopacity: 0;\npadding: 0;\nvisibility: hidden;\nwidth: 0', '#confirmation-modal': 'align-items: center;\ndisplay: flex;\nheight: 100%;\njustify-content: center;\nleft: 0;\nposition: fixed;\ntop: 0;\nwidth: 100%', '.modal-content': 'background: #fff;\nborder-radius: 8px;\npadding: 20px;\ntext-align: center', '#modal-close': 'background: #007bff;\nborder: none;\nborder-radius: 4px;\ncolor: white;\ncursor: pointer;\nmargin-top: 10px;\npadding: 8px 16px', '#modal-close:hover': 'background: #0056b3', '.form-section': 'align-items: center;\nbackground-color: var(--light-color);\ndisplay: flex;\nheight: 100vh;\njustify-content: center;\nmax-width: 100vw;\noverflow: hidden;\nposition: relative', '.form-card': 'background: var(--light-color);\nborder-radius: 1rem;\nbox-shadow: var(--light-shadow);\ncolor: var(--dark-color);\nmargin: 0 auto;\nmax-width: 60vw;\npadding: 4vw;\nwidth: 58rem', '.form-header h2, .form-group input, .form-group textarea, .submit-button': 'color: var(--dark-color);\nfont-size: 2rem;\nfont-weight: 900', '.form-group input, .form-group textarea': 'background: var(--light-color);\nborder: 0;\nborder-radius: 0.5rem;\nfont-size: 1.8rem;\nmargin: 1rem 0;\noutline: none;\npadding: 2rem;\nwidth: 100%', '.submit-button': 'align-items: center;\nbackground: var(--accent-opaque);\nborder: 0;\nborder-radius: 3rem;\ncolor: var(--light-color);\ncursor: pointer;\ndisplay: flex;\nfont-size: 1.8rem;\ngap: 0.5rem;\njustify-content: center;\nmargin: 2rem auto 0;\noutline: none;\npadding: 1.5rem;\ntransition: background-color 0.3s ease;\nwidth: 15rem', '.form-group input:hover, .form-group textarea:hover': 'background-color: var(--accent-opaque)', '.submit-button:hover': 'background-color: var(--accent-color)', '.status-message': 'border-radius: 0.5rem;\ndisplay: none;\nfont-size: 1.8rem;\nfont-weight: 900;\nmargin: 1rem 0;\npadding: 1rem', '.status-message.success': 'background-color: var(--accent-opaque);\ncolor: var(--light-color);\ndisplay: block', '.status-message.error': 'background-color: var(--accent-opaque);\ncolor: var(--light-color);\ndisplay: block', '.status-message.loading': 'background-color: var(--accent-opaque);\ncolor: var(--light-color);\ndisplay: block', '.spinner': 'animation: spin 1s linear infinite;\nborder: 0.3rem solid var(--light-color);\nborder-radius: 50%;\nborder-top-color: transparent;\nheight: 2rem;\nwidth: 2rem', '.submit-button:disabled': 'background-color: var(--accent-opaque);\ncursor: not-allowed;\nopacity: 0.7'}
+
+*** Match Elements to Their Styles
+   Combine inline styles, classes, and CSS file styles for each element.
+
+#+BEGIN_SRC python :results output
+def extract_and_process_styles():
+    """Extract HTML elements, parse CSS, and combine styles in one seamless process"""
+
+    # 1. Parse HTML
+    from bs4 import BeautifulSoup
+
+    # Load the HTML file
+    with open("/mnt/e/code/html/my-website/index.html", "r", encoding="utf-8") as file:
+        soup = BeautifulSoup(file, "html.parser")
+
+    # Extract relevant information
+    elements = []
+    for el in soup.find_all(True):  # Finds all tags
+        tag_name = el.name
+        inline_style = el.get("style", "")
+        class_name = el.get("class", [])
+        elements.append({
+            "tag": tag_name,
+            "classes": class_name,
+            "inline_style": inline_style,
+        })
+
+    # 2. Parse CSS
+    import cssutils
+
+    # Parse the CSS file
+    css_map = {}
+    with open("/mnt/e/code/html/my-website/src/index.css", "r", encoding="utf-8") as css_file:
+        stylesheet = cssutils.parseString(css_file.read())
+
+        for rule in stylesheet:
+            if rule.type == rule.STYLE_RULE:
+                selector = rule.selectorText
+                styles = rule.style.cssText
+                css_map[selector] = styles
+
+    # 3. Match Elements to Their Styles
+    def resolve_styles(element, css_map):
+        # Get inline styles
+        inline_style = element["inline_style"]
+
+        # Resolve class styles
+        class_styles = []
+        for class_name in element["classes"]:
+            selector = f".{class_name}"
+            if selector in css_map:
+                class_styles.append(css_map[selector])
+
+        # Combine all styles
+        combined_styles = "; ".join([inline_style] + class_styles)
+        return combined_styles
+
+    # Process each element
+    for element in elements:
+        resolved_styles = resolve_styles(element, css_map)
+        element["resolved_styles"] = resolved_styles
+
+    return elements
+
+# Execute the combined process
+processed_elements = extract_and_process_styles()
+print(processed_elements)
+#+END_SRC
+
+#+RESULTS:
+: [{'tag': 'html', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'head', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'meta', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'link', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'meta', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'meta', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'title', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'link', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'link', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'link', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'link', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'link', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'link', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'link', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'link', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'link', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'body', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'header', 'classes': ['header'], 'inline_style': '', 'resolved_styles': '; align-items: center;\nbackground-color: var(--light-color);\ndisplay: flex;\njustify-content: space-between;\npadding: 10px 20px'}, {'tag': 'div', 'classes': ['logo-title-container'], 'inline_style': '', 'resolved_styles': '; align-items: center;\ndisplay: flex;\nflex-grow: 1;\nmargin-top: 10px;\norder: 2;\nwidth: 100%'}, {'tag': 'img', 'classes': ['company-logo'], 'inline_style': '', 'resolved_styles': '; height: auto;\nmargin-right: 10px;\nmax-width: 25vw'}, {'tag': 'div', 'classes': ['hamburger-container'], 'inline_style': '', 'resolved_styles': '; order: 2'}, {'tag': 'button', 'classes': ['hamburger-button'], 'inline_style': '', 'resolved_styles': '; background: none;\nborder: none;\ncolor: var(--dark-color);\ncursor: pointer;\nfont-size: 2.8rem'}, {'tag': 'nav', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'button', 'classes': ['close-button'], 'inline_style': '', 'resolved_styles': '; align-self: flex-end;\nbackground: none;\nborder: none;\ncolor: var(--dark-color);\ncursor: pointer;\nfont-size: 2rem;\nmargin: 10px;\npadding: 10px'}, {'tag': 'ul', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'li', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'a', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'li', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'a', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'li', 'classes': ['fold-down-menu'], 'inline_style': '', 'resolved_styles': '; position: relative;\nwidth: 100%'}, {'tag': 'a', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'span', 'classes': ['toggle'], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'div', 'classes': ['fold-down-content'], 'inline_style': '', 'resolved_styles': '; background: var(--light-color);\ncolor: var(--dark-color);\ndisplay: none;\nflex-direction: column;\nfont-size: 1.4rem;\nmargin-top: 10px;\npadding-left: 20px;\nposition: relative;\ntext-transform: uppercase'}, {'tag': 'a', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'a', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'a', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'a', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'a', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'a', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'li', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'a', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'script', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'div', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'div', 'classes': ['profile-banner'], 'inline_style': '', 'resolved_styles': '; align-items: center;\ndisplay: flex;\nflex-direction: column;\ntext-align: center'}, {'tag': 'div', 'classes': ['profile-image'], 'inline_style': '', 'resolved_styles': '; display: flex;\njustify-content: center;\npadding: 2rem'}, {'tag': 'img', 'classes': ['profile-pic'], 'inline_style': '', 'resolved_styles': '; border-radius: 50%;\nbox-shadow: var(--light-shadow);\nmargin-top: 1rem;\nwidth: 20vw'}, {'tag': 'div', 'classes': ['profile-text'], 'inline_style': '', 'resolved_styles': '; font-size: 1.4rem;\nfont-weight: 500;\nletter-spacing: 0.05rem'}, {'tag': 'h2', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'span', 'classes': ['profile-banner-item'], 'inline_style': '', 'resolved_styles': '; margin-right: 0.5rem;\nwhite-space: nowrap'}, {'tag': 'span', 'classes': ['profile-banner-item'], 'inline_style': '', 'resolved_styles': '; margin-right: 0.5rem;\nwhite-space: nowrap'}, {'tag': 'span', 'classes': ['profile-banner-item'], 'inline_style': '', 'resolved_styles': '; margin-right: 0.5rem;\nwhite-space: nowrap'}, {'tag': 'h3', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'section', 'classes': ['polaroid-section'], 'inline_style': '', 'resolved_styles': '; align-items: flex-start;\nalign-items: center;\nbackground-color: var(--light-color);\njustify-content: center;\nmargin-bottom: 12rem;\nmin-height: 80vh;\npadding: 1.5rem 1rem;\nposition: relative'}, {'tag': 'div', 'classes': ['polaroid-card'], 'inline_style': '', 'resolved_styles': '; background: var(--light-color);\nborder-radius: 2rem;\nbox-shadow: var(--light-shadow);\nmargin: 1.5rem auto;\nmax-width: 180rem;\n/* Doubled from previous 90rem */\npadding: 5rem;\nposition: relative;\nwidth: 95vw;\n/* Using viewport width for better screen coverage */'}, {'tag': 'div', 'classes': ['title-container'], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'h2', 'classes': ['subtitle'], 'inline_style': '', 'resolved_styles': "; font-size: 2.4rem;\nfont-weight: 600;\nmargin-bottom: 0.625rem;\nmargin-top: 1.25rem;\npadding-bottom: 0.3125rem;\ntext-transform: uppercase;\n/* font-family: 'Computer Modern Sans', sans-serif; */\n/* font-stretch: semi-condensed; */"}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': '', 'resolved_styles': '; background-color: var(--accent-color);\nheight: 4px;\nmargin: 2rem 0;\nwidth: 8rem'}, {'tag': 'link', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'div', 'classes': ['badge-container'], 'inline_style': '', 'resolved_styles': '; height: auto;\nposition: absolute;\nright: 2vw;\ntop: 5vw;\nwidth: 14rem;\nz-index: 2'}, {'tag': 'a', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'img', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'div', 'classes': ['credly-badge'], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'script', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'noscript', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'img', 'classes': [], 'inline_style': 'display: block', 'resolved_styles': 'display: block'}, {'tag': 'div', 'classes': ['expertise-highlights'], 'inline_style': '', 'resolved_styles': '; margin-bottom: 4rem'}, {'tag': 'ul', 'classes': ['highlights-grid'], 'inline_style': '', 'resolved_styles': '; display: grid;\ngap: 1.5rem;\ngrid-template-columns: repeat(2, 1fr);\nlist-style: none;\nmargin-bottom: 3rem;\npadding: 0'}, {'tag': 'li', 'classes': ['highlight-item'], 'inline_style': '', 'resolved_styles': '; border-bottom: 2px solid var(--accent-color);\ncolor: var(--subdark-color);\nfont-size: 1.25rem;\npadding: 1.5rem;\npadding-left: 2.5rem;\nposition: relative'}, {'tag': 'span', 'classes': ['arrow-icon'], 'inline_style': '', 'resolved_styles': '; color: var(--accent-color);\nfont-weight: bold;\nleft: 0;\nposition: absolute'}, {'tag': 'li', 'classes': ['highlight-item'], 'inline_style': '', 'resolved_styles': '; border-bottom: 2px solid var(--accent-color);\ncolor: var(--subdark-color);\nfont-size: 1.25rem;\npadding: 1.5rem;\npadding-left: 2.5rem;\nposition: relative'}, {'tag': 'span', 'classes': ['arrow-icon'], 'inline_style': '', 'resolved_styles': '; color: var(--accent-color);\nfont-weight: bold;\nleft: 0;\nposition: absolute'}, {'tag': 'li', 'classes': ['highlight-item'], 'inline_style': '', 'resolved_styles': '; border-bottom: 2px solid var(--accent-color);\ncolor: var(--subdark-color);\nfont-size: 1.25rem;\npadding: 1.5rem;\npadding-left: 2.5rem;\nposition: relative'}, {'tag': 'span', 'classes': ['arrow-icon'], 'inline_style': '', 'resolved_styles': '; color: var(--accent-color);\nfont-weight: bold;\nleft: 0;\nposition: absolute'}, {'tag': 'li', 'classes': ['highlight-item'], 'inline_style': '', 'resolved_styles': '; border-bottom: 2px solid var(--accent-color);\ncolor: var(--subdark-color);\nfont-size: 1.25rem;\npadding: 1.5rem;\npadding-left: 2.5rem;\nposition: relative'}, {'tag': 'span', 'classes': ['arrow-icon'], 'inline_style': '', 'resolved_styles': '; color: var(--accent-color);\nfont-weight: bold;\nleft: 0;\nposition: absolute'}, {'tag': 'div', 'classes': ['about-text'], 'inline_style': '', 'resolved_styles': '; color: var(--subdark-color);\nfont-size: 1.25rem;\nline-height: 1.75;\nmargin-bottom: 4rem;\nmargin-left: auto;\n/* Center the text horizontally */\nmargin-right: auto;\n/* Center the text horizontally */\nmax-width: 65vw;\n/* Set the maximum width */\npadding: 0 2rem;\nposition: relative;\ntext-align: center;\n/* Center the text within the div */'}, {'tag': 'p', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'div', 'classes': ['technical-expertise'], 'inline_style': '', 'resolved_styles': '; margin-top: 4rem'}, {'tag': 'h3', 'classes': ['subtitle'], 'inline_style': '', 'resolved_styles': "; font-size: 2.4rem;\nfont-weight: 600;\nmargin-bottom: 0.625rem;\nmargin-top: 1.25rem;\npadding-bottom: 0.3125rem;\ntext-transform: uppercase;\n/* font-family: 'Computer Modern Sans', sans-serif; */\n/* font-stretch: semi-condensed; */"}, {'tag': 'div', 'classes': ['expertise-grid'], 'inline_style': '', 'resolved_styles': '; display: grid;\ngap: 3rem;\ngrid-template-columns: repeat(2, 1fr);\nmargin-top: 2rem'}, {'tag': 'div', 'classes': ['expertise-card'], 'inline_style': '', 'resolved_styles': '; padding: 2rem'}, {'tag': 'h4', 'classes': ['expertise-title'], 'inline_style': '', 'resolved_styles': '; color: var(--dark-color);\nfont-size: 1.5rem;\nfont-weight: 600;\nmargin-bottom: 1.5rem'}, {'tag': 'ul', 'classes': ['expertise-list'], 'inline_style': '', 'resolved_styles': '; list-style: none;\nmargin: 0;\npadding: 0'}, {'tag': 'li', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'span', 'classes': ['check-icon'], 'inline_style': '', 'resolved_styles': '; color: var(--accent-color);\nmargin-right: 0.75rem'}, {'tag': 'li', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'span', 'classes': ['check-icon'], 'inline_style': '', 'resolved_styles': '; color: var(--accent-color);\nmargin-right: 0.75rem'}, {'tag': 'li', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'span', 'classes': ['check-icon'], 'inline_style': '', 'resolved_styles': '; color: var(--accent-color);\nmargin-right: 0.75rem'}, {'tag': 'div', 'classes': ['expertise-card'], 'inline_style': '', 'resolved_styles': '; padding: 2rem'}, {'tag': 'h4', 'classes': ['expertise-title'], 'inline_style': '', 'resolved_styles': '; color: var(--dark-color);\nfont-size: 1.5rem;\nfont-weight: 600;\nmargin-bottom: 1.5rem'}, {'tag': 'ul', 'classes': ['expertise-list'], 'inline_style': '', 'resolved_styles': '; list-style: none;\nmargin: 0;\npadding: 0'}, {'tag': 'li', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'span', 'classes': ['check-icon'], 'inline_style': '', 'resolved_styles': '; color: var(--accent-color);\nmargin-right: 0.75rem'}, {'tag': 'li', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'span', 'classes': ['check-icon'], 'inline_style': '', 'resolved_styles': '; color: var(--accent-color);\nmargin-right: 0.75rem'}, {'tag': 'li', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'span', 'classes': ['check-icon'], 'inline_style': '', 'resolved_styles': '; color: var(--accent-color);\nmargin-right: 0.75rem'}, {'tag': 'div', 'classes': ['expertise-card'], 'inline_style': '', 'resolved_styles': '; padding: 2rem'}, {'tag': 'h4', 'classes': ['expertise-title'], 'inline_style': '', 'resolved_styles': '; color: var(--dark-color);\nfont-size: 1.5rem;\nfont-weight: 600;\nmargin-bottom: 1.5rem'}, {'tag': 'ul', 'classes': ['expertise-list'], 'inline_style': '', 'resolved_styles': '; list-style: none;\nmargin: 0;\npadding: 0'}, {'tag': 'li', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'span', 'classes': ['check-icon'], 'inline_style': '', 'resolved_styles': '; color: var(--accent-color);\nmargin-right: 0.75rem'}, {'tag': 'li', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'span', 'classes': ['check-icon'], 'inline_style': '', 'resolved_styles': '; color: var(--accent-color);\nmargin-right: 0.75rem'}, {'tag': 'li', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'span', 'classes': ['check-icon'], 'inline_style': '', 'resolved_styles': '; color: var(--accent-color);\nmargin-right: 0.75rem'}, {'tag': 'div', 'classes': ['expertise-card'], 'inline_style': '', 'resolved_styles': '; padding: 2rem'}, {'tag': 'h4', 'classes': ['expertise-title'], 'inline_style': '', 'resolved_styles': '; color: var(--dark-color);\nfont-size: 1.5rem;\nfont-weight: 600;\nmargin-bottom: 1.5rem'}, {'tag': 'ul', 'classes': ['expertise-list'], 'inline_style': '', 'resolved_styles': '; list-style: none;\nmargin: 0;\npadding: 0'}, {'tag': 'li', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'span', 'classes': ['check-icon'], 'inline_style': '', 'resolved_styles': '; color: var(--accent-color);\nmargin-right: 0.75rem'}, {'tag': 'li', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'span', 'classes': ['check-icon'], 'inline_style': '', 'resolved_styles': '; color: var(--accent-color);\nmargin-right: 0.75rem'}, {'tag': 'li', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'span', 'classes': ['check-icon'], 'inline_style': '', 'resolved_styles': '; color: var(--accent-color);\nmargin-right: 0.75rem'}, {'tag': 'section', 'classes': ['polaroid-section'], 'inline_style': '', 'resolved_styles': '; align-items: flex-start;\nalign-items: center;\nbackground-color: var(--light-color);\njustify-content: center;\nmargin-bottom: 12rem;\nmin-height: 80vh;\npadding: 1.5rem 1rem;\nposition: relative'}, {'tag': 'div', 'classes': ['polaroid-card'], 'inline_style': '', 'resolved_styles': '; background: var(--light-color);\nborder-radius: 2rem;\nbox-shadow: var(--light-shadow);\nmargin: 1.5rem auto;\nmax-width: 180rem;\n/* Doubled from previous 90rem */\npadding: 5rem;\nposition: relative;\nwidth: 95vw;\n/* Using viewport width for better screen coverage */'}, {'tag': 'span', 'classes': ['subtitle'], 'inline_style': '', 'resolved_styles': "; font-size: 2.4rem;\nfont-weight: 600;\nmargin-bottom: 0.625rem;\nmargin-top: 1.25rem;\npadding-bottom: 0.3125rem;\ntext-transform: uppercase;\n/* font-family: 'Computer Modern Sans', sans-serif; */\n/* font-stretch: semi-condensed; */"}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': '', 'resolved_styles': '; background-color: var(--accent-color);\nheight: 4px;\nmargin: 2rem 0;\nwidth: 8rem'}, {'tag': 'p', 'classes': ['lightGrey'], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'div', 'classes': ['polaroid-wrapper'], 'inline_style': '', 'resolved_styles': '; display: flex;\njustify-content: center;\nmargin-top: 8rem;\nmin-height: 1200px;\n/* Increased for larger cards */\nposition: relative'}, {'tag': 'div', 'classes': ['polaroid-hidden'], 'inline_style': '', 'resolved_styles': '; background: var(--light-color);\nborder-radius: 2rem;\nmax-width: 150rem;\n/* Doubled from previous */\npadding: 3rem;\nposition: absolute;\ntransition: all 0.4s ease-in-out;\nwidth: calc(100% - 10rem)'}, {'tag': 'p', 'classes': ['title'], 'inline_style': '', 'resolved_styles': '; border-bottom: 0.125rem solid var(--accent-color);\ncolor: var(--dark-color);\nfont-size: 1.8rem;\nfont-weight: 500;\nmargin-bottom: 0.625rem;\nmargin-top: 1.25rem;\npadding-bottom: 0.3125rem;\ntext-transform: uppercase;\nz-index: 1'}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': '', 'resolved_styles': '; background-color: var(--accent-color);\nheight: 4px;\nmargin: 2rem 0;\nwidth: 8rem'}, {'tag': 'img', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'div', 'classes': ['polaroid-hidden'], 'inline_style': '', 'resolved_styles': '; background: var(--light-color);\nborder-radius: 2rem;\nmax-width: 150rem;\n/* Doubled from previous */\npadding: 3rem;\nposition: absolute;\ntransition: all 0.4s ease-in-out;\nwidth: calc(100% - 10rem)'}, {'tag': 'p', 'classes': ['title'], 'inline_style': '', 'resolved_styles': '; border-bottom: 0.125rem solid var(--accent-color);\ncolor: var(--dark-color);\nfont-size: 1.8rem;\nfont-weight: 500;\nmargin-bottom: 0.625rem;\nmargin-top: 1.25rem;\npadding-bottom: 0.3125rem;\ntext-transform: uppercase;\nz-index: 1'}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': '', 'resolved_styles': '; background-color: var(--accent-color);\nheight: 4px;\nmargin: 2rem 0;\nwidth: 8rem'}, {'tag': 'img', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'section', 'classes': ['polaroid-section'], 'inline_style': '', 'resolved_styles': '; align-items: flex-start;\nalign-items: center;\nbackground-color: var(--light-color);\njustify-content: center;\nmargin-bottom: 12rem;\nmin-height: 80vh;\npadding: 1.5rem 1rem;\nposition: relative'}, {'tag': 'div', 'classes': ['polaroid-card'], 'inline_style': '', 'resolved_styles': '; background: var(--light-color);\nborder-radius: 2rem;\nbox-shadow: var(--light-shadow);\nmargin: 1.5rem auto;\nmax-width: 180rem;\n/* Doubled from previous 90rem */\npadding: 5rem;\nposition: relative;\nwidth: 95vw;\n/* Using viewport width for better screen coverage */'}, {'tag': 'span', 'classes': ['subtitle'], 'inline_style': '', 'resolved_styles': "; font-size: 2.4rem;\nfont-weight: 600;\nmargin-bottom: 0.625rem;\nmargin-top: 1.25rem;\npadding-bottom: 0.3125rem;\ntext-transform: uppercase;\n/* font-family: 'Computer Modern Sans', sans-serif; */\n/* font-stretch: semi-condensed; */"}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': '', 'resolved_styles': '; background-color: var(--accent-color);\nheight: 4px;\nmargin: 2rem 0;\nwidth: 8rem'}, {'tag': 'p', 'classes': ['lightGrey'], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'div', 'classes': ['polaroid-wrapper'], 'inline_style': '', 'resolved_styles': '; display: flex;\njustify-content: center;\nmargin-top: 8rem;\nmin-height: 1200px;\n/* Increased for larger cards */\nposition: relative'}, {'tag': 'div', 'classes': ['polaroid-hidden'], 'inline_style': '', 'resolved_styles': '; background: var(--light-color);\nborder-radius: 2rem;\nmax-width: 150rem;\n/* Doubled from previous */\npadding: 3rem;\nposition: absolute;\ntransition: all 0.4s ease-in-out;\nwidth: calc(100% - 10rem)'}, {'tag': 'p', 'classes': ['title'], 'inline_style': '', 'resolved_styles': '; border-bottom: 0.125rem solid var(--accent-color);\ncolor: var(--dark-color);\nfont-size: 1.8rem;\nfont-weight: 500;\nmargin-bottom: 0.625rem;\nmargin-top: 1.25rem;\npadding-bottom: 0.3125rem;\ntext-transform: uppercase;\nz-index: 1'}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': '', 'resolved_styles': '; background-color: var(--accent-color);\nheight: 4px;\nmargin: 2rem 0;\nwidth: 8rem'}, {'tag': 'img', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'div', 'classes': ['polaroid-hidden'], 'inline_style': '', 'resolved_styles': '; background: var(--light-color);\nborder-radius: 2rem;\nmax-width: 150rem;\n/* Doubled from previous */\npadding: 3rem;\nposition: absolute;\ntransition: all 0.4s ease-in-out;\nwidth: calc(100% - 10rem)'}, {'tag': 'p', 'classes': ['title'], 'inline_style': '', 'resolved_styles': '; border-bottom: 0.125rem solid var(--accent-color);\ncolor: var(--dark-color);\nfont-size: 1.8rem;\nfont-weight: 500;\nmargin-bottom: 0.625rem;\nmargin-top: 1.25rem;\npadding-bottom: 0.3125rem;\ntext-transform: uppercase;\nz-index: 1'}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': '', 'resolved_styles': '; background-color: var(--accent-color);\nheight: 4px;\nmargin: 2rem 0;\nwidth: 8rem'}, {'tag': 'img', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'section', 'classes': ['polaroid-section'], 'inline_style': '', 'resolved_styles': '; align-items: flex-start;\nalign-items: center;\nbackground-color: var(--light-color);\njustify-content: center;\nmargin-bottom: 12rem;\nmin-height: 80vh;\npadding: 1.5rem 1rem;\nposition: relative'}, {'tag': 'div', 'classes': ['polaroid-card'], 'inline_style': '', 'resolved_styles': '; background: var(--light-color);\nborder-radius: 2rem;\nbox-shadow: var(--light-shadow);\nmargin: 1.5rem auto;\nmax-width: 180rem;\n/* Doubled from previous 90rem */\npadding: 5rem;\nposition: relative;\nwidth: 95vw;\n/* Using viewport width for better screen coverage */'}, {'tag': 'span', 'classes': ['subtitle'], 'inline_style': '', 'resolved_styles': "; font-size: 2.4rem;\nfont-weight: 600;\nmargin-bottom: 0.625rem;\nmargin-top: 1.25rem;\npadding-bottom: 0.3125rem;\ntext-transform: uppercase;\n/* font-family: 'Computer Modern Sans', sans-serif; */\n/* font-stretch: semi-condensed; */"}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': '', 'resolved_styles': '; background-color: var(--accent-color);\nheight: 4px;\nmargin: 2rem 0;\nwidth: 8rem'}, {'tag': 'p', 'classes': ['lightGrey'], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'div', 'classes': ['polaroid-wrapper'], 'inline_style': '', 'resolved_styles': '; display: flex;\njustify-content: center;\nmargin-top: 8rem;\nmin-height: 1200px;\n/* Increased for larger cards */\nposition: relative'}, {'tag': 'div', 'classes': ['polaroid-hidden'], 'inline_style': '', 'resolved_styles': '; background: var(--light-color);\nborder-radius: 2rem;\nmax-width: 150rem;\n/* Doubled from previous */\npadding: 3rem;\nposition: absolute;\ntransition: all 0.4s ease-in-out;\nwidth: calc(100% - 10rem)'}, {'tag': 'p', 'classes': ['title'], 'inline_style': '', 'resolved_styles': '; border-bottom: 0.125rem solid var(--accent-color);\ncolor: var(--dark-color);\nfont-size: 1.8rem;\nfont-weight: 500;\nmargin-bottom: 0.625rem;\nmargin-top: 1.25rem;\npadding-bottom: 0.3125rem;\ntext-transform: uppercase;\nz-index: 1'}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': '', 'resolved_styles': '; background-color: var(--accent-color);\nheight: 4px;\nmargin: 2rem 0;\nwidth: 8rem'}, {'tag': 'img', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'div', 'classes': ['polaroid-hidden'], 'inline_style': '', 'resolved_styles': '; background: var(--light-color);\nborder-radius: 2rem;\nmax-width: 150rem;\n/* Doubled from previous */\npadding: 3rem;\nposition: absolute;\ntransition: all 0.4s ease-in-out;\nwidth: calc(100% - 10rem)'}, {'tag': 'p', 'classes': ['title'], 'inline_style': '', 'resolved_styles': '; border-bottom: 0.125rem solid var(--accent-color);\ncolor: var(--dark-color);\nfont-size: 1.8rem;\nfont-weight: 500;\nmargin-bottom: 0.625rem;\nmargin-top: 1.25rem;\npadding-bottom: 0.3125rem;\ntext-transform: uppercase;\nz-index: 1'}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': '', 'resolved_styles': '; background-color: var(--accent-color);\nheight: 4px;\nmargin: 2rem 0;\nwidth: 8rem'}, {'tag': 'img', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'section', 'classes': ['polaroid-section'], 'inline_style': '', 'resolved_styles': '; align-items: flex-start;\nalign-items: center;\nbackground-color: var(--light-color);\njustify-content: center;\nmargin-bottom: 12rem;\nmin-height: 80vh;\npadding: 1.5rem 1rem;\nposition: relative'}, {'tag': 'div', 'classes': ['polaroid-card'], 'inline_style': '', 'resolved_styles': '; background: var(--light-color);\nborder-radius: 2rem;\nbox-shadow: var(--light-shadow);\nmargin: 1.5rem auto;\nmax-width: 180rem;\n/* Doubled from previous 90rem */\npadding: 5rem;\nposition: relative;\nwidth: 95vw;\n/* Using viewport width for better screen coverage */'}, {'tag': 'span', 'classes': ['subtitle'], 'inline_style': '', 'resolved_styles': "; font-size: 2.4rem;\nfont-weight: 600;\nmargin-bottom: 0.625rem;\nmargin-top: 1.25rem;\npadding-bottom: 0.3125rem;\ntext-transform: uppercase;\n/* font-family: 'Computer Modern Sans', sans-serif; */\n/* font-stretch: semi-condensed; */"}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': '', 'resolved_styles': '; background-color: var(--accent-color);\nheight: 4px;\nmargin: 2rem 0;\nwidth: 8rem'}, {'tag': 'p', 'classes': ['lightGrey'], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'div', 'classes': ['polaroid-wrapper'], 'inline_style': '', 'resolved_styles': '; display: flex;\njustify-content: center;\nmargin-top: 8rem;\nmin-height: 1200px;\n/* Increased for larger cards */\nposition: relative'}, {'tag': 'div', 'classes': ['polaroid-hidden'], 'inline_style': '', 'resolved_styles': '; background: var(--light-color);\nborder-radius: 2rem;\nmax-width: 150rem;\n/* Doubled from previous */\npadding: 3rem;\nposition: absolute;\ntransition: all 0.4s ease-in-out;\nwidth: calc(100% - 10rem)'}, {'tag': 'p', 'classes': ['title'], 'inline_style': '', 'resolved_styles': '; border-bottom: 0.125rem solid var(--accent-color);\ncolor: var(--dark-color);\nfont-size: 1.8rem;\nfont-weight: 500;\nmargin-bottom: 0.625rem;\nmargin-top: 1.25rem;\npadding-bottom: 0.3125rem;\ntext-transform: uppercase;\nz-index: 1'}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': '', 'resolved_styles': '; background-color: var(--accent-color);\nheight: 4px;\nmargin: 2rem 0;\nwidth: 8rem'}, {'tag': 'img', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'div', 'classes': ['polaroid-hidden'], 'inline_style': '', 'resolved_styles': '; background: var(--light-color);\nborder-radius: 2rem;\nmax-width: 150rem;\n/* Doubled from previous */\npadding: 3rem;\nposition: absolute;\ntransition: all 0.4s ease-in-out;\nwidth: calc(100% - 10rem)'}, {'tag': 'p', 'classes': ['title'], 'inline_style': '', 'resolved_styles': '; border-bottom: 0.125rem solid var(--accent-color);\ncolor: var(--dark-color);\nfont-size: 1.8rem;\nfont-weight: 500;\nmargin-bottom: 0.625rem;\nmargin-top: 1.25rem;\npadding-bottom: 0.3125rem;\ntext-transform: uppercase;\nz-index: 1'}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': '', 'resolved_styles': '; background-color: var(--accent-color);\nheight: 4px;\nmargin: 2rem 0;\nwidth: 8rem'}, {'tag': 'img', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'section', 'classes': ['polaroid-section'], 'inline_style': '', 'resolved_styles': '; align-items: flex-start;\nalign-items: center;\nbackground-color: var(--light-color);\njustify-content: center;\nmargin-bottom: 12rem;\nmin-height: 80vh;\npadding: 1.5rem 1rem;\nposition: relative'}, {'tag': 'div', 'classes': ['polaroid-card'], 'inline_style': '', 'resolved_styles': '; background: var(--light-color);\nborder-radius: 2rem;\nbox-shadow: var(--light-shadow);\nmargin: 1.5rem auto;\nmax-width: 180rem;\n/* Doubled from previous 90rem */\npadding: 5rem;\nposition: relative;\nwidth: 95vw;\n/* Using viewport width for better screen coverage */'}, {'tag': 'span', 'classes': ['subtitle'], 'inline_style': '', 'resolved_styles': "; font-size: 2.4rem;\nfont-weight: 600;\nmargin-bottom: 0.625rem;\nmargin-top: 1.25rem;\npadding-bottom: 0.3125rem;\ntext-transform: uppercase;\n/* font-family: 'Computer Modern Sans', sans-serif; */\n/* font-stretch: semi-condensed; */"}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': '', 'resolved_styles': '; background-color: var(--accent-color);\nheight: 4px;\nmargin: 2rem 0;\nwidth: 8rem'}, {'tag': 'p', 'classes': ['lightGrey'], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'div', 'classes': ['polaroid-wrapper'], 'inline_style': '', 'resolved_styles': '; display: flex;\njustify-content: center;\nmargin-top: 8rem;\nmin-height: 1200px;\n/* Increased for larger cards */\nposition: relative'}, {'tag': 'div', 'classes': ['polaroid-hidden'], 'inline_style': '', 'resolved_styles': '; background: var(--light-color);\nborder-radius: 2rem;\nmax-width: 150rem;\n/* Doubled from previous */\npadding: 3rem;\nposition: absolute;\ntransition: all 0.4s ease-in-out;\nwidth: calc(100% - 10rem)'}, {'tag': 'p', 'classes': ['title'], 'inline_style': '', 'resolved_styles': '; border-bottom: 0.125rem solid var(--accent-color);\ncolor: var(--dark-color);\nfont-size: 1.8rem;\nfont-weight: 500;\nmargin-bottom: 0.625rem;\nmargin-top: 1.25rem;\npadding-bottom: 0.3125rem;\ntext-transform: uppercase;\nz-index: 1'}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': '', 'resolved_styles': '; background-color: var(--accent-color);\nheight: 4px;\nmargin: 2rem 0;\nwidth: 8rem'}, {'tag': 'img', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'div', 'classes': ['polaroid-hidden'], 'inline_style': '', 'resolved_styles': '; background: var(--light-color);\nborder-radius: 2rem;\nmax-width: 150rem;\n/* Doubled from previous */\npadding: 3rem;\nposition: absolute;\ntransition: all 0.4s ease-in-out;\nwidth: calc(100% - 10rem)'}, {'tag': 'p', 'classes': ['title'], 'inline_style': '', 'resolved_styles': '; border-bottom: 0.125rem solid var(--accent-color);\ncolor: var(--dark-color);\nfont-size: 1.8rem;\nfont-weight: 500;\nmargin-bottom: 0.625rem;\nmargin-top: 1.25rem;\npadding-bottom: 0.3125rem;\ntext-transform: uppercase;\nz-index: 1'}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': '', 'resolved_styles': '; background-color: var(--accent-color);\nheight: 4px;\nmargin: 2rem 0;\nwidth: 8rem'}, {'tag': 'img', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'section', 'classes': ['polaroid-section'], 'inline_style': '', 'resolved_styles': '; align-items: flex-start;\nalign-items: center;\nbackground-color: var(--light-color);\njustify-content: center;\nmargin-bottom: 12rem;\nmin-height: 80vh;\npadding: 1.5rem 1rem;\nposition: relative'}, {'tag': 'div', 'classes': ['polaroid-card'], 'inline_style': '', 'resolved_styles': '; background: var(--light-color);\nborder-radius: 2rem;\nbox-shadow: var(--light-shadow);\nmargin: 1.5rem auto;\nmax-width: 180rem;\n/* Doubled from previous 90rem */\npadding: 5rem;\nposition: relative;\nwidth: 95vw;\n/* Using viewport width for better screen coverage */'}, {'tag': 'span', 'classes': ['subtitle'], 'inline_style': '', 'resolved_styles': "; font-size: 2.4rem;\nfont-weight: 600;\nmargin-bottom: 0.625rem;\nmargin-top: 1.25rem;\npadding-bottom: 0.3125rem;\ntext-transform: uppercase;\n/* font-family: 'Computer Modern Sans', sans-serif; */\n/* font-stretch: semi-condensed; */"}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': '', 'resolved_styles': '; background-color: var(--accent-color);\nheight: 4px;\nmargin: 2rem 0;\nwidth: 8rem'}, {'tag': 'p', 'classes': ['lightGrey'], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'div', 'classes': ['polaroid-wrapper'], 'inline_style': '', 'resolved_styles': '; display: flex;\njustify-content: center;\nmargin-top: 8rem;\nmin-height: 1200px;\n/* Increased for larger cards */\nposition: relative'}, {'tag': 'div', 'classes': ['polaroid-hidden'], 'inline_style': '', 'resolved_styles': '; background: var(--light-color);\nborder-radius: 2rem;\nmax-width: 150rem;\n/* Doubled from previous */\npadding: 3rem;\nposition: absolute;\ntransition: all 0.4s ease-in-out;\nwidth: calc(100% - 10rem)'}, {'tag': 'p', 'classes': ['title'], 'inline_style': '', 'resolved_styles': '; border-bottom: 0.125rem solid var(--accent-color);\ncolor: var(--dark-color);\nfont-size: 1.8rem;\nfont-weight: 500;\nmargin-bottom: 0.625rem;\nmargin-top: 1.25rem;\npadding-bottom: 0.3125rem;\ntext-transform: uppercase;\nz-index: 1'}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': '', 'resolved_styles': '; background-color: var(--accent-color);\nheight: 4px;\nmargin: 2rem 0;\nwidth: 8rem'}, {'tag': 'img', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'div', 'classes': ['polaroid-hidden'], 'inline_style': '', 'resolved_styles': '; background: var(--light-color);\nborder-radius: 2rem;\nmax-width: 150rem;\n/* Doubled from previous */\npadding: 3rem;\nposition: absolute;\ntransition: all 0.4s ease-in-out;\nwidth: calc(100% - 10rem)'}, {'tag': 'p', 'classes': ['title'], 'inline_style': '', 'resolved_styles': '; border-bottom: 0.125rem solid var(--accent-color);\ncolor: var(--dark-color);\nfont-size: 1.8rem;\nfont-weight: 500;\nmargin-bottom: 0.625rem;\nmargin-top: 1.25rem;\npadding-bottom: 0.3125rem;\ntext-transform: uppercase;\nz-index: 1'}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': '', 'resolved_styles': '; background-color: var(--accent-color);\nheight: 4px;\nmargin: 2rem 0;\nwidth: 8rem'}, {'tag': 'img', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'section', 'classes': ['form-section'], 'inline_style': '', 'resolved_styles': '; align-items: center;\nbackground-color: var(--light-color);\ndisplay: flex;\nheight: 100vh;\njustify-content: center;\nmax-width: 100vw;\noverflow: hidden;\nposition: relative'}, {'tag': 'div', 'classes': ['form-card'], 'inline_style': '', 'resolved_styles': '; background: var(--light-color);\nborder-radius: 1rem;\nbox-shadow: var(--light-shadow);\ncolor: var(--dark-color);\nmargin: 0 auto;\nmax-width: 60vw;\npadding: 4vw;\nwidth: 58rem'}, {'tag': 'div', 'classes': ['form-header'], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'h2', 'classes': ['subtitle'], 'inline_style': '', 'resolved_styles': "; font-size: 2.4rem;\nfont-weight: 600;\nmargin-bottom: 0.625rem;\nmargin-top: 1.25rem;\npadding-bottom: 0.3125rem;\ntext-transform: uppercase;\n/* font-family: 'Computer Modern Sans', sans-serif; */\n/* font-stretch: semi-condensed; */"}, {'tag': 'div', 'classes': ['gold-banner'], 'inline_style': '', 'resolved_styles': '; background-color: var(--accent-color);\nheight: 4px;\nmargin: 2rem 0;\nwidth: 8rem'}, {'tag': 'form', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'input', 'classes': ['form-hidden'], 'inline_style': '', 'resolved_styles': '; border: none;\ndisplay: none !important;\n/* Ensures the honeypot is completely invisible */\nheight: 0;\nmargin: 0;\nopacity: 0;\npadding: 0;\nvisibility: hidden;\nwidth: 0'}, {'tag': 'div', 'classes': ['form-group'], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'input', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'div', 'classes': ['form-group'], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'input', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'div', 'classes': ['form-group'], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'input', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'div', 'classes': ['form-group'], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'textarea', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'div', 'classes': ['status-message'], 'inline_style': '', 'resolved_styles': '; border-radius: 0.5rem;\ndisplay: none;\nfont-size: 1.8rem;\nfont-weight: 900;\nmargin: 1rem 0;\npadding: 1rem'}, {'tag': 'button', 'classes': ['submit-button'], 'inline_style': '', 'resolved_styles': '; align-items: center;\nbackground: var(--accent-opaque);\nborder: 0;\nborder-radius: 3rem;\ncolor: var(--light-color);\ncursor: pointer;\ndisplay: flex;\nfont-size: 1.8rem;\ngap: 0.5rem;\njustify-content: center;\nmargin: 2rem auto 0;\noutline: none;\npadding: 1.5rem;\ntransition: background-color 0.3s ease;\nwidth: 15rem'}, {'tag': 'span', 'classes': ['button-text'], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'span', 'classes': ['spinner', 'form-hidden'], 'inline_style': '', 'resolved_styles': '; animation: spin 1s linear infinite;\nborder: 0.3rem solid var(--light-color);\nborder-radius: 50%;\nborder-top-color: transparent;\nheight: 2rem;\nwidth: 2rem; border: none;\ndisplay: none !important;\n/* Ensures the honeypot is completely invisible */\nheight: 0;\nmargin: 0;\nopacity: 0;\npadding: 0;\nvisibility: hidden;\nwidth: 0'}, {'tag': 'footer', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'div', 'classes': ['scroll-container'], 'inline_style': '', 'resolved_styles': '; bottom: 2rem;\nleft: 50%;\nposition: fixed;\ntransform: translatex(-50%);\nz-index: 1000'}, {'tag': 'button', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'p', 'classes': ['footer-text'], 'inline_style': '', 'resolved_styles': '; font-weight: 400;\nmargin-top: 2rem;\ntext-align: center'}, {'tag': 'script', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'script', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'script', 'classes': [], 'inline_style': '', 'resolved_styles': ''}, {'tag': 'script', 'classes': [], 'inline_style': '', 'resolved_styles': ''}]
+
+*** Convert Styles to Tailwind CSS
+   Define a mapping of CSS properties to Tailwind classes. For simplicity, this example uses a small subset of conversions.
+
+#+BEGIN_SRC python :results output
+# def css_to_tailwind(css_styles):
+#     # Example Tailwind mapping
+#     tailwind_map = {
+#         "margin: 0 auto;": "mx-auto",
+#         "text-align: center;": "text-center",
+#         "font-weight: bold;": "font-bold",
+#         "background-color: #000;": "bg-black",
+#         "color: #fff;": "text-white",
+#     }
+
+#     tailwind_classes = []
+#     for style, tw_class in tailwind_map.items():
+#         if style in css_styles:
+#             tailwind_classes.append(tw_class)
+
+#     return " ".join(tailwind_classes)
+
+# # Convert resolved styles to Tailwind classes
+# for el in elements:
+#     tailwind_classes = css_to_tailwind(el["resolved_styles"])
+#     el["tailwind_classes"] = tailwind_classes
+
+# print(elements)  # Elements with Tailwind classes
+
+
+
+from typing import Dict, List, Optional
+from bs4 import BeautifulSoup
+import cssutils
+import json
+
+class TailwindJSONProcessor:
+    def __init__(self, tailwind_json_path: str):
+        """
+        Initialize processor with tailwind_classes.json path
+
+        Parameters:
+            tailwind_json_path: str - Path to exported tailwind_classes.json
+        """
+        self.tailwind_config = self._load_tailwind_json(tailwind_json_path)
+        cssutils.log.setLevel(30)  # Suppress warnings
+
+    def _load_tailwind_json(self, json_path: str) -> Dict:
+        """Load and parse tailwind_classes.json configuration"""
+        try:
+            with open(json_path, 'r') as f:
+                config = json.load(f)
+                print(f"Successfully loaded Tailwind configuration with {len(config)} entries")
+                return config
+        except FileNotFoundError:
+            raise FileNotFoundError(
+                f"tailwind_classes.json not found at {json_path}. "
+                "Generate it using: npx tailwindcss-cli build --json > tailwind_classes.json"
+            )
+        except json.JSONDecodeError:
+            raise ValueError("Invalid JSON in tailwind_classes.json")
+
+    def process_files(self, html_path: str, css_path: str) -> List[dict]:
+        """
+        Process HTML and CSS files with Tailwind mapping
+
+        Parameters:
+            html_path: str - e.g., "/mnt/e/code/html/my-website/index.html"
+            css_path: str - e.g., "/mnt/e/code/html/my-website/src/index.css"
+        """
+        # Parse HTML
+        with open(html_path, "r", encoding="utf-8") as file:
+            soup = BeautifulSoup(file, "html.parser")
+
+        # Extract elements
+        elements = []
+        for el in soup.find_all(True):
+            elements.append({
+                "tag": el.name,
+                "classes": el.get("class", []),
+                "inline_style": el.get("style", ""),
+                "original_html": str(el)
+            })
+
+        # Parse CSS
+        css_map = self._parse_css_file(css_path)
+
+        # Process elements with Tailwind mapping
+        return self._process_elements(elements, css_map)
+
+    def _parse_css_file(self, css_path: str) -> Dict[str, str]:
+        """Parse CSS file and create selector-to-styles mapping"""
+        css_map = {}
+        with open(css_path, "r", encoding="utf-8") as css_file:
+            stylesheet = cssutils.parseString(css_file.read())
+            for rule in stylesheet:
+                if rule.type == rule.STYLE_RULE:
+                    selector = rule.selectorText
+                    styles = rule.style.cssText
+                    css_map[selector] = styles
+        return css_map
+
+    def _map_to_tailwind(self, css_property: str, css_value: str) -> Optional[str]:
+        """Map CSS properties to Tailwind classes using tailwind_classes.json"""
+        # First, normalize the CSS value
+        css_value = css_value.strip().lower()
+
+        # Check direct mapping in tailwind_classes.json
+        potential_class = f"{css_property}-{css_value}"
+        if potential_class in self.tailwind_config:
+            return self.tailwind_config[potential_class]
+
+        # Handle special cases
+        if css_property in ['margin', 'padding', 'width', 'height']:
+            return self._map_spacing_property(css_property, css_value)
+        elif css_property in ['color', 'background-color']:
+            return self._map_color_property(css_property, css_value)
+        elif css_property == 'font-size':
+            return self._map_font_size(css_value)
+
+        return None
+
+    def _map_spacing_property(self, property_type: str, value: str) -> Optional[str]:
+        """Map spacing properties using Tailwind's spacing scale"""
+        prefix_map = {
+            'margin': 'm',
+            'padding': 'p',
+            'width': 'w',
+            'height': 'h'
+        }
+
+        # Extract numeric value and unit
+        import re
+        match = re.match(r'^(-?\d*\.?\d+)(rem|px|em)?$', value)
+        if not match:
+            return None
+
+        number, unit = match.groups()
+        pixels = float(number)
+        if unit == 'rem':
+            pixels *= 16
+
+        # Find closest Tailwind spacing value
+        prefix = prefix_map.get(property_type, '')
+        for tw_class, tw_value in self.tailwind_config.get('theme', {}).get('spacing', {}).items():
+            if abs(float(tw_value.replace('px', '')) - pixels) < 0.1:
+                return f"{prefix}-{tw_class}"
+
+        return None
+
+    def _map_color_property(self, property_type: str, value: str) -> Optional[str]:
+        """Map color properties using Tailwind's color palette"""
+        prefix = 'text' if property_type == 'color' else 'bg'
+
+        # Handle hex colors
+        if value.startswith('#'):
+            for color_name, color_value in self.tailwind_config.get('theme', {}).get('colors', {}).items():
+                if isinstance(color_value, dict):
+                    for shade, hex_value in color_value.items():
+                        if hex_value.lower() == value.lower():
+                            return f"{prefix}-{color_name}-{shade}"
+                elif color_value.lower() == value.lower():
+                    return f"{prefix}-{color_name}"
+
+        return None
+
+    def _process_elements(self, elements: List[dict], css_map: Dict[str, str]) -> List[dict]:
+        """Process elements with Tailwind class mapping"""
+        for element in elements:
+            # Combine styles
+            styles = self._combine_styles(element, css_map)
+            element["resolved_styles"] = styles
+
+            # Convert to Tailwind classes
+            tailwind_classes = []
+            for property_value in styles.split(';'):
+                if ':' in property_value:
+                    prop, value = property_value.split(':', 1)
+                    tw_class = self._map_to_tailwind(prop.strip(), value.strip())
+                    if tw_class:
+                        tailwind_classes.append(tw_class)
+
+            element["tailwind_classes"] = ' '.join(tailwind_classes)
+
+        return elements
+
+    def _combine_styles(self, element: dict, css_map: Dict[str, str]) -> str:
+        """Combine inline and CSS styles"""
+        styles = []
+        if element["inline_style"]:
+            styles.append(element["inline_style"])
+
+        for class_name in element["classes"]:
+            selector = f".{class_name}"
+            if selector in css_map:
+                styles.append(css_map[selector])
+
+        return '; '.join(filter(None, styles))
+
+def main():
+    """Main execution function"""
+    # Initialize processor with tailwind_classes.json
+    processor = TailwindJSONProcessor("tailwind_classes.json")
+
+    # Process files with exact paths
+    html_path = "/mnt/e/code/html/my-website/index.html"
+    css_path = "/mnt/e/code/html/my-website/src/index.css"
+
+    try:
+        processed_elements = processor.process_files(html_path, css_path)
+
+        # Output results
+        for element in processed_elements:
+            print(f"\nProcessed Element:")
+            print(f"Tag: {element['tag']}")
+            print(f"Original Classes: {element['classes']}")
+            print(f"Resolved Styles: {element['resolved_styles']}")
+            print(f"Tailwind Classes: {element.get('tailwind_classes', '')}")
+
+    except Exception as e:
+        print(f"Error processing styles: {str(e)}")
+
+if __name__ == "__main__":
+    main()
+#+END_SRC
+
+*** Rebuild the HTML File
+   Update each element in the HTML with the generated Tailwind classes.
+
+   #+BEGIN_SRC python
+   # Update HTML elements
+   for el, soup_el in zip(elements, soup.find_all(True)):
+       if el["tailwind_classes"]:
+           soup_el["class"] = el["tailwind_classes"].split()
+
+   # Save the new HTML
+   with open("path/to/your/new_file.html", "w", encoding="utf-8") as file:
+       file.write(str(soup))
+   #+END_SRC
+
+** Final Output
+  - The new HTML file will replace inline styles and legacy classes with Tailwind CSS classes.
+  - The workflow processes both inline and external styles while preserving the document structure.
+
+** Customization
+  1. Expand the CSS-to-Tailwind Mapping: Add more mappings for complex styles.
+  2. Handle Edge Cases: For unconverted styles, keep them inline as a fallback.
+  3. Batch Processing: Adapt this script to handle multiple HTML and CSS files.
+
+This approach is lightweight and avoids browser dependencies while providing full control over the process.
+* Extra
+Alternative Tools
+
+If you’re open to non-Python solutions, tools like postcss or the tailwind-converter library in JavaScript can directly handle this transformation with minimal customization.
+
+Example: Using tailwind-converter
+	1.	Install:
+
+npm install -g tailwind-converter
+
+
+	2.	Run:
+
+tailwind-converter input.html output.html
+
+
+
+This tool analyzes the HTML and CSS and attempts to replace styles with Tailwind classes automatically.
+
+This workflow ensures that you don’t need to manually map styles, making it efficient and adaptable to any CSS/Tailwind configuration.

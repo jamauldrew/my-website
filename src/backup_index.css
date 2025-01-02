@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        font-size: 62.5%;
+        font-stretch: semi-condensed;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        text-size-adjust: 100%;
+        scroll-behavior: smooth;
+        /* Adding performance optimizations */
+        text-rendering: optimizeLegibility;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+        @apply bg-light text-dark h-full m-0 p-0;
+        @apply antialiased; /* Ensures consistent font rendering */
+    }
+}
+
+@layer components {
+    .polaroid-section {
+        @apply flex items-center justify-center min-h-[80vh] relative py-6 px-4 mb-48 bg-light;
+    }
+
+    .polaroid-card {
+        @apply relative bg-light rounded-3xl shadow-light
+           max-w-[180rem] w-[95vw] mx-auto my-6 p-20
+           lg:p-16 lg:max-w-[150rem]
+           md:p-12 md:max-w-[120rem]
+           sm:p-8 sm:w-[95vw];
+    }
+
+    .polaroid-card-title {
+        @apply relative z-10 mb-12;
+    }
+
+    .polaroid-subtitle {
+        @apply text-dark text-[3.5rem] relative z-10 block mb-2;
+    }
+
+    .gold-banner {
+        @apply bg-accent h-1 w-32 relative z-10 my-4;
+    }
+
+    .polaroid-wrapper {
+        @apply flex justify-center relative mt-32 min-h-[1200px]
+           lg:min-h-[900px]
+           md:min-h-[700px];
+    }
+
+    .polaroid-image-card {
+        @apply absolute bg-light rounded-3xl shadow-md
+           max-w-[150rem] w-[calc(100%-10rem)] p-12
+           transition-all duration-400 ease-in-out
+           lg:p-10 lg:w-[calc(100%-8rem)]
+           md:p-8 md:w-[calc(100%-6rem)]
+           sm:p-6 sm:w-[calc(100%-4rem)];
+    }
+
+    .polaroid-image {
+        @apply rounded-lg w-full h-auto object-contain
+           max-h-[900px]
+           lg:max-h-[700px]
+           md:max-h-[500px]
+           sm:max-h-[400px];
+    }
+
+    .polaroid-image-title {
+        @apply absolute bg-light rounded-lg shadow-sm
+           text-dark text-lg flex flex-col gap-2
+           left-12 -top-12 p-8 z-30 opacity-100
+           lg:text-base lg:p-6
+           md:text-sm md:p-4
+           sm:text-xs sm:p-3;
+    }
+}

@@ -1,0 +1,555 @@
+<!doctype html>
+<html class="font-sans font-normal leading-normal scroll-smooth" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/JM_Logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <!-- <meta name="theme-color" content="#000000" /> -->
+    <link rel="stylesheet" href="/src/index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.rawgit.com/dreampulse/computer-modern-web-font/master/fonts.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <h1 class="text-3xl font-medium mb-2.5 mt-5 pb-1 uppercase z-0">
+      Jamaul Drew LLC - Engineering Solutions for Oil and Gas
+    </h1>
+
+    <div class="order-2">
+      <div
+        class="cursor-pointer p-96 text-5xl"
+        aria-label="menu"
+        onclick="toggleMenu()"
+      >
+        ☰
+      </div>
+    </div>
+    <nav id="nav-menu">
+      <div
+        class="cursor-pointer p-96 text-3xl absolute right-2.5 top-2.5 self-end m-2.5 p-2.5"
+        onclick="toggleMenu()"
+      >
+        ✕
+      </div>
+      <ul>
+        <li><a class="" href="#about">About</a></li>
+        <li><a class="" href="#expertise">Expertise</a></li>
+        <li class="relative w-full">
+          <a href="#" class="toggle" onclick="toggleFoldDown(event)">
+            Services <span>&#9662;</span>
+          </a>
+          <div class="hidden pl-5 flex-col text-2xl mt-2.5 relative uppercase">
+            <a class="" href="#engineering-services">Engineering Services</a>
+            <a class="" href="#process-piping">Process Piping Design</a>
+            <a class="" href="#structural-engineering"
+              >Structural Engineering</a
+            >
+            <a class="" href="#process-diagrams"
+              >Process Flow and Instrumentation</a
+            >
+            <a class="" href="#quality-assurance"
+              >Quality Assurance & Control</a
+            >
+            <a class="" href="#isometric-drawings">Isometric Drawings</a>
+          </div>
+        </li>
+        <li><a class="" href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <div id="main-content">
+      <div class="items-center flex flex-col text-center">
+        <!-- <span class="text-4xl font-semibold mb-2.5 mt-5 pb-1 uppercase">Premier CAD and Engineering Services for the Oil and Gas Industry</span> -->
+        <div class="flex justify-center p-8">
+          <img class="mt-4" src="./images/IMG_2075.jpg" alt="Profile Picture" />
+        </div>
+        <div class="text-2xl font-medium tracking-wider">
+          <h2>
+            <span class="items-center flex flex-col text-center-item"
+              >Engineering Excellence</span
+            >
+            <span class="items-center flex flex-col text-center-item"
+              >Oil and Gas Expertise</span
+            >
+            <span class="items-center flex flex-col text-center-item"
+              >Innovative Solutions</span
+            >
+          </h2>
+          <h3>Advancing the Permian Basin with Cutting-Edge Engineering</h3>
+        </div>
+      </div>
+      <div class="polaroid-rounded-3xl m-96 p-4 relative" id="about">
+        <div
+          class="text-3xl font-medium mb-2.5 mt-5 pb-1 uppercase z-0-container"
+        >
+          <h2 class="text-4xl font-semibold mb-2.5 mt-5 pb-1 uppercase">
+            Engineering Excellence
+          </h2>
+          <div class="h-1 m-80 w-32"></div>
+          <link rel="icon" type="image/svg+xml" href="/JM_Logo.svg" />
+          <div
+            class="items-center flex justify-center mb-8 h-auto absolute w-56 z-0"
+          >
+            <a
+              class=""
+              href="https://www.credly.com/badges/21b672c8-6319-4264-bc56-27579d99ece8/public_url"
+              target="_blank"
+            >
+              <img
+                src="./images/autodesk-certified-professional-in-autocad-for-design-and-drafting.png"
+                alt="Autodesk Certification Badge"
+              />
+            </a>
+            <div
+              class="credly-badge"
+              data-share-badge-id="21b672c8-6319-4264-bc56-27579d99ece8"
+              data-share-badge-host="https://www.credly.com"
+            >
+              <script
+                type="text/javascript"
+                async
+                src="//cdn.credly.com/assets/utilities/embed.js"
+              ></script>
+              <noscript>
+                <img
+                  id="fallback-image"
+                  src="https://www.credly.com/badges/da41bbf4-44bd-4709-bdf0-1419cb1added/public_url"
+                  alt="Badge"
+                  style="display: block"
+                />
+              </noscript>
+            </div>
+          </div>
+          <div class="mb-16">
+            <ul class="grid gap-6 mb-12">
+              <li class="text-xl p-6 pl-10 relative">
+                <span class="absolute">►</span>
+                Advanced Engineering Solutions for Oil & Gas Production
+              </li>
+              <li class="text-xl p-6 pl-10 relative">
+                <span class="absolute">►</span>
+                Comprehensive CAD Services & Process Engineering
+              </li>
+              <li class="text-xl p-6 pl-10 relative">
+                <span class="absolute">►</span>
+                Innovative Solutions for the Permian Basin
+              </li>
+              <li class="text-xl p-6 pl-10 relative">
+                <span class="absolute">►</span>
+                Industry-Leading Safety & Compliance Standards
+              </li>
+            </ul>
+            <div class="text-xl leading-7 mb-16 relative text-center">
+              <p>
+                JAMAUL DREW LLC delivers exceptional engineering and CAD
+                services tailored for the oil and gas industry. Our expertise
+                combines cutting-edge technology with deep industry knowledge to
+                provide precise engineering solutions for projects ranging from
+                well pad designs to complex processing facilities.
+              </p>
+            </div>
+          </div>
+          <div class="mt-16" id="expertise">
+            <h3 class="text-4xl font-semibold mb-2.5 mt-5 pb-1 uppercase">
+              Core Competencies
+            </h3>
+            <div class="grid gap-12 mt-8">
+              <div class="expertise-rounded-3xl m-96 p-4 relative">
+                <h4
+                  class="expertise-text-3xl font-medium mb-2.5 mt-5 pb-1 uppercase z-0"
+                >
+                  Fluid System Engineering
+                </h4>
+                <ul class="">
+                  <li>
+                    <span class="mr-3">✓</span>Advanced Production Facility
+                    Design
+                  </li>
+                  <li>
+                    <span class="mr-3">✓</span>Gate Stations & Metering Systems
+                  </li>
+                  <li><span class="mr-3">✓</span>LNG System Integration</li>
+                </ul>
+              </div>
+              <div class="expertise-rounded-3xl m-96 p-4 relative">
+                <h4
+                  class="expertise-text-3xl font-medium mb-2.5 mt-5 pb-1 uppercase z-0"
+                >
+                  Advanced CAD Services
+                </h4>
+                <ul class="">
+                  <li>
+                    <span class="mr-3">✓</span>3D Facility Modeling & Simulation
+                  </li>
+                  <li><span class="mr-3">✓</span>Detailed P&ID Development</li>
+                  <li>
+                    <span class="mr-3">✓</span>Precision Isometric Drawings
+                  </li>
+                </ul>
+              </div>
+              <div class="expertise-rounded-3xl m-96 p-4 relative">
+                <h4
+                  class="expertise-text-3xl font-medium mb-2.5 mt-5 pb-1 uppercase z-0"
+                >
+                  Engineering Software
+                </h4>
+                <ul class="">
+                  <li>
+                    <span class="mr-3">✓</span>Custom Engineering Applications
+                  </li>
+                  <li><span class="mr-3">✓</span>Automated Design Solutions</li>
+                  <li>
+                    <span class="mr-3">✓</span>Technical Systems Integration
+                  </li>
+                </ul>
+              </div>
+              <div class="expertise-rounded-3xl m-96 p-4 relative">
+                <h4
+                  class="expertise-text-3xl font-medium mb-2.5 mt-5 pb-1 uppercase z-0"
+                >
+                  Safety & Compliance
+                </h4>
+                <ul class="">
+                  <li><span class="mr-3">✓</span>DOT 49 CFR Compliance</li>
+                  <li><span class="mr-3">✓</span>NFPA 59A Implementation</li>
+                  <li><span class="mr-3">✓</span>Safety-First Engineering</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        id="engineering-services"
+        class="items-center polaroid-items-center rounded-3xl flex h-screen justify-center mb-6 p-8"
+      >
+        <div class="polaroid-rounded-3xl m-96 p-4 relative">
+          <span class="text-4xl font-semibold mb-2.5 mt-5 pb-1 uppercase"
+            >Engineering Services</span
+          >
+          <div class="h-1 m-80 w-32"></div>
+          <p class="lightGrey"></p>
+          <div class="flex justify-center mt-32">
+            <div class="rounded-3xl max-w-7xl absolute w-96">
+              <p class="text-3xl font-medium mb-2.5 mt-5 pb-1 uppercase z-0">
+                Isometric Weld Maps
+              </p>
+              <div class="h-1 m-80 w-32"></div>
+              <img src="./images/Page 1.png" alt="Isometric Weld Map Example" />
+            </div>
+            <div class="rounded-3xl max-w-7xl absolute w-96">
+              <p class="text-3xl font-medium mb-2.5 mt-5 pb-1 uppercase z-0">
+                Detailed Shop Drawings
+              </p>
+              <div class="h-1 m-80 w-32"></div>
+              <img
+                src="./images/Page 2.png"
+                alt="Detailed Shop Drawing Example"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        id="process-piping"
+        class="polaroid-items-center rounded-3xl flex h-screen justify-center mb-6 p-8"
+      >
+        <div class="polaroid-rounded-3xl m-96 p-4 relative">
+          <span class="text-4xl font-semibold mb-2.5 mt-5 pb-1 uppercase"
+            >Process Piping Design</span
+          >
+          <div class="h-1 m-80 w-32"></div>
+          <p class="lightGrey"></p>
+          <div class="flex justify-center mt-32">
+            <div class="rounded-3xl max-w-7xl absolute w-96">
+              <p class="text-3xl font-medium mb-2.5 mt-5 pb-1 uppercase z-0">
+                Propane-Air System Layout
+              </p>
+              <div class="h-1 m-80 w-32"></div>
+              <img
+                src="./images/process-piping-1.png"
+                alt="Propane-Air System Piping Layout"
+              />
+            </div>
+            <div class="rounded-3xl max-w-7xl absolute w-96">
+              <p class="text-3xl font-medium mb-2.5 mt-5 pb-1 uppercase z-0">
+                Water Glycol System Design
+              </p>
+              <div class="h-1 m-80 w-32"></div>
+              <img
+                src="./images/piping-sections-isometrics.png"
+                alt="Water Glycol System Piping Design"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        id="structural-engineering"
+        class="items-center polaroid-items-center rounded-3xl flex h-screen justify-center mb-6 p-8"
+      >
+        <div class="polaroid-rounded-3xl m-96 p-4 relative">
+          <span class="text-4xl font-semibold mb-2.5 mt-5 pb-1 uppercase"
+            >Structural Engineering</span
+          >
+          <div class="h-1 m-80 w-32"></div>
+          <p class="lightGrey"></p>
+          <div class="flex justify-center mt-32">
+            <div class="rounded-3xl max-w-7xl absolute w-96">
+              <p class="text-3xl font-medium mb-2.5 mt-5 pb-1 uppercase z-0">
+                Custom Pipe Support Structures
+              </p>
+              <div class="h-1 m-80 w-32"></div>
+              <img
+                src="./images/structural-steel-pipe-support.png"
+                alt="Custom Pipe Support Structure Design"
+              />
+            </div>
+            <div class="rounded-3xl max-w-7xl absolute w-96">
+              <p class="text-3xl font-medium mb-2.5 mt-5 pb-1 uppercase z-0">
+                Engineered Pump Skid Designs
+              </p>
+              <div class="h-1 m-80 w-32"></div>
+              <img
+                src="./images/structural-steel-skid.png"
+                alt="Engineered Pump Skid Design"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        id="process-diagrams"
+        class="items-center polaroid-items-center rounded-3xl flex h-screen justify-center mb-6 p-8"
+      >
+        <div class="polaroid-rounded-3xl m-96 p-4 relative">
+          <span class="text-4xl font-semibold mb-2.5 mt-5 pb-1 uppercase"
+            >Process Flow and Instrumentation</span
+          >
+          <div class="h-1 m-80 w-32"></div>
+          <p class="lightGrey"></p>
+          <div class="flex justify-center mt-32">
+            <div class="rounded-3xl max-w-7xl absolute w-96">
+              <p class="text-3xl font-medium mb-2.5 mt-5 pb-1 uppercase z-0">
+                Detailed P&ID Schematics
+              </p>
+              <div class="h-1 m-80 w-32"></div>
+              <img
+                src="./images/pid-1.png"
+                alt="Detailed Piping and Instrumentation Diagram"
+              />
+            </div>
+            <div class="rounded-3xl max-w-7xl absolute w-96">
+              <p class="text-3xl font-medium mb-2.5 mt-5 pb-1 uppercase z-0">
+                Comprehensive PFD Layouts
+              </p>
+              <div class="h-1 m-80 w-32"></div>
+              <img
+                src="./images/pid-2.png"
+                alt="Comprehensive Process Flow Diagram"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        id="quality-assurance"
+        class="items-center polaroid-items-center rounded-3xl flex h-screen justify-center mb-6 p-8"
+      >
+        <div class="polaroid-rounded-3xl m-96 p-4 relative">
+          <span class="text-4xl font-semibold mb-2.5 mt-5 pb-1 uppercase"
+            >Quality Assurance & Control</span
+          >
+          <div class="h-1 m-80 w-32"></div>
+          <p class="lightGrey"></p>
+          <div class="flex justify-center mt-32">
+            <div class="rounded-3xl max-w-7xl absolute w-96">
+              <p class="text-3xl font-medium mb-2.5 mt-5 pb-1 uppercase z-0">
+                Precision Orthographic Piping Sections
+              </p>
+              <div class="h-1 m-80 w-32"></div>
+              <img
+                src="./images/regulator-run-1.png"
+                alt="Precision Orthographic Piping Section"
+              />
+            </div>
+            <div class="rounded-3xl max-w-7xl absolute w-96">
+              <p class="text-3xl font-medium mb-2.5 mt-5 pb-1 uppercase z-0">
+                Comprehensive MTR Documentation
+              </p>
+              <div class="h-1 m-80 w-32"></div>
+              <img
+                src="./images/material-test-reports.png"
+                alt="Comprehensive Material Test Report Tracking"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        id="isometric-drawings"
+        class="items-center polaroid-items-center rounded-3xl flex h-screen justify-center mb-6 p-8"
+      >
+        <div class="polaroid-rounded-3xl m-96 p-4 relative">
+          <span class="text-4xl font-semibold mb-2.5 mt-5 pb-1 uppercase"
+            >Isometric Drawings</span
+          >
+          <div class="h-1 m-80 w-32"></div>
+          <p class="lightGrey"></p>
+          <div class="flex justify-center mt-32">
+            <div class="rounded-3xl max-w-7xl absolute w-96">
+              <p class="text-3xl font-medium mb-2.5 mt-5 pb-1 uppercase z-0">
+                Fabrication Shop Isometrics
+              </p>
+              <div class="h-1 m-80 w-32"></div>
+              <img
+                src="./images/fab-iso-truck.png"
+                alt="Fabrication Shop Isometric Drawing"
+              />
+            </div>
+            <div class="rounded-3xl max-w-7xl absolute w-96">
+              <p class="text-3xl font-medium mb-2.5 mt-5 pb-1 uppercase z-0">
+                Detailed Piping Isometrics
+              </p>
+              <div class="h-1 m-80 w-32"></div>
+              <img
+                src="./images/process-piping-2-2.png"
+                alt="Detailed Piping Isometric Drawing"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        id="form-section"
+        class="items-center form-items-center rounded-3xl flex h-screen justify-center mb-6 p-8"
+      >
+        <div class="form-rounded-3xl m-96 p-4 relative">
+          <div class="form-items-center flex justify-between p-96">
+            <h2
+              class="text-4xl font-semibold mb-2.5 mt-5 pb-1 uppercase"
+              id="contact"
+            >
+              Contact
+            </h2>
+            <div class="h-1 m-80 w-32"></div>
+          </div>
+          <form
+            class="rounded-2xl flex flex-col w-96"
+            id="contact-form"
+            action="https://formspree.io/f/xyyabqnn"
+            method="POST"
+          >
+            <!-- Honeypot field -->
+            <input
+              type="text"
+              name="honeypot"
+              id="honeypot"
+              class="none !important opacity-0 invisible"
+              tabindex="-1"
+              autocomplete="off"
+            />
+            <div class="form-group">
+              <input
+                type="text"
+                name="name"
+                id="name"
+                placeholder="Your Name"
+                required
+                maxlength="50"
+              />
+            </div>
+            <div class="form-group">
+              <input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Email"
+                required
+                maxlength="100"
+              />
+            </div>
+            <div class="form-group">
+              <input
+                type="tel"
+                name="phone"
+                id="phone"
+                placeholder="Phone"
+                required
+                maxlength="15"
+                pattern="\d{10,15}"
+              />
+            </div>
+            <div class="form-group">
+              <textarea
+                name="message"
+                id="message"
+                placeholder="How can I help you?"
+                required
+                maxlength="500"
+                rows="4"
+              ></textarea>
+            </div>
+            <div
+              class="rounded-lg hidden text-3xl font-black m-40 p-4"
+              id="rounded-lg hidden text-3xl font-black m-40 p-4"
+              role="rounded p-2.5"
+            ></div>
+            <div
+              class="cursor-pointer p-96"
+              type="submit"
+              id="submit-rounded cursor-pointer p-96"
+              class="submit-rounded cursor-pointer p-96"
+            >
+              <span class="rounded cursor-pointer p-96-text">Send Message</span>
+              <span
+                class="border-t-transparent h-8 w-8 none !important opacity-0 invisible"
+              ></span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <footer class="rounded-2xl mb-20 -mt-4 p-4 relative text-center">
+      <div class="bottom-8 left-1/2 fixed -translate-x-1/2 z-50">
+        <div
+          class="cursor-pointer p-96"
+          onclick="topFunction()"
+          class="scroll-rounded cursor-pointer p-96 text-3xl font-medium mb-2.5 mt-5 pb-1 uppercase"
+          z-0="Scroll to top"
+        ></div>
+      </div>
+      <p class="text-sm m-2 font-normal mt-8 text-center">
+        &copy; 2024 Jamaul Drew, LLC. All rights reserved.
+      </p>
+    </footer>
+    <script src="/@vite/client" type="module"></script>
+    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="/script.js"></script>
+    <script type="module" src="/src/entry-client.jsx"></script>
+  </body>
+</html>

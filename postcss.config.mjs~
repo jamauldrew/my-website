@@ -1,0 +1,15 @@
+import purgecss from '@fullhuman/postcss-purgecss';
+
+/** @type {import('postcss-load-config').Config} */
+const config = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+    purgecss: purgecss({
+      content: ['./**/*.html'],
+    }),
+  },
+}
+
+export default config;
+

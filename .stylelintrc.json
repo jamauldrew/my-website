@@ -1,3 +1,58 @@
 {
-  "extends": "stylelint-config-standard"
+    "extends": ["stylelint-config-standard"],
+    "plugins": ["stylelint-scss", "stylelint-order"],
+    "rules": {
+        "selector-class-pattern": [
+            "^[a-z][a-z0-9\\-]*$",
+            {
+                "resolveNestedSelectors": true,
+                "message": "Class names should be kebab-case (selector-class-pattern)"
+            }
+        ],
+        "keyframes-name-pattern": [
+            "^[a-z][a-z0-9\\-]*$",
+            {
+                "message": "Keyframe names should be kebab-case (keyframes-name-pattern)"
+            }
+        ],
+        "at-rule-no-unknown": null,
+        "scss/at-rule-no-unknown": [
+            true,
+            {
+                "ignoreAtRules": [
+                    "tailwind",
+                    "apply",
+                    "variants",
+                    "responsive",
+                    "screen",
+                    "layer"
+                ]
+            }
+        ],
+        "selector-type-no-unknown": [
+            true,
+            {
+                "ignore": ["custom-elements", "default-namespace"],
+                "ignoreTypes": [
+                    "adjust",
+                    "sizes",
+                    "for",
+                    "readability",
+                    "on",
+                    "screens"
+                ]
+            }
+        ],
+        "no-duplicate-selectors": null,
+        "comment-empty-line-before": null,
+        "declaration-empty-line-before": null,
+        "rule-empty-line-before": [
+            "always",
+            {
+                "ignore": ["after-comment", "first-nested"]
+            }
+        ],
+        "order/order": ["custom-properties", "declarations"],
+        "order/properties-alphabetical-order": true
+    }
 }

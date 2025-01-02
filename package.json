@@ -9,8 +9,11 @@
     "build": "npm run build:client && npm run build:server",
     "build:client": "vite build --ssrManifest --outDir dist/client",
     "build:server": "vite build --ssr src/entry-server.jsx --outDir dist/server",
-    "lint": "eslint . --ext .jsx,.js,.ts,.tsx --report-unused-disable-directives",
-    "preview": "cross-env NODE_ENV=production node server"
+    "lint": "npx eslint .",
+    "fix": "npx eslint . --fix",
+    "preview": "cross-env NODE_ENV=production node server",
+    "lint:css": "npx stylelint \"src/**/*.css\"",
+    "fix:css": "npx stylelint \"src/**/*.css\" --fix"
   },
   "dependencies": {
     "chokidar": "^4.0.3",
@@ -25,13 +28,14 @@
     "three-stdlib": "^2.35.2"
   },
   "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^7.0.2",
     "@react-three/drei": "^9.120.4",
     "@react-three/fiber": "^8.17.10",
     "@types/node": "^22.10.2",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
-    "@typescript-eslint/eslint-plugin": "^8.18.2",
-    "@typescript-eslint/parser": "^8.18.2",
+    "@typescript-eslint/eslint-plugin": "^8.19.0",
+    "@typescript-eslint/parser": "^8.19.0",
     "@vite-plugin-vercel/vike": "^9.0.2",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
@@ -47,6 +51,8 @@
     "prettier": "^3.4.2",
     "stylelint": "^16.12.0",
     "stylelint-config-standard": "^36.0.1",
+    "stylelint-order": "^6.0.4",
+    "stylelint-scss": "^6.10.0",
     "tailwindcss": "^3.4.17",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.7.2",
